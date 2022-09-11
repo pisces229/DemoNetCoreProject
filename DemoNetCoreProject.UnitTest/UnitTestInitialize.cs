@@ -1,0 +1,49 @@
+using Dapper;
+using DemoNetCoreProject.Common.Dtos;
+using DemoNetCoreProject.DataLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data;
+
+namespace DemoNetCoreProject.UnitTest
+{
+    [TestClass]
+    public class UnitTestInitialize
+    {
+        private ServiceProvider _serviceProvider = null!;
+        protected ILoggerFactory _loggerFactory = null!;
+        protected DefaultDbContext _defaultDbContext = null!;
+        [TestInitialize]
+        public void Initialize()
+        {
+            _serviceProvider = new ServiceCollection()
+                .AddLogging(builder => builder.AddConsole())
+                .BuildServiceProvider();
+            _loggerFactory = _serviceProvider.GetService<ILoggerFactory>()!;
+            var optionsBuilder = new DbContextOptionsBuilder<DefaultDbContext>();
+            optionsBuilder.UseInMemoryDatabase(databaseName: "DefaultDbContext");
+            _defaultDbContext = new DefaultDbContext(optionsBuilder.Options);
+        }
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _serviceProvider.Dispose();
+        }
+        protected Action<string, DynamicParameters, int?, CommandType> DapperGeneralCallback = 
+            (c1, c2, c3, c4) =>
+        {
+            Console.WriteLine(c1);
+            Console.WriteLine(c2);
+        };
+        protected Action<string, string, DynamicParameters, CommonPageDto, int?, CommandType> DapperPagedQueryCallback = 
+            (c1, c2, c3, c4, c5, c6) =>
+        {
+            Console.WriteLine(c1);
+            Console.WriteLine(c2);
+            Console.WriteLine(c3);
+            Console.WriteLine(c4);
+        };
+    }
+}
