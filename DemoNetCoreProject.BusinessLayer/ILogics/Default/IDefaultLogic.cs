@@ -1,11 +1,21 @@
-﻿using System;
+﻿using DemoNetCoreProject.Common.Dtos;
+using DemoNetCoreProject.DataLayer.Entities;
+using System;
 
 namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {
     public interface IDefaultLogic
     {
-        Task RunRepository();
-        Task RunSqlStatement();
+        Task RunDbRepositoryQuery();
+        Task RunDbRepositoryCreate();
+        Task RunDbRepositoryModify();
+        Task RunDbRepositoryRemove();
+        Task RunDbRepositoryPagedQuery();
+        Task RunDapperQuery();
+        Task RunDapperExecuteScalar();
+        Task RunDapperQueryMultiple();
+        Task RunDapperExecuteReader();
+        Task RunDapperPagedQuery();
         Task RunSqlCondition();
     }
 }

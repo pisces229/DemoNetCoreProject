@@ -12,11 +12,10 @@ namespace DemoNetCoreProject.UnitTest
     [TestClass]
     public class UnitTestInitialize
     {
-        private ServiceProvider _serviceProvider = null!;
-        protected ILoggerFactory _loggerFactory = null!;
-        protected DefaultDbContext _defaultDbContext = null!;
-        [TestInitialize]
-        public void Initialize()
+        protected readonly ServiceProvider _serviceProvider;
+        protected readonly ILoggerFactory _loggerFactory;
+        protected readonly DefaultDbContext _defaultDbContext;
+        public UnitTestInitialize()
         {
             _serviceProvider = new ServiceCollection()
                 .AddLogging(builder => builder.AddConsole())
@@ -25,6 +24,16 @@ namespace DemoNetCoreProject.UnitTest
             var optionsBuilder = new DbContextOptionsBuilder<DefaultDbContext>();
             optionsBuilder.UseInMemoryDatabase(databaseName: "DefaultDbContext");
             _defaultDbContext = new DefaultDbContext(optionsBuilder.Options);
+        }
+        [TestMethod]
+        public void TestRun()
+        {
+            // Arrange
+            // do mock...
+            // Act
+            // do run...
+            // Assert
+            // do verify...
         }
         [TestCleanup]
         public void Cleanup()

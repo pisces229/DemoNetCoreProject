@@ -12,7 +12,7 @@ namespace DemoNetCoreProject.Backend.Services
         private readonly CommonUserDto _commonUser;
         public UserBackendService(IHttpContextAccessor httpContextAccessor,
             ILogger<UserBackendService> logger,
-            ICacheService cacheService,
+            ICache cache,
             IOptions<JwtOption> jwtOptions)
         {
             _commonUser = new CommonUserDto()
@@ -53,9 +53,9 @@ namespace DemoNetCoreProject.Backend.Services
                             {
                                 Task.Run(async () =>
                                 {
-                                    if (await cacheService.Exists(refreshTokenId))
+                                    if (await cache.Exists(refreshTokenId))
                                     {
-                                        var cmmonToken = await cacheService.Get<CommonTokenDto>(refreshTokenId);
+                                        var cmmonToken = await cache.Get<CommonTokenDto>(refreshTokenId);
                                         _commonUser.UserId = cmmonToken.Account;
                                     }
                                 }).Wait();

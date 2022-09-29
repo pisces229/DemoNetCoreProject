@@ -21,20 +21,20 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
         private readonly IMapper _mapper;
         private readonly JwtOption _jwtOption;
         private readonly IUserService _userService;
-        private readonly ICacheService _cacheService;
+        private readonly ICache _cache;
         private readonly IConfiguration _configuration;
         public TestLogic(ILogger<TestLogic> logger,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
             IUserService userService,
-            ICacheService cacheService,
+            ICache cache,
             IConfiguration configuration) 
         {
             _logger = logger;
             _mapper = mapper;
             _jwtOption = JwtOptions.Value;
             _userService = userService;
-            _cacheService = cacheService;
+            _cache = cache;
             _configuration = configuration;
         }
         public async Task<CommonResponseDto<string>> SignIn(TestLogicSignInInputDto model)
@@ -48,7 +48,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
                     Expiration = _jwtOption.Expiration
                 };
                 var refreshTokenId = Guid.NewGuid().ToString();
-                await _cacheService.Add(refreshTokenId, commonTokenModel, _jwtOption.IdleTime);
+                await _cache.Add(refreshTokenId, commonTokenModel, _jwtOption.IdleTime);
                 result.Data = GenerateToken(model.Account, refreshTokenId);
                 result.Success = true;
             }
@@ -84,11 +84,11 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
                     .Where(w => w.Type == JwtRegisteredClaimNames.Jti)
                     .Select(s => s.Value)
                     .First();
-                if (await _cacheService.Exists(refreshTokenId))
+                if (await _cache.Exists(refreshTokenId))
                 {
-                    var commonTokenModel = await _cacheService.Get<CommonTokenDto>(refreshTokenId);
+                    var commonTokenModel = await _cache.Get<CommonTokenDto>(refreshTokenId);
                     commonTokenModel.Expiration = _jwtOption.Expiration;
-                    await _cacheService.Replace(refreshTokenId, commonTokenModel, _jwtOption.IdleTime);
+                    await _cache.Replace(refreshTokenId, commonTokenModel, _jwtOption.IdleTime);
                     result.Data = GenerateToken(commonTokenModel.Account, refreshTokenId);
                     result.Success = true;
                 }
@@ -116,7 +116,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
                     .FirstOrDefault();
                 if (!string.IsNullOrEmpty(refreshTokenId))
                 {
-                    await _cacheService.Remove(refreshTokenId);
+                    await _cache.Remove(refreshTokenId);
                 }
             }
             catch (Exception e)

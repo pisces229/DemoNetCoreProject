@@ -4,10 +4,10 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class DatabaseCacheService : ICacheService, IDisposable
+    internal class DatabaseCache : ICache, IDisposable
     {
         private readonly IDistributedCache _distributedCache;
-        public DatabaseCacheService(IDistributedCache distributedCache)
+        public DatabaseCache(IDistributedCache distributedCache)
         {
             _distributedCache = distributedCache;
         }

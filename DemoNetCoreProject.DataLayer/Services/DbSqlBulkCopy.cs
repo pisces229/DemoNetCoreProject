@@ -8,12 +8,12 @@ using System.Reflection;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class SqlBulkCopyService<DB> : ISqlBulkCopyService<DB> where DB : IDbContext
+    internal class DbSqlBulkCopy<DB> : IDbSqlBulkCopy<DB> where DB : IDbContext
     {
-        private readonly ILogger<SqlBulkCopyService<DB>> _logger;
+        private readonly ILogger<DbSqlBulkCopy<DB>> _logger;
         private readonly DB _dbContext;
         private readonly IUserService _userService;
-        public SqlBulkCopyService(ILogger<SqlBulkCopyService<DB>> logger,
+        public DbSqlBulkCopy(ILogger<DbSqlBulkCopy<DB>> logger,
             DB dbContext,
             IUserService userService)
         {

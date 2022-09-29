@@ -12,14 +12,14 @@ namespace DemoNetCoreProject.Backend.Filters
     public class JwtAuthorizationFilter : IAsyncAuthorizationFilter
     {
         private readonly ILogger<JwtAuthorizationFilter> _logger;
-        private readonly ICacheService _cacheService;
+        private readonly ICache _cache;
         private readonly JwtOption _jwtOption;
         public JwtAuthorizationFilter(ILogger<JwtAuthorizationFilter> logger,
-            ICacheService cacheService,
+            ICache cache,
             IOptions<JwtOption> jwtOption)
         {
             _logger = logger;
-            _cacheService = cacheService;
+            _cache = cache;
             _jwtOption = jwtOption.Value;
         }
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -56,7 +56,7 @@ namespace DemoNetCoreProject.Backend.Filters
                                     .Where(w => w.Type == JwtRegisteredClaimNames.Jti)
                                     .Select(s => s.Value)
                                     .First();
-                                if (await _cacheService.Exists(refreshTokenId))
+                                if (await _cache.Exists(refreshTokenId))
                                 {
                                     httpStatusCode = HttpStatusCode.OK;
                                 }

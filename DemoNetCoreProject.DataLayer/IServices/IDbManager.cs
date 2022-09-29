@@ -1,15 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Data;
-using System.Data.Common;
+﻿using System.Data;
 
 namespace DemoNetCoreProject.DataLayer.IServices
 {
-    public interface IDbContext
+    public interface IDbManager<DB> where DB : IDbContext
     {
         Task<int> SaveChangesAsync();
-        DatabaseFacade GetDatabase();
-        Task<DbConnection> GetDbConnection();
-        DbTransaction GetDbTransaction();
         Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
         Task CommitAsync();
         Task RollbackAsync();

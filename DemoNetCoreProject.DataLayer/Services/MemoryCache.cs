@@ -3,10 +3,10 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class MemoryCacheService : ICacheService, IDisposable
+    internal class MemoryCache : ICache, IDisposable
     {
         protected readonly IMemoryCache _memoryCache;
-        public MemoryCacheService(IMemoryCache memoryCache)
+        public MemoryCache(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }

@@ -61,12 +61,12 @@ var hostBuilder = new HostBuilder()
         #region Cache
         {
             #region Memory
-            services.AddSingleton<IMemoryCache>(factory =>
+            services.AddSingleton((Func<IServiceProvider, IMemoryCache>)(factory =>
             {
-                var cache = new MemoryCache(new MemoryCacheOptions());
+                var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
                 return cache;
-            });
-            services.AddSingleton<ICacheService, MemoryCacheService>();
+            }));
+            services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.MemoryCache>();
             #endregion
 
             #region Redis

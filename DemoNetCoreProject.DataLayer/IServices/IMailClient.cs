@@ -2,7 +2,7 @@
 
 namespace DemoNetCoreProject.DataLayer.IServices
 {
-    public interface IMailService<T> where T : SmtpClient
+    public interface IMailClient
     {
         Task<bool> Run(MailMessage mailMessage);
     }

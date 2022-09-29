@@ -15,11 +15,10 @@ namespace DemoNetCoreProject.IntegrationTest
 {
     public class UnitTestInitialize
     {
-        protected IHost Host { private set; get; } = null!;
-        [TestInitialize]
-        public void Initialize()
+        protected readonly IHost _host;
+        public UnitTestInitialize()
         {
-            Host = new HostBuilder()
+            _host = new HostBuilder()
                 .ConfigureAppConfiguration((hostBuilder, configurationBuilder) =>
                 {
                     var environment = hostBuilder.HostingEnvironment;
@@ -59,12 +58,12 @@ namespace DemoNetCoreProject.IntegrationTest
                     #region Cache
                     {
                         #region Memory
-                        services.AddSingleton<IMemoryCache>(factory =>
+                        services.AddSingleton((Func<IServiceProvider, IMemoryCache>)(factory =>
                         {
-                            var cache = new MemoryCache(new MemoryCacheOptions());
+                            var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
                             return cache;
-                        });
-                        services.AddSingleton<ICacheService, MemoryCacheService>();
+                        }));
+                        services.AddSingleton<ICache, DataLayer.Services.MemoryCache>();
                         #endregion
 
                         #region Redis
@@ -96,10 +95,17 @@ namespace DemoNetCoreProject.IntegrationTest
                 })
             .Build();
         }
+        [TestMethod]
+        public void TestRun()
+        {
+            // Arrange
+            // Act
+            // Assert
+        }
         [TestCleanup]
         public void Cleanup()
         {
-            Host.Dispose();
+            _host.Dispose();
         }
     }
 }

@@ -11,6 +11,14 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
     [TestClass]
     public class UnitTest_DefaultFirstLogic : UnitTestInitialize
     {
+        public UnitTest_DefaultFirstLogic() : base()
+        { 
+        }
+        [TestInitialize]
+        public void Initialize()
+        {
+            Console.WriteLine("UnitTest_DefaultFirstLogic.Initialize");
+        }
         [TestMethod]
         public async Task Run()
         {

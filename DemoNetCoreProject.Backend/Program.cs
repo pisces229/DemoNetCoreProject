@@ -102,12 +102,12 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
 #region Cache
 {
     #region Memory
-    webApplicationBuilder.Services.AddSingleton<IMemoryCache>(factory =>
+    webApplicationBuilder.Services.AddSingleton((Func<IServiceProvider, IMemoryCache>)(factory =>
     {
-        var cache = new MemoryCache(new MemoryCacheOptions());
+        var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
         return cache;
-    });
-    webApplicationBuilder.Services.AddSingleton<ICacheService, MemoryCacheService>();
+    }));
+    webApplicationBuilder.Services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.MemoryCache>();
     #endregion
 
     #region Redis

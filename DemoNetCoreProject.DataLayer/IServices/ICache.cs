@@ -2,7 +2,7 @@
 
 namespace DemoNetCoreProject.DataLayer.IServices
 {
-    public interface ICacheService
+    public interface ICache
     {
         Task Add<T>(string key, T value, TimeSpan expiry);
         Task<bool> Exists(string key);

@@ -17,13 +17,13 @@ namespace DemoNetCoreProject.DataLayer
     {
         public static void LoadServices(IServiceCollection service)
         {
-            // Services
-            service.AddScoped<DefaultSmtpClient>();
+            // Service
+            service.AddScoped<IDbManager<DefaultDbContext>, DbManager<DefaultDbContext>>();
             service.AddScoped<IDapperService<DefaultDbContext>, DapperService<DefaultDbContext>>();
-            service.AddScoped<IMailService<DefaultSmtpClient>, DefaultMailService<DefaultSmtpClient>>();
-            // Repositorys
-            service.AddScoped<IDefaultCustomerRepository, DefaultCustomerRepository>();
-            // Managers
+            service.AddScoped<IMailClient, MailClient>();
+            // Repositories
+            service.AddScoped<IDefaultCustomerDbRepository, DefaultCustomerDbRepository>();
+            service.AddScoped<IDefaultRepository, DefaultRepository>();
         }
     }
 }

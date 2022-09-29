@@ -1,21 +1,28 @@
 ﻿using DemoNetCoreProject.DataLayer.IServices;
+using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class DefaultMailService<T> : IMailService<T>, IDisposable where T : SmtpClient
+    internal class MailClient : IMailClient, IDisposable
     {
-        private readonly T _SmtpClient;
-        public DefaultMailService(T smtpClient)
+        private readonly SmtpClient _smtpClient;
+        public MailClient(IConfiguration configuration)
         {
-            _SmtpClient = smtpClient;
+            //configuration.GetValue<string>("Host");
+            //configuration.GetValue<int>("Port");
+            _smtpClient = new SmtpClient()
+            {
+                Host = "localhost",
+                Port = 22,
+            };
         }
         public async Task<bool> Run(MailMessage mailMessage)
         {
             var result = false;
             try
             {
-                await _SmtpClient.SendMailAsync(mailMessage);
+                await _smtpClient.SendMailAsync(mailMessage);
                 result = true;
             }
             finally
@@ -26,7 +33,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         }
         public void Dispose()
         {
-            _SmtpClient.Dispose();
+            _smtpClient.Dispose();
             GC.SuppressFinalize(this);
         }
     }

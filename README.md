@@ -42,10 +42,10 @@ Development Tool: Visual Studio 2022<br>
 > 命名規則：\[Name\] <br>
 * IRepositories
 > 說明：儲存庫介面 <br>
-> 命名規則：***I***\[DbContext\]\[Entity\]***Repository*** <br>
+> 命名規則：***I***\[Name\]***Repository*** <br>
 * Repositories
 > 說明：儲存庫實作 <br>
-> 命名規則：\[DbContext\]\[Entity\]***Repository*** <br>
+> 命名規則：\[Name\]***Repository*** <br>
 ## BusinessLayer 邏輯處理層
 專案相依：Common、DataLayer <br>
 負責處理業務邏輯 <br>

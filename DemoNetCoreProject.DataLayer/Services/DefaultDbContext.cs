@@ -96,7 +96,7 @@ namespace DemoNetCoreProject.DataLayer.Services
             }
         }
         public DbTransaction GetDbTransaction() => this.DbTransaction!;
-        public async Task BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
             if (!this.Database.IsInMemory())
             {
@@ -108,33 +108,33 @@ namespace DemoNetCoreProject.DataLayer.Services
                 }
             }
         }
-        public void Commit()
+        public async Task CommitAsync()
         {
             if (!this.Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
-                    this.Database.CommitTransaction();
+                    await this.Database.CommitTransactionAsync();
                     DbTransaction = null;
                 }
             }
         }
-        public void Rollback()
+        public async Task RollbackAsync()
         {
             if (!this.Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
-                    this.Database.RollbackTransaction();
+                    await this.Database.RollbackTransactionAsync();
                     DbTransaction = null;
                 }
             }
         }
-        public override void Dispose()
+        public override async void Dispose()
         {
             try
             {
-                Rollback();
+                await RollbackAsync();
             }
             catch
             {

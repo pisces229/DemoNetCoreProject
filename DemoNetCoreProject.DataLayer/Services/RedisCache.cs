@@ -5,11 +5,11 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class RedisCacheService : ICacheService, IDisposable
+    internal class RedisCache : ICache, IDisposable
     {
         protected readonly IDatabase _database;
         private readonly ConnectionMultiplexer _connectionMultiplexer;
-        public RedisCacheService(IConfiguration configuration)
+        public RedisCache(IConfiguration configuration)
         {
             var configurationOptions = ConfigurationOptions.Parse(configuration.GetValue<string>("RedisConnectionStrings:Default"));
             configurationOptions.CertificateValidation += (request, certificate, chain, sslPolicyErrors) =>

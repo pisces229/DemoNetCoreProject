@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories
 {
-    internal class DefaultCustomerRepository : Repository<DefaultDbContext, Customer>, IDefaultCustomerRepository
+    internal class DefaultCustomerDbRepository : DbRepository<DefaultDbContext, Customer>, IDefaultCustomerDbRepository
     {
-        public DefaultCustomerRepository(DefaultDbContext context) : base(context)
+        public DefaultCustomerDbRepository(DefaultDbContext context) : base(context)
         {
         }
         public async Task<Customer?> GetByName(string name)
