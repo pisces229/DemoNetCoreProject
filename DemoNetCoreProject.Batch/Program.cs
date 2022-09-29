@@ -97,8 +97,8 @@ var hostBuilder = new HostBuilder()
         });
         switch (CommandLineArguments.PROG_ID)
         {
-            case "TEST":
-                services.AddScoped<IRunner, TestRunner>();
+            case "Default":
+                services.AddScoped<IRunner, DefaultRunner>();
                 break;
         }
     });

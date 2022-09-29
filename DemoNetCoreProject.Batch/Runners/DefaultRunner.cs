@@ -1,25 +1,28 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DemoNetCoreProject.BusinessLayer.ILogics.Default;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.Batch.Runners
 {
-    internal class TestRunner : IRunner
+    internal class DefaultRunner : IRunner
     {
-        private readonly ILogger<TestRunner> _logger;
+        private readonly ILogger<DefaultRunner> _logger;
         private readonly IConfiguration _configuration;
-        public TestRunner(ILogger<TestRunner> logger,
-            IConfiguration configuration)
+        private readonly IDefaultLogic _defaultLogic;
+        public DefaultRunner(ILogger<DefaultRunner> logger,
+            IConfiguration configuration,
+            IDefaultLogic defaultLogic)
         {
             _logger = logger;
             _configuration = configuration;
+            _defaultLogic = defaultLogic;
         }
         public async Task Run()
         {
             try
             {
                 _logger.LogInformation(_configuration.GetValue<string>("Path:Temp"));
-                await Task.Run(() => _logger.LogInformation("Run"));
-                Thread.Sleep(3000);
+                await _defaultLogic.RunSqlCondition();
             }
             catch (Exception e)
             { 
