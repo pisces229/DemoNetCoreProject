@@ -1,36 +1,33 @@
-﻿using DemoNetCoreProject.BusinessLayer.Dtos.Default;
+﻿using AutoMapper;
+using DemoNetCoreProject.BusinessLayer.Dtos.Default;
 using DemoNetCoreProject.BusinessLayer.ILogics.Default;
-using DemoNetCoreProject.Common.Dtos;
+using DemoNetCoreProject.DataLayer.Dtos.Default;
+using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
     internal sealed class DefaultSecondLogic : IDefaultSecondLogic
     {
         private readonly ILogger<DefaultSecondLogic> _logger;
-        private readonly IDefaultCommonLogic _defaultCommonLogic;
+        private readonly IDefaultSecondRepository _defaultSecondRepository;
+        private readonly IMapper _mapper;
         public DefaultSecondLogic(ILogger<DefaultSecondLogic> logger,
-            IDefaultCommonLogic defaultCommonLogic)
+            IDefaultSecondRepository defaultSecondRepository,
+            IMapper mapper)
         {
             _logger = logger;
-            _defaultCommonLogic = defaultCommonLogic;
+            _defaultSecondRepository = defaultSecondRepository;
+            _mapper = mapper;
         }
-        public async Task<CommonResponseDto<DefaultSecondLogicOutputDto>> Run(DefaultSecondLogicInputDto model)
+        public async Task<DefaultSecondLogicOutputDto> Run(DefaultSecondLogicInputDto model)
         {
-            var result = new CommonResponseDto<DefaultSecondLogicOutputDto>()
-            {
-                Success = true,
-                Data = new DefaultSecondLogicOutputDto()
-                {
-                    Value = "[DefaultSecondLogic.Run]"
-                }
-            };
-            _logger.LogInformation("DefaultSecondLogic.Run");
-            var commonRunResult = await _defaultCommonLogic.Run(new DefaultCommonLogicInputDto()
-            {
-                Value = model.Value,
-            });
-            result.Data.Value += commonRunResult.Value;
+            _logger.LogInformation($"DefaultSecondLogicInputDto:{JsonSerializer.Serialize(model)}");
+            var result = _mapper.Map<DefaultSecondRepositoryOutputDto, DefaultSecondLogicOutputDto>(
+                await _defaultSecondRepository.Run(
+                    _mapper.Map<DefaultSecondLogicInputDto, DefaultSecondRepositoryInputDto>(model)));
+            _logger.LogInformation($"DefaultSecondLogicOutputDto:{JsonSerializer.Serialize(result)}");
             return await Task.FromResult(result);
         }
     }

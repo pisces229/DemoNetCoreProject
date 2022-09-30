@@ -2,7 +2,7 @@
 using DemoNetCoreProject.DataLayer.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace DemoNetCoreProject.DataLayer.IRepositories
+namespace DemoNetCoreProject.DataLayer.IRepositories.Db
 {
     public interface IDbRepository<Database, Entity>
         where Database : DbContext, IDbContext

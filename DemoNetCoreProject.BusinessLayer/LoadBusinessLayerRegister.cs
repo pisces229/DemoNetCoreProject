@@ -16,12 +16,10 @@ namespace DemoNetCoreProject.BusinessLayer
         public static void LoadAutoMappers(IMapperConfigurationExpression configure)
         {
             DefaultAutoMapper.Load(configure);
-            TestAutoMapper.Load(configure);
         }
         public static void LoadServices(IServiceCollection service)
         {
             DefaultLogicRegister.Load(service);
-            TestLogicRegister.Load(service);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using DemoNetCoreProject.Common.Dtos;
-using DemoNetCoreProject.DataLayer.IRepositories;
+using DemoNetCoreProject.DataLayer.IRepositories.Db;
 using DemoNetCoreProject.DataLayer.IServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace DemoNetCoreProject.DataLayer.Repositories
+namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
     internal class DbRepository<Database, Entity> : IDbRepository<Database, Entity>
         where Database : DbContext, IDbContext

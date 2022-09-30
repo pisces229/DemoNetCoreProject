@@ -6,7 +6,7 @@ using System.Collections;
 using System.Data;
 using System.Text;
 
-namespace DemoNetCoreProject.UnitTest.Domain.Utilities
+namespace DemoNetCoreProject.UnitTest.Common.Utilities
 {
     [TestClass]
     public class UnitTest_SqlConditionUtility
@@ -14,33 +14,33 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
         [TestMethod]
         public void Run()
         {
-            var sql = new StringBuilder();
+            var sql = new StringBuilder(" SELECT * FROM [TABLE] ");
             var dynamicParameters = new DynamicParameters();
-            SqlConditionUtility.Add(sql, "Text = Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.NotEqual, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.GreaterThan, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.GreaterThanOrEqual, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.LessThan, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.LessThanOrEqual, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.LikeStart, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.LikeEnd, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.LikeContain, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.NotLikeStart, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.NotLikeEnd, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.NotLikeContain, "Value");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, "1");
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, DateTime.Now.AddHours(1));
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, Convert.ToInt32("1"));
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, Convert.ToDouble("1"));
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Equal, true, DbType.Boolean);
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<string>() { "1", "2" });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.NotContain, new List<string>() { "1", "2" });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<string>() { "1", "2" });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<DateTime>() { DateTime.Now.AddHours(1), DateTime.Now.AddHours(2) });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<int>() { Convert.ToInt32("1"), Convert.ToInt32("2") });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<long>() { Convert.ToInt64("1"), Convert.ToInt64("2") });
-            SqlConditionUtility.Add(sql, dynamicParameters, "Text", SqlOperatorType.Contain, new List<double>() { Convert.ToDouble("1"), Convert.ToInt64("2") });
+            SqlConditionUtility.Add(sql, "[COLUMN] = Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.NotEqual, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.GreaterThan, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.GreaterThanOrEqual, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.LessThan, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.LessThanOrEqual, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.LikeStart, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.LikeEnd, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.LikeContain, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.NotLikeStart, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.NotLikeEnd, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.NotLikeContain, "Value");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, "1");
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, DateTime.Now.AddHours(1));
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, Convert.ToInt32("1"));
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, Convert.ToDouble("1"));
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Equal, true, DbType.Boolean);
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<string>() { "1", "2" });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.NotContain, new List<string>() { "1", "2" });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<string>() { "1", "2" });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<DateTime>() { DateTime.Now.AddHours(1), DateTime.Now.AddHours(2) });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<int>() { Convert.ToInt32("1"), Convert.ToInt32("2") });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<long>() { Convert.ToInt64("1"), Convert.ToInt64("2") });
+            SqlConditionUtility.Add(sql, dynamicParameters, "[COLUMN]", SqlOperatorType.Contain, new List<double>() { Convert.ToDouble("1"), Convert.ToInt64("2") });
 
             Console.WriteLine(sql.Replace("AND", $"{Environment.NewLine}AND").ToString());
             dynamicParameters.ParameterNames.ToList().ForEach(parameterName =>

@@ -6,12 +6,11 @@ namespace DemoNetCoreProject.BusinessLayer.LogicRegisters
 {
     internal class DefaultLogicRegister
     {
-        public static void Load(IServiceCollection services)
+        public static void Load(IServiceCollection service)
         {
-            services.AddScoped<IDefaultLogic, DefaultLogic>();
-            services.AddScoped<IDefaultCommonLogic, DefaultCommonLogic>();
-            services.AddScoped<IDefaultFirstLogic, DefaultFirstLogic>();
-            services.AddScoped<IDefaultSecondLogic, DefaultSecondLogic>();
+            service.AddScoped<IDefaultLogic, DefaultLogic>();
+            service.AddScoped<IDefaultFirstLogic, DefaultFirstLogic>();
+            service.AddScoped<IDefaultSecondLogic, DefaultSecondLogic>();
         }
     }
 }

@@ -111,7 +111,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     #endregion
 
     #region Redis
-    //webApplicationBuilder.Services.AddSingleton<ICacheService, RedisCacheService>();
+    //webApplicationBuilder.Services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.RedisCache>();
     #endregion
 
     #region Database
@@ -122,7 +122,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     //    options.TableName = "DataCache";
     //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
     //});
-    //webApplicationBuilder.Services.AddSingleton<ICacheService, DatabaseCacheService>();
+    //webApplicationBuilder.Services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.DatabaseCache>();
     #endregion
 }
 #endregion

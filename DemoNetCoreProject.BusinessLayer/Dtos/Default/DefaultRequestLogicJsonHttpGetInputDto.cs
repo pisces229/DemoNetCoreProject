@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace DemoNetCoreProject.BusinessLayer.Dtos.Test
+namespace DemoNetCoreProject.BusinessLayer.Dtos.Default
 {
     // [BindProperties]: Bind public Property
     // [BindProperty(Name = "Name")]
@@ -9,7 +9,7 @@ namespace DemoNetCoreProject.BusinessLayer.Dtos.Test
     // [BindNever]
 
     //[BindProperties]
-    public class TestLogicJsonHttpGetInputDto
+    public class DefaultRequestLogicJsonHttpGetInputDto
     {
         [BindProperty(Name = "Text")]
         public string? Text { get; set; }

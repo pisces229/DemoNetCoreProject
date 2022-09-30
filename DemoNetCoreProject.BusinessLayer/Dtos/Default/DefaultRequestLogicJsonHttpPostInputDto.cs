@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DemoNetCoreProject.BusinessLayer.Dtos.Test
+namespace DemoNetCoreProject.BusinessLayer.Dtos.Default
 {
     // [JsonPropertyName(name: "hhh")]
     // [JsonIgnore]
     // [Required]
-    public class TestLogicJsonHttpPostInputDto
+    public class DefaultRequestLogicJsonHttpPostInputDto
     {
         [JsonPropertyName(name: "Text")]
         public string? Text { get; set; }

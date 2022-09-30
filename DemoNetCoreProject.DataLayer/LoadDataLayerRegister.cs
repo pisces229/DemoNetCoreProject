@@ -1,6 +1,5 @@
-﻿using DemoNetCoreProject.DataLayer.IRepositories;
-using DemoNetCoreProject.DataLayer.IServices;
-using DemoNetCoreProject.DataLayer.Repositories;
+﻿using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Registers;
 using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
@@ -22,8 +21,8 @@ namespace DemoNetCoreProject.DataLayer
             service.AddScoped<IDapperService<DefaultDbContext>, DapperService<DefaultDbContext>>();
             service.AddScoped<IMailClient, MailClient>();
             // Repositories
-            service.AddScoped<IDefaultCustomerDbRepository, DefaultCustomerDbRepository>();
-            service.AddScoped<IDefaultRepository, DefaultRepository>();
+            DefaultDbRepositoryRegister.Load(service);
+            DefaultRepositoryRegister.Load(service);
         }
     }
 }

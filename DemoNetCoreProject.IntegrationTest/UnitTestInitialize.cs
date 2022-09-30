@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace DemoNetCoreProject.IntegrationTest
 {
@@ -63,11 +62,11 @@ namespace DemoNetCoreProject.IntegrationTest
                             var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
                             return cache;
                         }));
-                        services.AddSingleton<ICache, DataLayer.Services.MemoryCache>();
+                        services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.MemoryCache>();
                         #endregion
 
                         #region Redis
-                        //services.AddSingleton<ICacheService, RedisCacheService>();
+                        //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.RedisCache>();
                         #endregion
 
                         #region Database
@@ -78,7 +77,7 @@ namespace DemoNetCoreProject.IntegrationTest
                         //    options.TableName = "DataCache";
                         //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
                         //});
-                        //services.AddSingleton<ICacheService, DatabaseCacheService>();
+                        //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.DatabaseCache>();
                         #endregion
                     }
                     #endregion

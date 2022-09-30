@@ -24,67 +24,56 @@ namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryQuery() 
         {
             await _logic.RunDbRepositoryQuery();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDbRepositoryCreate()
         {
             await _logic.RunDbRepositoryCreate();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDbRepositoryModify()
         {
             await _logic.RunDbRepositoryModify();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDbRepositoryRemove()
         {
             await _logic.RunDbRepositoryRemove();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDbRepositoryPagedQuery()
         {
             await _logic.RunDbRepositoryPagedQuery();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDapperQuery()
         {
             await _logic.RunDapperQuery();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDapperExecuteScalar()
         {
             await _logic.RunDapperExecuteScalar();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDapperQueryMultiple()
         {
             await _logic.RunDapperQueryMultiple();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDapperExecuteReader()
         {
             await _logic.RunDapperExecuteReader();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunDapperPagedQuery()
         {
             await _logic.RunDapperPagedQuery();
-            // Assert.Fail();
         }
         [TestMethod]
         public async Task RunSqlCondition()
         {
             await _logic.RunSqlCondition();
-            // Assert.Fail();
         }
     }
 }

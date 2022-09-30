@@ -1,7 +1,7 @@
 ﻿using DemoNetCoreProject.DataLayer.Entities;
 using DemoNetCoreProject.DataLayer.Services;
 
-namespace DemoNetCoreProject.DataLayer.IRepositories
+namespace DemoNetCoreProject.DataLayer.IRepositories.Db
 {
     public interface IDefaultCustomerDbRepository : IDbRepository<DefaultDbContext, Customer>
     {

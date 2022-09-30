@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DemoNetCoreProject.BusinessLayer.Dtos.Test;
-using DemoNetCoreProject.BusinessLayer.ILogics.Test;
+using DemoNetCoreProject.BusinessLayer.Dtos.Default;
+using DemoNetCoreProject.BusinessLayer.ILogics.Default;
 using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Options;
@@ -13,22 +13,22 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace DemoNetCoreProject.BusinessLayer.Logics.Test
+namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
-    internal sealed class TestLogic : ITestLogic
+    internal sealed class DefaultRequestLogic : IDefaultRequestLogic
     {
-        private readonly ILogger<TestLogic> _logger;
+        private readonly ILogger<DefaultRequestLogic> _logger;
         private readonly IMapper _mapper;
         private readonly JwtOption _jwtOption;
         private readonly IUserService _userService;
         private readonly ICache _cache;
         private readonly IConfiguration _configuration;
-        public TestLogic(ILogger<TestLogic> logger,
+        public DefaultRequestLogic(ILogger<DefaultRequestLogic> logger,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
             IUserService userService,
             ICache cache,
-            IConfiguration configuration) 
+            IConfiguration configuration)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,7 +37,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
             _cache = cache;
             _configuration = configuration;
         }
-        public async Task<CommonResponseDto<string>> SignIn(TestLogicSignInInputDto model)
+        public async Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
             var result = new CommonResponseDto<string>();
             if (!string.IsNullOrEmpty(model.Account) && !string.IsNullOrEmpty(model.Password))
@@ -124,44 +124,44 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
                 _logger.LogError(e.ToString());
             }
         }
-        public async Task<CommonResponseDto<TestLogicJsonOutputDto>> JsonHttpGet(TestLogicJsonHttpGetInputDto model)
+        public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
         {
-            var result = new CommonResponseDto<TestLogicJsonOutputDto>()
+            var result = new CommonResponseDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Success = true,
-                Data = _mapper.Map<TestLogicJsonHttpGetInputDto, TestLogicJsonOutputDto>(model)
+                Data = _mapper.Map<DefaultRequestLogicJsonHttpGetInputDto, DefaultRequestLogicJsonOutputDto>(model)
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonResponseDto<TestLogicJsonOutputDto>> JsonHttpPost(TestLogicJsonHttpPostInputDto model)
+        public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model)
         {
-            var result = new CommonResponseDto<TestLogicJsonOutputDto>()
+            var result = new CommonResponseDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Success = true,
-                Data = _mapper.Map<TestLogicJsonHttpPostInputDto, TestLogicJsonOutputDto>(model)
+                Data = _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model)
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonPagedResultDto<TestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryDto<TestLogicJsonHttpPostInputDto> model)
+        public async Task<CommonPagedResultDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto> model)
         {
-            var result = new CommonPagedResultDto<TestLogicJsonOutputDto>()
+            var result = new CommonPagedResultDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Page = model.Page!,
-                Data = new List<TestLogicJsonOutputDto>()
+                Data = new List<DefaultRequestLogicJsonOutputDto>()
                 {
-                    _mapper.Map<TestLogicJsonHttpPostInputDto, TestLogicJsonOutputDto>(model.Data!)
+                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data!)
                 }
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonResponseDto<string>> Upload(TestLogicUploadInputDto model)
+        public async Task<CommonResponseDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
         {
             var result = new CommonResponseDto<string>();
             if (model != null && model.File != null && model.File.Length > 0)
             {
                 var name = !string.IsNullOrEmpty(model.Name) ? model.Name : model.File.FileName;
                 var fileInfo = FileUtility.GetFile(
-                    Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)), 
+                    Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
                     name);
                 if (fileInfo.Exists)
                 {
@@ -183,7 +183,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Test
         {
             var result = new CommonResponseDto<CommonDownloadDto>();
             var fileInfo = FileUtility.GetFile(
-                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)), 
+                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
                 "temp.zip");
             if (fileInfo.Exists)
             {

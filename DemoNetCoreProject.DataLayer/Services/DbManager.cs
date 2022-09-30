@@ -14,13 +14,9 @@ namespace DemoNetCoreProject.DataLayer.Services
             _logger = logger;
             _dbContext = dbContext;
         }
-        public Task<int> SaveChangesAsync()
-            => _dbContext.SaveChangesAsync();
-        public Task BeginTransactionAsync(IsolationLevel isolationLevel)
-            => _dbContext.BeginTransactionAsync(isolationLevel);
-        public Task CommitAsync()
-            => _dbContext.CommitAsync();
-        public Task RollbackAsync()
-            => _dbContext.RollbackAsync();
+        public Task<int> SaveChangesAsync() => _dbContext.SaveChangesAsync();
+        public Task BeginTransactionAsync(IsolationLevel isolationLevel) => _dbContext.BeginTransactionAsync(isolationLevel);
+        public Task CommitAsync() => _dbContext.CommitAsync();
+        public Task RollbackAsync() => _dbContext.RollbackAsync();
     }
 }

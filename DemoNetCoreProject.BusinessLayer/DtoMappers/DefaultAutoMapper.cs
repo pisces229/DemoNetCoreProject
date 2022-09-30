@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DemoNetCoreProject.BusinessLayer.Dtos.Default;
+using DemoNetCoreProject.DataLayer.Dtos.Default;
 
 namespace DemoNetCoreProject.BusinessLayer.DtoMappers
 {
@@ -6,7 +8,19 @@ namespace DemoNetCoreProject.BusinessLayer.DtoMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
-            //configure.CreateMap<Dto, Dto>();
+            // DefaultFirstLogicInputDto
+            configure.CreateMap<DefaultFirstLogicInputDto, DefaultSecondLogicInputDto>();
+            configure.CreateMap<DefaultFirstLogicInputDto, DefaultFirstRepositoryInputDto>();
+            // DefaultFirstLogicOutputDto
+            // ...
+            // DefaultSecondLogicInputDto
+            configure.CreateMap<DefaultSecondLogicInputDto, DefaultSecondRepositoryInputDto>();
+            // DefaultSecondLogicOutputDto
+            configure.CreateMap<DefaultSecondLogicOutputDto, DefaultFirstLogicOutputDto>();
+            // DefaultFirstRepositoryOutputDto
+            configure.CreateMap<DefaultFirstRepositoryOutputDto, DefaultFirstLogicOutputDto>();
+            // DefaultSecondRepositoryOutputDto
+            configure.CreateMap<DefaultSecondRepositoryOutputDto, DefaultSecondLogicOutputDto>();
         }
     }
 }

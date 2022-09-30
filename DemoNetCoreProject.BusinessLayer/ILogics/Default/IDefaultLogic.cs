@@ -1,6 +1,4 @@
-﻿using DemoNetCoreProject.Common.Dtos;
-using DemoNetCoreProject.DataLayer.Entities;
-using System;
+﻿using System;
 
 namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {

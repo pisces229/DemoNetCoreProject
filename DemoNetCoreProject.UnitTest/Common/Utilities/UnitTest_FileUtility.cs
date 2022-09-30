@@ -1,7 +1,7 @@
 ﻿using DemoNetCoreProject.Common.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DemoNetCoreProject.UnitTest.Domain.Utilities
+namespace DemoNetCoreProject.UnitTest.Common.Utilities
 {
     [TestClass]
     public class UnitTest_FileUtility
