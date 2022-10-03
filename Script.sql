@@ -2,8 +2,8 @@
 
 CREATE TABLE [dbo].[Person](
 	[Row] [int] IDENTITY(1,1) NOT NULL,
-	[Id] [char](10) NOT NULL,
-	[Name] [nvarchar](10) NOT NULL,
+	[Id] [char](36) NOT NULL,
+	[Name] [nvarchar](36) NOT NULL,
 	[Age] [int] NOT NULL,
 	[Birthday] [datetime] NOT NULL,
 	[Remark] [nvarchar](100) NULL,
@@ -21,7 +21,7 @@ GO
 
 CREATE TABLE [dbo].[Address](
 	[Row] [int] IDENTITY(1,1) NOT NULL,
-	[Id] [char](10) NOT NULL,
+	[Id] [char](36) NOT NULL,
 	[Text] [nvarchar](100) NOT NULL,
  CONSTRAINT [PK__Address] PRIMARY KEY CLUSTERED 
 (
