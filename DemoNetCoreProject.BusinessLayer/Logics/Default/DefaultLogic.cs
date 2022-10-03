@@ -15,30 +15,30 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
     {
         private readonly ILogger<DefaultLogic> _logger;
         private readonly IDbManager<DefaultDbContext> _defaultDbManager;
-        private readonly IDefaultCustomerDbRepository _defaultCustomerDbRepository;
+        private readonly IDefaultPersonDbRepository _defaultPersonDbRepository;
         private readonly IDefaultRepository _defaultRepository;
         public DefaultLogic(ILogger<DefaultLogic> logger,
             IDbManager<DefaultDbContext> defaultDbManager,
-            IDefaultCustomerDbRepository defaultCustomerDbRepository,
+            IDefaultPersonDbRepository defaultPersonDbRepository,
             IDefaultRepository defaultRepository) 
         {
             _logger = logger;
             _defaultDbManager = defaultDbManager;
-            _defaultCustomerDbRepository = defaultCustomerDbRepository;
+            _defaultPersonDbRepository = defaultPersonDbRepository;
             _defaultRepository = defaultRepository;
         }
         public async Task RunDbRepositoryQuery()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryQuery----------"));
-            Func<IQueryable<Customer>, IQueryable<Customer>> where = (query) => query.Where(p => p.Id.StartsWith("A")).Where(p => p.Age > 0);
-            Func<IQueryable<Customer>, IOrderedQueryable<Customer>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);  
-            var data = await _defaultCustomerDbRepository.Query(where: where, order: order);
+            Func<IQueryable<Person>, IQueryable<Person>> where = (query) => query.Where(p => p.Id.StartsWith("A")).Where(p => p.Age > 0);
+            Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);  
+            var data = await _defaultPersonDbRepository.Query(where: where, order: order);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunDbRepositoryCreate()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryCreate----------"));
-            var data = new Customer()
+            var data = new Person()
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -46,19 +46,19 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
                 Age = 10,
                 Remark = Guid.NewGuid().ToString(),
             };
-            _defaultCustomerDbRepository.Create(data);
+            _defaultPersonDbRepository.Create(data);
             await _defaultDbManager.SaveChangesAsync();
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunDbRepositoryModify()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryModify----------"));
-            Func<IQueryable<Customer>, IOrderedQueryable<Customer>> order = (query) => query.OrderByDescending(o => o.Row);
-            var data = (await _defaultCustomerDbRepository.Query(order: order)).FirstOrDefault();
+            Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderByDescending(o => o.Row);
+            var data = (await _defaultPersonDbRepository.Query(order: order)).FirstOrDefault();
             if (data != null)
             {
                 data.Remark = Guid.NewGuid().ToString();
-                _defaultCustomerDbRepository.Modify(data);
+                _defaultPersonDbRepository.Modify(data);
                 await _defaultDbManager.SaveChangesAsync();
                 _logger.LogInformation(JsonSerializer.Serialize(data));
             }
@@ -66,11 +66,11 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryRemove()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryRemove----------"));
-            Func<IQueryable<Customer>, IOrderedQueryable<Customer>> order = (query) => query.OrderByDescending(o => o.Row);
-            var data = (await _defaultCustomerDbRepository.Query(order: order)).FirstOrDefault();
+            Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderByDescending(o => o.Row);
+            var data = (await _defaultPersonDbRepository.Query(order: order)).FirstOrDefault();
             if (data != null)
             {
-                _defaultCustomerDbRepository.Remove(data);
+                _defaultPersonDbRepository.Remove(data);
                 await _defaultDbManager.SaveChangesAsync();
                 _logger.LogInformation(JsonSerializer.Serialize(data));
             }
@@ -79,9 +79,9 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryPagedQuery----------"));
             var commonPage = new CommonPageDto() { PageSize = 3, PageNo = 3 };
-            Func<IQueryable<Customer>, IQueryable<Customer>> where = (query) => query.Where(p => p.Age > 0);
-            Func<IQueryable<Customer>, IOrderedQueryable<Customer>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
-            var data = await _defaultCustomerDbRepository
+            Func<IQueryable<Person>, IQueryable<Person>> where = (query) => query.Where(p => p.Age > 0);
+            Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
+            var data = await _defaultPersonDbRepository
                 .PagedQuery(commonPage, where: where, order: order);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }

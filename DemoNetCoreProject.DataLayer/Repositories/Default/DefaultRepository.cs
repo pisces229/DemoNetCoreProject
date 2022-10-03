@@ -28,13 +28,13 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             _defaultDapperService = defaultDapperService;
         }
         public async Task<int?> MaxRow()
-            => await _defaultDbContext.Customers.Select(s => s.Row).MaxAsync();
+            => await _defaultDbContext.People.Select(s => s.Row).MaxAsync();
         public async Task RunDapperQuery()
         {
             await Task.Run(() => _logger.LogInformation("RunDapperQuery"));
             var dynamicParameters = new DynamicParameters();
-            var data = await _defaultDapperService.Query<Customer>(
-                "SELECT * FROM [Customer]",
+            var data = await _defaultDapperService.Query<Person>(
+                "SELECT * FROM [Person]",
                 dynamicParameters);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
@@ -43,7 +43,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             await Task.Run(() => _logger.LogInformation("RunDapperExecuteScalar"));
             var dynamicParameters = new DynamicParameters();
             var data = await _defaultDapperService.ExecuteScalar<int>(
-                "SELECT [Row] FROM [Customer]",
+                "SELECT [Row] FROM [Person]",
                 dynamicParameters);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
@@ -52,10 +52,10 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             await Task.Run(() => _logger.LogInformation("RunDapperQueryMultiple"));
             var dynamicParameters = new DynamicParameters();
             using var gridReader = await _defaultDapperService.QueryMultiple(
-                "SELECT top 1 Row FROM [Customer] SELECT top 2 Row FROM [Customer]",
+                "SELECT top 1 Row FROM [Person] SELECT top 2 Row FROM [Person]",
                 dynamicParameters);
-            var first = await gridReader.ReadAsync<Customer>();
-            var second = await gridReader.ReadAsync<Customer>();
+            var first = await gridReader.ReadAsync<Person>();
+            var second = await gridReader.ReadAsync<Person>();
             _logger.LogInformation(JsonSerializer.Serialize(first));
             _logger.LogInformation(JsonSerializer.Serialize(second));
         }
@@ -64,13 +64,13 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             await Task.Run(() => _logger.LogInformation("RunDapperExecuteReader"));
             var dynamicParameters = new DynamicParameters();
             using var dbDataReader = await _defaultDapperService.ExecuteReader(
-                "SELECT [Row] FROM [Customer]",
+                "SELECT [Row] FROM [Person]",
                 dynamicParameters);
             if (dbDataReader.HasRows)
             {
                 while (await dbDataReader.ReadAsync())
                 {
-                    _logger.LogInformation(JsonSerializer.Serialize(dbDataReader.GetRowParser<Customer>()(dbDataReader)));
+                    _logger.LogInformation(JsonSerializer.Serialize(dbDataReader.GetRowParser<Person>()(dbDataReader)));
                 }
             }
         }
@@ -78,8 +78,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperPagedQuery"));
             var dynamicParameters = new DynamicParameters();
-            var data = await _defaultDapperService.PagedQuery<Customer>(
-                "SELECT * FROM [Customer]", "[Row]",
+            var data = await _defaultDapperService.PagedQuery<Person>(
+                "SELECT * FROM [Person]", "[Row]",
                 dynamicParameters,
                 new CommonPageDto() { PageSize = 3, PageNo = 3 });
             _logger.LogInformation(JsonSerializer.Serialize(data));
@@ -87,7 +87,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         public async Task RunSqlCondition()
         {
             await Task.Run(() => _logger.LogInformation("RunSqlCondition"));
-            var sql = new StringBuilder("SELECT M.* FROM [Customer] M WHERE 1=1");
+            var sql = new StringBuilder("SELECT M.* FROM [Person] M WHERE 1=1");
             var dynamicParameters = new DynamicParameters();
             //dynamicParameters.Add("ValueA", "A");
             //dynamicParameters.Add("ValueB", new[] { "1", "2", "3" });

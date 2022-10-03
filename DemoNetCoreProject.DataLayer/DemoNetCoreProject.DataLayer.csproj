@@ -10,8 +10,4 @@
     <ProjectReference Include="..\DemoNetCoreProject.Common\DemoNetCoreProject.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
-
 </Project>

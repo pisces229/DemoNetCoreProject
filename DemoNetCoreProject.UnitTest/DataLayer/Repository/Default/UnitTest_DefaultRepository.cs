@@ -33,7 +33,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultRepository>();
             var mockDefaultDapperService = new Mock<IDapperService<DefaultDbContext>>();
             mockDefaultDapperService
-                .Setup(s => s.Query<Customer>(
+                .Setup(s => s.Query<Person>(
                     It.IsAny<string>(),
                     It.IsAny<DynamicParameters>(),
                     It.IsAny<int?>(),
@@ -44,7 +44,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 _defaultDbContext,
                 mockDefaultDapperService.Object);
             await defaultRepository.RunDapperQuery();
-            mockDefaultDapperService.Verify(s => s.Query<Customer>(
+            mockDefaultDapperService.Verify(s => s.Query<Person>(
                 It.IsAny<string>(),
                 It.IsAny<DynamicParameters>(),
                 It.IsAny<int?>(),
@@ -146,7 +146,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultRepository>();
             var mockDefaultDapperService = new Mock<IDapperService<DefaultDbContext>>();
             mockDefaultDapperService
-                .Setup(s => s.PagedQuery<Customer>(
+                .Setup(s => s.PagedQuery<Person>(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<DynamicParameters>(),
@@ -159,7 +159,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 _defaultDbContext,
                 mockDefaultDapperService.Object);
             await defaultRepository.RunDapperPagedQuery();
-            mockDefaultDapperService.Verify(s => s.PagedQuery<Customer>(
+            mockDefaultDapperService.Verify(s => s.PagedQuery<Person>(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<DynamicParameters>(),
@@ -177,19 +177,19 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultRepository>();
             var mockDefaultDapperService = new Mock<IDapperService<DefaultDbContext>>();
             mockDefaultDapperService
-                .Setup(s => s.Query<Customer>(
+                .Setup(s => s.Query<Person>(
                     It.IsAny<string>(),
                     It.IsAny<DynamicParameters>(),
                     It.IsAny<int?>(),
                     It.IsAny<CommandType>()))
                 .Callback(DapperGeneralCallback)
-                .ReturnsAsync(new List<Customer>());
+                .ReturnsAsync(new List<Person>());
             var defaultRepository = new DefaultRepository(
                 logger,
                 _defaultDbContext,
                 mockDefaultDapperService.Object);
             await defaultRepository.RunSqlCondition();
-            mockDefaultDapperService.Verify(s => s.Query<Customer>(
+            mockDefaultDapperService.Verify(s => s.Query<Person>(
                 It.IsAny<string>(),
                 It.IsAny<DynamicParameters>(),
                 It.IsAny<int?>(),

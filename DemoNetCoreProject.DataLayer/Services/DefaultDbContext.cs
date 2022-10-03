@@ -16,30 +16,54 @@ namespace DemoNetCoreProject.DataLayer.Services
         {
         }
         #region DbSet
-        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Address> Addresses { get; set; } = null!;
+        public virtual DbSet<Person> People { get; set; } = null!;
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);
             #region Builder Entity
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<Address>(entity =>
             {
-                entity.HasKey(e => e.Row);
+                entity.HasKey(e => e.Row)
+                    .HasName("PK__Address");
 
-                entity.ToTable("Customer");
+                entity.ToTable("Address");
 
-                entity.HasIndex(e => e.Id, "IDX__Customer__Id")
+                entity.Property(e => e.Id)
+                    .HasMaxLength(36)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Text).HasMaxLength(100);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.Addresses)
+                    .HasPrincipalKey(p => p.Id)
+                    .HasForeignKey(d => d.Id)
+                    .HasConstraintName("FK__Address__Id");
+            });
+
+            modelBuilder.Entity<Person>(entity =>
+            {
+                entity.HasKey(e => e.Row)
+                    .HasName("PK__Person");
+
+                entity.ToTable("Person");
+
+                entity.HasIndex(e => e.Id, "IDX__Person__Id")
                     .IsUnique();
 
                 entity.Property(e => e.Birthday).HasColumnType("datetime");
 
                 entity.Property(e => e.Id)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(36)
+                    .IsUnicode(false)
+                    .IsFixedLength();
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name).HasMaxLength(36);
 
-                entity.Property(e => e.Remark).HasMaxLength(50);
+                entity.Property(e => e.Remark).HasMaxLength(100);
             });
             #endregion
 

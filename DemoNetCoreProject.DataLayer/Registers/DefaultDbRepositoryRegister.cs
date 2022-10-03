@@ -8,7 +8,8 @@ namespace DemoNetCoreProject.DataLayer.Registers
     {
         public static void Load(IServiceCollection service)
         {
-            service.AddScoped<IDefaultCustomerDbRepository, DefaultCustomerDbRepository>();
+            service.AddScoped<IDefaultPersonDbRepository, DefaultPersonDbRepository>();
+            service.AddScoped<IDefaultAddressDbRepository, DefaultAddressDbRepository>();
         }
     }
 }
