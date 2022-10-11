@@ -86,10 +86,10 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunDapperQuery() => await _defaultRepository.RunDapperQuery();
-        public async Task RunDapperExecuteScalar() => await _defaultRepository.RunDapperQuery();
-        public async Task RunDapperQueryMultiple() => await _defaultRepository.RunDapperQuery();
-        public async Task RunDapperExecuteReader() => await _defaultRepository.RunDapperQuery();
-        public async Task RunDapperPagedQuery() => await _defaultRepository.RunDapperQuery();
+        public async Task RunDapperExecuteScalar() => await _defaultRepository.RunDapperExecuteScalar();
+        public async Task RunDapperQueryMultiple() => await _defaultRepository.RunDapperQueryMultiple();
+        public async Task RunDapperExecuteReader() => await _defaultRepository.RunDapperExecuteReader();
+        public async Task RunDapperPagedQuery() => await _defaultRepository.RunDapperPagedQuery();
         public async Task RunSqlCondition() => await _defaultRepository.RunDapperQuery();
     }
 }
