@@ -90,6 +90,6 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDapperQueryMultiple() => await _defaultRepository.RunDapperQueryMultiple();
         public async Task RunDapperExecuteReader() => await _defaultRepository.RunDapperExecuteReader();
         public async Task RunDapperPagedQuery() => await _defaultRepository.RunDapperPagedQuery();
-        public async Task RunSqlCondition() => await _defaultRepository.RunDapperQuery();
+        public async Task RunSqlCondition() => await _defaultRepository.RunSqlCondition();
     }
 }
