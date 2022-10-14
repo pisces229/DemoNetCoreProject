@@ -7,6 +7,7 @@ namespace DemoNetCoreProject.DataLayer.IServices
     public interface IDbContext
     {
         Task<int> SaveChangesAsync();
+        void EntityDetached();
         DatabaseFacade GetDatabase();
         Task<DbConnection> GetDbConnection();
         DbTransaction GetDbTransaction();

@@ -11,6 +11,6 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
         {
         }
         public async Task<Address?> GetByText(string text)
-            => await Queryable().FirstOrDefaultAsync(x => x.Text == text);
+            => await DbSet().FirstOrDefaultAsync(x => x.Text == text);
     }
 }

@@ -14,26 +14,21 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
         {
             _context = context;
         }
-        protected IQueryable<Entity> Queryable(bool tracking = true)
-            => tracking ? _context.Set<Entity>().AsTracking() : _context.Set<Entity>().AsNoTracking();
+        protected DbSet<Entity> DbSet() => _context.Set<Entity>();
         public async Task<Entity?> Find(int row)
-            => await _context.Set<Entity>().FindAsync(row);
-        public async Task<bool> Any(
-            bool tracking = true,
-            Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
+            => await DbSet().FindAsync(row);
+        public async Task<bool> Any(Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
         {
-            var query = Queryable(tracking);
+            var query = DbSet().AsQueryable();
             if (where != null)
             {
                 query = where(query);
             }
             return await query.AnyAsync();
         }
-        public async Task<int> Count(
-            bool tracking = true,
-            Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
+        public async Task<int> Count(Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
         {
-            var query = Queryable(tracking);
+            var query = DbSet().AsQueryable();
             if (where != null)
             {
                 query = where(query);
@@ -41,11 +36,10 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             return await query.CountAsync();
         }
         public async Task<IEnumerable<Entity>> Query(
-            bool tracking = true,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
         {
-            var query = Queryable(tracking);
+            var query = DbSet().AsQueryable();
             if (where != null)
             {
                 query = where(query);
@@ -57,7 +51,6 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             return await query.ToListAsync();
         }
         public async Task<CommonPagedResultDto<Entity>> PagedQuery(CommonPageDto commonPage,
-            bool tracking = true,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
         {
@@ -65,7 +58,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             {
                 Page = commonPage
             };
-            var query = Queryable(tracking);
+            var query = DbSet().AsQueryable();
             if (where != null)
             {
                 query = where(query);
@@ -81,11 +74,47 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
                 .ToListAsync();
             return result;
         }
-        public void Create(Entity entity) => _context.Set<Entity>().Add(entity);
-        public void CreateRange(IEnumerable<Entity> entities) => _context.Set<Entity>().AddRange(entities);
-        public void Modify(Entity entity) => _context.Set<Entity>().Update(entity);
-        public void ModifyRange(IEnumerable<Entity> entities) => _context.Set<Entity>().UpdateRange(entities);
-        public void Remove(Entity entity) => _context.Set<Entity>().Remove(entity);
-        public void RemoveRange(IEnumerable<Entity> entities) => _context.Set<Entity>().RemoveRange(entities);
+        public async Task<int> Create(Entity entity)
+        {
+            DbSet().Add(entity);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
+        public async Task<int> CreateRange(IEnumerable<Entity> entities)
+        {
+            DbSet().AddRange(entities);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
+        public async Task<int> Modify(Entity entity)
+        {
+            DbSet().Update(entity);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
+        public async Task<int> ModifyRange(IEnumerable<Entity> entities)
+        {
+            DbSet().UpdateRange(entities);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
+        public async Task<int> Remove(Entity entity)
+        {
+            DbSet().Remove(entity);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
+        public async Task<int> RemoveRange(IEnumerable<Entity> entities)
+        {
+            DbSet().RemoveRange(entities);
+            var result = await _context.SaveChangesAsync();
+            _context.EntityDetached();
+            return result;
+        }
     }
 }

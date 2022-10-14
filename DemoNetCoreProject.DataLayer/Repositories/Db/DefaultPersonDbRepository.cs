@@ -11,6 +11,6 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
         {
         }
         public async Task<Person?> GetByName(string name)
-            => await Queryable().FirstOrDefaultAsync(x => x.Name == name);
+            => await DbSet().FirstOrDefaultAsync(x => x.Name == name);
     }
 }

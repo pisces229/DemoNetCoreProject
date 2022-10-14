@@ -15,6 +15,7 @@ namespace DemoNetCoreProject.DataLayer.Services
             _dbContext = dbContext;
         }
         public Task<int> SaveChangesAsync() => _dbContext.SaveChangesAsync();
+        public void EntityDetached() => _dbContext.EntityDetached();
         public Task BeginTransactionAsync(IsolationLevel isolationLevel) => _dbContext.BeginTransactionAsync(isolationLevel);
         public Task CommitAsync() => _dbContext.CommitAsync();
         public Task RollbackAsync() => _dbContext.RollbackAsync();

@@ -9,25 +9,19 @@ namespace DemoNetCoreProject.DataLayer.IRepositories.Db
         where Entity : class
     {
         Task<Entity?> Find(int row);
-        Task<bool> Any(
-            bool tracking = true,
-            Func<IQueryable<Entity>, IQueryable<Entity>>? where = null);
-        Task<int> Count(
-            bool tracking = true,
-            Func<IQueryable<Entity>, IQueryable<Entity>>? where = null);
+        Task<bool> Any( Func<IQueryable<Entity>, IQueryable<Entity>>? where = null);
+        Task<int> Count(Func<IQueryable<Entity>, IQueryable<Entity>>? where = null);
         Task<IEnumerable<Entity>> Query(
-            bool tracking = true,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null);
         Task<CommonPagedResultDto<Entity>> PagedQuery(CommonPageDto commonPage,
-            bool tracking = true,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null);
-        void Create(Entity entity);
-        void CreateRange(IEnumerable<Entity> entities);
-        void Modify(Entity entity);
-        void ModifyRange(IEnumerable<Entity> entities);
-        void Remove(Entity entity);
-        void RemoveRange(IEnumerable<Entity> entities);
+        Task<int> Create(Entity entity);
+        Task<int> CreateRange(IEnumerable<Entity> entities);
+        Task<int> Modify(Entity entity);
+        Task<int> ModifyRange(IEnumerable<Entity> entities);
+        Task<int> Remove(Entity entity);
+        Task<int> RemoveRange(IEnumerable<Entity> entities);
     }
 }

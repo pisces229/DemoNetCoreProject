@@ -70,28 +70,6 @@ namespace DemoNetCoreProject.DataLayer.Services
             OnModelCreatingPartial(modelBuilder);
         }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-        protected void UpdateInfomation()
-        {
-            foreach (var entrie in ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
-            {
-                //switch (entrie.State)
-                //{
-                //    case EntityState.Added:
-                //        entrie.Property("CREATE_USER").CurrentValue = _userService.Userid();
-                //        entrie.Property("CREATE_DATETIME").CurrentValue = DateTime.Now;
-                //        entrie.Property("UPDATE_USER").CurrentValue = _userService.Userid();
-                //        entrie.Property("UPDATE_DATETIME").CurrentValue = DateTime.Now;
-                //        entrie.Property("PROG_CD").CurrentValue = _userService.Proid();
-                //        break;
-                //    case EntityState.Modified:
-                //        entrie.Property("UPDATE_USER").CurrentValue = _userService.Userid();
-                //        entrie.Property("UPDATE_DATETIME").CurrentValue = DateTime.Now;
-                //        entrie.Property("PROG_CD").CurrentValue = _userService.Proid();
-                //        break;
-                //}
-            }
-        }
         #region Expansion
         public override int SaveChanges()
         {
@@ -102,6 +80,35 @@ namespace DemoNetCoreProject.DataLayer.Services
         {
             UpdateInfomation();
             return base.SaveChangesAsync();
+        }
+        protected void UpdateInfomation()
+        {
+            foreach (var entry in ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+            {
+                //switch (entrie.State)
+                //{
+                //    case EntityState.Added:
+                //        entry.Property("CREATE_USER").CurrentValue = _userService.Userid();
+                //        entry.Property("CREATE_DATETIME").CurrentValue = DateTime.Now;
+                //        entry.Property("UPDATE_USER").CurrentValue = _userService.Userid();
+                //        entry.Property("UPDATE_DATETIME").CurrentValue = DateTime.Now;
+                //        entry.Property("PROG_CD").CurrentValue = _userService.Proid();
+                //        break;
+                //    case EntityState.Modified:
+                //        entry.Property("UPDATE_USER").CurrentValue = _userService.Userid();
+                //        entry.Property("UPDATE_DATETIME").CurrentValue = DateTime.Now;
+                //        entry.Property("PROG_CD").CurrentValue = _userService.Proid();
+                //        break;
+                //}
+            }
+        }
+        public void EntityDetached()
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(e => e.State != EntityState.Detached))
+            {
+                entry.State = EntityState.Detached;
+            }
         }
         public DatabaseFacade GetDatabase() => this.Database;
         public async Task<DbConnection> GetDbConnection()
@@ -132,13 +139,35 @@ namespace DemoNetCoreProject.DataLayer.Services
                 }
             }
         }
+        public void Commit()
+        {
+            if (!this.Database.IsInMemory())
+            {
+                if (DbTransaction != null)
+                {
+                    DbTransaction.Commit();
+                    DbTransaction = null;
+                }
+            }
+        }
         public async Task CommitAsync()
         {
             if (!this.Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
-                    await this.Database.CommitTransactionAsync();
+                    await DbTransaction.CommitAsync();
+                    DbTransaction = null;
+                }
+            }
+        }
+        public void Rollback()
+        {
+            if (!this.Database.IsInMemory())
+            {
+                if (DbTransaction != null)
+                {
+                    DbTransaction.Rollback();
                     DbTransaction = null;
                 }
             }
@@ -149,12 +178,25 @@ namespace DemoNetCoreProject.DataLayer.Services
             {
                 if (DbTransaction != null)
                 {
-                    await this.Database.RollbackTransactionAsync();
+                    await DbTransaction.RollbackAsync();
                     DbTransaction = null;
                 }
             }
         }
-        public override async void Dispose()
+        public override void Dispose()
+        {
+            try
+            {
+                Rollback();
+            }
+            catch
+            {
+                // pass
+            }
+            base.Dispose();
+            GC.SuppressFinalize(this);
+        }
+        public override async ValueTask DisposeAsync()
         {
             try
             {
@@ -164,7 +206,7 @@ namespace DemoNetCoreProject.DataLayer.Services
             {
                 // pass
             }
-            base.Dispose();
+            await base.DisposeAsync();
             GC.SuppressFinalize(this);
         }
         #endregion

@@ -30,7 +30,7 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
         {
             Func<IQueryable<Person>, IQueryable<Person>> where = (query) => query.Where(p => p.Id.StartsWith("A")).Where(p => p.Age > 0);
             Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
-            await _repository.Query(where: where, order: order);
+            await _repository.Query(where, order);
         }
         [TestMethod]
         public async Task Create()
