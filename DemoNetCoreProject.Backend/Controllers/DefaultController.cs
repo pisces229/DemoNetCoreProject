@@ -3,6 +3,7 @@ using DemoNetCoreProject.BusinessLayer.Dtos.Default;
 using DemoNetCoreProject.BusinessLayer.ILogics.Default;
 using DemoNetCoreProject.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using System.Web;
 
 namespace DemoNetCoreProject.Backend.Controllers
@@ -61,29 +62,30 @@ namespace DemoNetCoreProject.Backend.Controllers
             [FromForm] DefaultRequestLogicUploadInputDto model)
             => Ok(await logic.Upload(model));
         [HttpGet]
-        public async Task<ActionResult> Download([FromServices] IDefaultRequestLogic logic)
+        public async Task Download([FromServices] IDefaultRequestLogic logic)
         {
             var result = await logic.Download();
             if (result.Success)
             {
                 Response.ContentType = "application/octet-stream";
                 Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(result.Data!.Filename)}");
-                await Response.SendFileAsync(result.Data!.FileInfo.FullName);
-                //var buffer = new byte[16 * 1024];
-                //using (var fileStream = result.Data!.FileInfo.OpenRead())
-                //{
-                //    var read = 0;
-                //    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-                //    {
-                //        await Response.Body.WriteAsync(buffer, 0, read);
-                //    }
-                //}
+                //await Response.SendFileAsync(result.Data!.FileInfo.FullName);
+                var buffer = new byte[16 * 1024];
+                using (var fileStream = result.Data!.FileInfo.OpenRead())
+                {
+                    var read = 0;
+                    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        await Response.Body.WriteAsync(buffer, 0, read);
+                    }
+                }
                 //result.Data!.FileInfo.Delete();
-                return Ok();
             }
             else
             {
-                return Ok(result.Message);
+                Response.ContentType = "text/plain";
+                var binary = Encoding.UTF8.GetBytes(result.Message!);
+                await HttpContext.Response.Body.WriteAsync(binary, 0, binary.Length);
             }
         }
         [HttpGet]

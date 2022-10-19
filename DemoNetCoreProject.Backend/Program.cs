@@ -69,8 +69,8 @@ webApplicationBuilder.Services.AddCors(options =>
             //.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
             .AllowAnyHeader()
             //.WithExposedHeaders("content-disposition")
-            .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowAnyMethod();
+            //.AllowCredentials();
     });
 });
 
@@ -327,7 +327,7 @@ webApplication.Lifetime.ApplicationStopped.Register(() => webApplication.Logger.
 
 if (webApplicationBuilder.Environment.IsDevelopment())
 {
-    //webApplication.UseCors("CorsPolicy");
+    webApplication.UseCors("CorsPolicy");
     webApplication.UseDeveloperExceptionPage();
 }
 else

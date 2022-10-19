@@ -9,6 +9,7 @@ namespace DemoNetCoreProject.BusinessLayer.LogicRegisters
         public static void Load(IServiceCollection service)
         {
             service.AddScoped<IDefaultLogic, DefaultLogic>();
+            service.AddScoped<IDefaultRequestLogic, DefaultRequestLogic>();
             service.AddScoped<IDefaultFirstLogic, DefaultFirstLogic>();
             service.AddScoped<IDefaultSecondLogic, DefaultSecondLogic>();
         }
