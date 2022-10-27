@@ -6,6 +6,7 @@ using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Options;
 using DemoNetCoreProject.Common.Utilities;
 using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,12 +19,14 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
     internal sealed class DefaultRequestLogic : IDefaultRequestLogic
     {
         private readonly ILogger<DefaultRequestLogic> _logger;
+        private readonly IDefaultDataProtector _defaultDataProtector;
         private readonly IMapper _mapper;
         private readonly JwtOption _jwtOption;
         private readonly IUserService _userService;
         private readonly ICache _cache;
         private readonly IConfiguration _configuration;
         public DefaultRequestLogic(ILogger<DefaultRequestLogic> logger,
+            IDefaultDataProtector defaultDataProtector,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
             IUserService userService,
@@ -31,12 +34,15 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             IConfiguration configuration)
         {
             _logger = logger;
+            _defaultDataProtector = defaultDataProtector;
             _mapper = mapper;
             _jwtOption = JwtOptions.Value;
             _userService = userService;
             _cache = cache;
             _configuration = configuration;
         }
+        // _defaultDataProtector.Protect("Value")
+        // _defaultDataProtector.UnProtect("Value")
         public async Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
             var result = new CommonResponseDto<string>();

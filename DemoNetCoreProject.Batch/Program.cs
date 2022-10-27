@@ -53,6 +53,7 @@ var hostBuilder = new HostBuilder()
             //        sqlServerOption.MaxBatchSize(1000);
             //        //sqlServerOption.CommandTimeout(0);
             //    });
+            //option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             option.EnableSensitiveDataLogging();
             option.EnableDetailedErrors();
         });
