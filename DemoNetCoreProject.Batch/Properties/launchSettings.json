@@ -2,10 +2,10 @@
   "profiles": {
     "DemoNetCoreProject.Batch": {
       "commandName": "Project",
-      "commandLineArgs": "Development TEST",
+      "commandLineArgs": "Development Default",
       "environmentVariables": {
         "ENVIRONMENT": "Development",
-        "PROG_ID": "TEST"
+        "PROG_ID": "Default"
       }
     }
   }

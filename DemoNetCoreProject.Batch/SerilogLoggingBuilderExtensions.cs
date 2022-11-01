@@ -1,15 +1,16 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
 namespace DemoNetCoreProject.Batch
 {
-    public static class SerilogHostBuilderExtensions
+    public static class SerilogLoggingBuilderExtensions
     {
-        public static IHostBuilder UseDemoBatchSerilog(this IHostBuilder builder)
+        public static ILoggingBuilder AddDemoBatchSerilog(this ILoggingBuilder builder)
         {
             //"outputTemplate": "{Properties} [{Timestamp:o}] [{Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"
-            builder.UseSerilog(new LoggerConfiguration()
+            builder.AddSerilog(new LoggerConfiguration()
                 .Enrich.WithProperty("Application", "DemoNetCoreProject.Batch")
                 .Enrich.WithProperty("ProcessId", Guid.NewGuid().ToString())
                 .MinimumLevel.Information()

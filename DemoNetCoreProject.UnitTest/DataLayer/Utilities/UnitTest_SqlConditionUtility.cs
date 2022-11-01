@@ -1,12 +1,12 @@
 ﻿using Dapper;
 using DemoNetCoreProject.Common.Enums;
-using DemoNetCoreProject.Common.Utilities;
+using DemoNetCoreProject.DataLayer.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
 using System.Data;
 using System.Text;
 
-namespace DemoNetCoreProject.UnitTest.Common.Utilities
+namespace DemoNetCoreProject.UnitTest.DataLayer.Utilities
 {
     [TestClass]
     public class UnitTest_SqlConditionUtility
@@ -60,16 +60,16 @@ namespace DemoNetCoreProject.UnitTest.Common.Utilities
                             }
                             stringBuilder.Append(value != null ? value.ToString() : "null");
                         }
-                        Console.WriteLine($"[{ parameterName }]:[{ stringBuilder }],");
+                        Console.WriteLine($"[{parameterName}]:[{stringBuilder}],");
                     }
                     else
                     {
-                        Console.WriteLine($"[{ parameterName }]:[{ dynamicParameter }],");
+                        Console.WriteLine($"[{parameterName}]:[{dynamicParameter}],");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"[{ parameterName }]:[NULL],");
+                    Console.WriteLine($"[{parameterName}]:[NULL],");
                 }
             });
         }

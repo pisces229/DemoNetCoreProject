@@ -28,15 +28,8 @@ namespace DemoNetCoreProject.Backend.Controllers
         public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultSignInModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await logic.SignIn(_mapper.Map<DefaultSignInModel, DefaultRequestLogicSignInInputDto>(model));
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(ModelValidConstant.Fail);
-            }
+            var result = await logic.SignIn(_mapper.Map<DefaultSignInModel, DefaultRequestLogicSignInInputDto>(model));
+            return Ok(result);
         }
         [HttpGet]
         [ServiceFilter(typeof(JwtAuthorizationFilter))]
@@ -63,58 +56,30 @@ namespace DemoNetCoreProject.Backend.Controllers
         public async Task<ActionResult> JsonHttpGet([FromServices] IDefaultRequestLogic logic,
             [FromQuery] DefaultJsonHttpGetModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await logic.JsonHttpGet(_mapper.Map<DefaultJsonHttpGetModel, DefaultRequestLogicJsonHttpGetInputDto>(model));
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(ModelValidConstant.Fail);
-            }
+            var result = await logic.JsonHttpGet(_mapper.Map<DefaultJsonHttpGetModel, DefaultRequestLogicJsonHttpGetInputDto>(model));
+            return Ok(result);
         }
         [HttpPost]
         public async Task<ActionResult> JsonHttpPost([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultJsonHttpPostModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await logic.JsonHttpPost(_mapper.Map<DefaultJsonHttpPostModel, DefaultRequestLogicJsonHttpPostInputDto>(model));
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(ModelValidConstant.Fail);
-            }
+            var result = await logic.JsonHttpPost(_mapper.Map<DefaultJsonHttpPostModel, DefaultRequestLogicJsonHttpPostInputDto>(model));
+            return Ok(result);
         }
         [HttpPost]
         public async Task<ActionResult> CommonPagedQuery([FromServices] IDefaultRequestLogic logic,
             [FromBody] CommonPagedQueryModel<DefaultJsonHttpPostModel> model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await logic.CommonPagedQuery(
-                    _mapper.Map<CommonPagedQueryModel<DefaultJsonHttpPostModel>, CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto>>(model));
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(ModelValidConstant.Fail);
-            }
+            var result = await logic.CommonPagedQuery(
+                _mapper.Map<CommonPagedQueryModel<DefaultJsonHttpPostModel>, CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto>>(model));
+            return Ok(result);
         }
         [HttpPost]
         public async Task<ActionResult> Upload([FromServices] IDefaultRequestLogic logic,
             [FromForm] DefaultUploadModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await logic.Upload(_mapper.Map<DefaultUploadModel, DefaultRequestLogicUploadInputDto>(model));
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(ModelValidConstant.Fail);
-            }
+            var result = await logic.Upload(_mapper.Map<DefaultUploadModel, DefaultRequestLogicUploadInputDto>(model));
+            return Ok(result);
         }
         [HttpGet]
         public async Task Download([FromServices] IDefaultRequestLogic logic)

@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Builder;
 using System.Net;
 using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
@@ -87,7 +89,7 @@ webApplicationBuilder.Services.AddDbContext<DefaultDbContext>(option =>
     //        sqlServerOption.MaxBatchSize(1000);
     //        //sqlServerOption.CommandTimeout(0);
     //    });
-    //option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     option.EnableSensitiveDataLogging();
     option.EnableDetailedErrors();
 });
@@ -113,7 +115,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     #endregion
 
     #region Redis
-    //webApplicationBuilder.Services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.RedisCache>();
+    //webApplicationBuilder.Services.AddSingleton<ICache, RedisCache>();
     #endregion
 
     #region Database
@@ -124,7 +126,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     //    options.TableName = "DataCache";
     //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
     //});
-    //webApplicationBuilder.Services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.DatabaseCache>();
+    //webApplicationBuilder.Services.AddSingleton<ICache, DatabaseCache>();
     #endregion
 }
 #endregion
@@ -298,6 +300,23 @@ webApplicationBuilder.Services.AddControllersWithViews(options =>
     //options.Filters.Add(typeof(DefaultResultFilter));
     options.Filters.Add(typeof(DefaultExceptionFilter));
 });
+
+//webApplicationBuilder.Services.AddMvcCore(options =>
+//{
+//    options.MaxModelValidationErrors = 10;
+//})
+//.ConfigureApiBehaviorOptions(options =>
+//{
+//    options.InvalidModelStateResponseFactory = actionContext =>
+//    {
+//        //return new BadRequestObjectResult(new { Message = "Model binding occurs problem." });
+//        foreach (var key in actionContext.ModelState.Keys)
+//        {
+//            var errors = actionContext.ModelState.First().Value!.Errors;
+//        }
+//        return new BadRequestResult();
+//    };    
+//});
 
 //webApplicationBuilder.Services.AddSpaStaticFiles(configuration =>
 //{

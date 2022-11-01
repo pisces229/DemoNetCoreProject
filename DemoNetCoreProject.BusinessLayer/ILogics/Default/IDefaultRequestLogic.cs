@@ -5,6 +5,7 @@ namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {
     public interface IDefaultRequestLogic
     {
+        void Run();
         Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model);
         Task<CommonResponseDto<string>> Validate();
         Task<CommonResponseDto<string>> Refresh(string model);

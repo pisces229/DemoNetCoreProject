@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using DemoNetCoreProject.DataLayer.Dtos.Default;
+﻿using DemoNetCoreProject.DataLayer.Dtos.Default;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;

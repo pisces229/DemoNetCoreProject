@@ -9,6 +9,7 @@ namespace DemoNetCoreProject.DataLayer.Registers
         public static void Load(IServiceCollection services)
         {
             services.AddScoped<IDefaultRepository, DefaultRepository>();
+            services.AddScoped<IDefaultRequestRepository, DefaultRequestRepository>();
             services.AddScoped<IDefaultFirstRepository, DefaultFirstRepository>();
             services.AddScoped<IDefaultSecondRepository, DefaultSecondRepository>();
         }

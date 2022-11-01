@@ -21,6 +21,7 @@ namespace DemoNetCoreProject.Batch.Runners
         {
             try
             {
+                _logger.LogInformation("DefaultRunner");
                 // Define the cancellation token.
                 using (var cancellationTokenSource = new CancellationTokenSource())
                 {
@@ -28,7 +29,6 @@ namespace DemoNetCoreProject.Batch.Runners
                     cancellationTokenSource.Cancel();
                 }
                 Console.WriteLine(_configuration.GetValue<string>("Path:Temp"));
-                _logger.LogInformation("");
                 await _defaultLogic.RunSqlCondition();
             }
             catch (Exception e)

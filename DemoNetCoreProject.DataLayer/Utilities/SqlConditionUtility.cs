@@ -3,7 +3,7 @@ using DemoNetCoreProject.Common.Enums;
 using System.Data;
 using System.Text;
 
-namespace DemoNetCoreProject.Common.Utilities
+namespace DemoNetCoreProject.DataLayer.Utilities
 {
     public class SqlConditionUtility
     {

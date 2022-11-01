@@ -5,8 +5,9 @@ using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Options;
 using DemoNetCoreProject.Common.Utilities;
+using DemoNetCoreProject.DataLayer.Dtos.Default;
+using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
-using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,6 +20,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
     internal sealed class DefaultRequestLogic : IDefaultRequestLogic
     {
         private readonly ILogger<DefaultRequestLogic> _logger;
+        private readonly IDefaultRequestRepository _defaultRequestRepository;
         private readonly IDefaultDataProtector _defaultDataProtector;
         private readonly IMapper _mapper;
         private readonly JwtOption _jwtOption;
@@ -26,6 +28,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         private readonly ICache _cache;
         private readonly IConfiguration _configuration;
         public DefaultRequestLogic(ILogger<DefaultRequestLogic> logger,
+            IDefaultRequestRepository defaultRequestRepository,
             IDefaultDataProtector defaultDataProtector,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
@@ -34,6 +37,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             IConfiguration configuration)
         {
             _logger = logger;
+            _defaultRequestRepository = defaultRequestRepository;
             _defaultDataProtector = defaultDataProtector;
             _mapper = mapper;
             _jwtOption = JwtOptions.Value;
@@ -43,6 +47,14 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         }
         // _defaultDataProtector.Protect("Value")
         // _defaultDataProtector.UnProtect("Value")
+        public void Run()
+        {
+            var value = "1234567890";
+            var protectValue = _defaultDataProtector.Protect(value);
+            _logger.LogInformation(protectValue);
+            var unprotectValue = _defaultDataProtector.Unprotect(protectValue);
+            _logger.LogInformation(unprotectValue);
+        }
         public async Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
             var result = new CommonResponseDto<string>();
@@ -163,32 +175,23 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task<CommonResponseDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
         {
             var result = new CommonResponseDto<string>();
-            var file = FileUtility.GetFile(
-                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
-                Guid.NewGuid().ToString());
+            _logger.LogInformation(model.File.GetHashCode().ToString());
             using (model.File)
-            using (var fileStream = file.Create())
             {
-                model.File.Seek(0, SeekOrigin.Begin);
-                await model.File.CopyToAsync(fileStream);
-                result.Success = true;
+                await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
             }
+            result.Success = true;
             return result;
         }
         public async Task<CommonResponseDto<CommonDownloadDto>> Download()
         {
-            var result = new CommonResponseDto<CommonDownloadDto>();
-            var fileInfo = FileUtility.GetFile(
-                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
-                "temp.zip");
-            if (fileInfo.Exists)
+            var result = new CommonResponseDto<CommonDownloadDto>
+            {
+                Data = _defaultRequestRepository.Download()
+            };
+            if (!string.IsNullOrEmpty(result.Data.FilePath))
             {
                 result.Success = true;
-                result.Data = new CommonDownloadDto()
-                {
-                    FileName = "Download.zip",
-                    FilePath = fileInfo.FullName,
-                };
             }
             else
             {
