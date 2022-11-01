@@ -163,25 +163,15 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task<CommonResponseDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
         {
             var result = new CommonResponseDto<string>();
-            if (model != null && model.File != null && model.File.Length > 0)
+            var file = FileUtility.GetFile(
+                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
+                Guid.NewGuid().ToString());
+            using (model.File)
+            using (var fileStream = file.Create())
             {
-                var name = !string.IsNullOrEmpty(model.Name) ? model.Name : model.File.FileName;
-                var fileInfo = FileUtility.GetFile(
-                    Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
-                    name);
-                if (fileInfo.Exists)
-                {
-                    fileInfo.Delete();
-                }
-                using (var stream = fileInfo.Create())
-                {
-                    await model.File.CopyToAsync(stream);
-                }
+                model.File.Seek(0, SeekOrigin.Begin);
+                await model.File.CopyToAsync(fileStream);
                 result.Success = true;
-            }
-            else
-            {
-                result.Message = "Please Select File";
             }
             return result;
         }
@@ -196,8 +186,8 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
                 result.Success = true;
                 result.Data = new CommonDownloadDto()
                 {
-                    Filename = "Download.zip",
-                    FileInfo = fileInfo
+                    FileName = "Download.zip",
+                    FilePath = fileInfo.FullName,
                 };
             }
             else

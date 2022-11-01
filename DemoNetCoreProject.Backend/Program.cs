@@ -276,6 +276,7 @@ LoadBusinessLayerRegister.LoadServices(webApplicationBuilder.Services);
 webApplicationBuilder.Services.AddAutoMapper(configure =>
 {
     //configure.AllowNullDestinationValues = false;
+    LoadBackendRegister.LoadAutoMappers(configure);
     LoadBusinessLayerRegister.LoadAutoMappers(configure);
 });
 webApplicationBuilder.Services.AddControllers()

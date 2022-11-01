@@ -35,19 +35,19 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
         [TestMethod]
         public async Task Create()
         {
-            _repository.Create(new Person());
+            await _repository.Create(new Person());
             await _dbContext.SaveChangesAsync();
         }
         [TestMethod]
         public async Task Modify()
         {
-            _repository.Modify(new Person());
+            await _repository.Modify(new Person());
             await _dbContext.SaveChangesAsync();
         }
         [TestMethod]
         public async Task Remove()
         {
-            _repository.Remove(new Person());
+            await _repository.Remove(new Person());
             await _dbContext.SaveChangesAsync();
         }
     }

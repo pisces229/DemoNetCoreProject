@@ -27,12 +27,13 @@ namespace DemoNetCoreProject.Batch.Runners
                     var cancellationToken = cancellationTokenSource.Token;
                     cancellationTokenSource.Cancel();
                 }
-                _logger.LogInformation(_configuration.GetValue<string>("Path:Temp"));
+                Console.WriteLine(_configuration.GetValue<string>("Path:Temp"));
+                _logger.LogInformation("");
                 await _defaultLogic.RunSqlCondition();
             }
             catch (Exception e)
             { 
-                _logger.LogError(e.ToString());
+                _logger.LogError(0, e, "Exception");
             }
         }
     }

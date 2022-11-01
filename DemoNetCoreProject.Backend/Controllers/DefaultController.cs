@@ -1,10 +1,15 @@
-﻿using DemoNetCoreProject.Backend.Filters;
+﻿using AutoMapper;
+using DemoNetCoreProject.Backend.Filters;
+using DemoNetCoreProject.Backend.Models.Common;
+using DemoNetCoreProject.Backend.Models.Default;
 using DemoNetCoreProject.BusinessLayer.Dtos.Default;
 using DemoNetCoreProject.BusinessLayer.ILogics.Default;
+using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Web;
+using System;
 
 namespace DemoNetCoreProject.Backend.Controllers
 {
@@ -12,18 +17,27 @@ namespace DemoNetCoreProject.Backend.Controllers
     [ApiController]
     public class DefaultController : ControllerBase
     {
-        private readonly ILogger<DefaultController> _logger;
-        public DefaultController(ILogger<DefaultController> logger)
+        private readonly IMapper _mapper;
+        public DefaultController(IMapper mapper)
         {
-            _logger = logger;
-            _logger.LogInformation("DefaultController");
+            _mapper = mapper;
         }
         [HttpGet]
         public ActionResult Run() => Ok("Run");
         [HttpPost]
-        public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic, 
-            [FromBody] DefaultRequestLogicSignInInputDto model)
-            => Ok(await logic.SignIn(model));
+        public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic,
+            [FromBody] DefaultSignInModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await logic.SignIn(_mapper.Map<DefaultSignInModel, DefaultRequestLogicSignInInputDto>(model));
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(ModelValidConstant.Fail);
+            }
+        }
         [HttpGet]
         [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> Validate([FromServices] IDefaultRequestLogic logic)
@@ -47,20 +61,61 @@ namespace DemoNetCoreProject.Backend.Controllers
             => Ok(await Task.FromResult(model));
         [HttpGet]
         public async Task<ActionResult> JsonHttpGet([FromServices] IDefaultRequestLogic logic,
-            [FromQuery] DefaultRequestLogicJsonHttpGetInputDto model)
-            => Ok(await logic.JsonHttpGet(model));
+            [FromQuery] DefaultJsonHttpGetModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await logic.JsonHttpGet(_mapper.Map<DefaultJsonHttpGetModel, DefaultRequestLogicJsonHttpGetInputDto>(model));
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(ModelValidConstant.Fail);
+            }
+        }
         [HttpPost]
         public async Task<ActionResult> JsonHttpPost([FromServices] IDefaultRequestLogic logic,
-            [FromBody] DefaultRequestLogicJsonHttpPostInputDto model)
-            => Ok(await logic.JsonHttpPost(model));
+            [FromBody] DefaultJsonHttpPostModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await logic.JsonHttpPost(_mapper.Map<DefaultJsonHttpPostModel, DefaultRequestLogicJsonHttpPostInputDto>(model));
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(ModelValidConstant.Fail);
+            }
+        }
         [HttpPost]
         public async Task<ActionResult> CommonPagedQuery([FromServices] IDefaultRequestLogic logic,
-            [FromBody] CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto> model)
-             => Ok(await logic.CommonPagedQuery(model));
+            [FromBody] CommonPagedQueryModel<DefaultJsonHttpPostModel> model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await logic.CommonPagedQuery(
+                    _mapper.Map<CommonPagedQueryModel<DefaultJsonHttpPostModel>, CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto>>(model));
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(ModelValidConstant.Fail);
+            }
+        }
         [HttpPost]
-        public async Task<ActionResult> Upload([FromServices] IDefaultRequestLogic logic, 
-            [FromForm] DefaultRequestLogicUploadInputDto model)
-            => Ok(await logic.Upload(model));
+        public async Task<ActionResult> Upload([FromServices] IDefaultRequestLogic logic,
+            [FromForm] DefaultUploadModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await logic.Upload(_mapper.Map<DefaultUploadModel, DefaultRequestLogicUploadInputDto>(model));
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(ModelValidConstant.Fail);
+            }
+        }
         [HttpGet]
         public async Task Download([FromServices] IDefaultRequestLogic logic)
         {
@@ -68,24 +123,22 @@ namespace DemoNetCoreProject.Backend.Controllers
             if (result.Success)
             {
                 Response.ContentType = "application/octet-stream";
-                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(result.Data!.Filename)}");
-                //await Response.SendFileAsync(result.Data!.FileInfo.FullName);
+                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(result.Data!.FileName!)}");
+                //await Response.SendFileAsync(result.Data!.FilePath!);
                 var buffer = new byte[16 * 1024];
-                using (var fileStream = result.Data!.FileInfo.OpenRead())
+                using var fileStream = System.IO.File.OpenRead(result.Data!.FilePath!);
+                var read = 0;
+                while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    var read = 0;
-                    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        await Response.Body.WriteAsync(buffer, 0, read);
-                    }
+                    await Response.Body.WriteAsync(buffer.AsMemory(0, read));
                 }
-                //result.Data!.FileInfo.Delete();
+                //System.IO.File.Delete(result.Data!.FilePath!);
             }
             else
             {
                 Response.ContentType = "text/plain";
                 var binary = Encoding.UTF8.GetBytes(result.Message!);
-                await HttpContext.Response.Body.WriteAsync(binary, 0, binary.Length);
+                await HttpContext.Response.Body.WriteAsync(binary);
             }
         }
         [HttpGet]

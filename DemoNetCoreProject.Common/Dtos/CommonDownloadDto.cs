@@ -4,7 +4,7 @@ namespace DemoNetCoreProject.Common.Dtos
 {
     public class CommonDownloadDto
     {
-        public string Filename { get; set; } = null!;
-        public FileInfo FileInfo { get; set; } = null!;
+        public string? FileName { get; set; }
+        public string? FilePath { get; set; }
     }
 }

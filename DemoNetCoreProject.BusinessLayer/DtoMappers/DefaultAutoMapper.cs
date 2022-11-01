@@ -8,6 +8,8 @@ namespace DemoNetCoreProject.BusinessLayer.DtoMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
+            configure.CreateMap<DefaultRequestLogicJsonHttpGetInputDto, DefaultRequestLogicJsonOutputDto>();
+            configure.CreateMap<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>();
             // DefaultFirstLogicInputDto
             configure.CreateMap<DefaultFirstLogicInputDto, DefaultSecondLogicInputDto>();
             configure.CreateMap<DefaultFirstLogicInputDto, DefaultFirstRepositoryInputDto>();
