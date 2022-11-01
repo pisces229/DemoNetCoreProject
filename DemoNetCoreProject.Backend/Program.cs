@@ -18,6 +18,7 @@ using System.Text;
 using Microsoft.AspNetCore.Builder;
 using System.Net;
 using StackExchange.Redis;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
@@ -198,6 +199,32 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
         //options.SecurityKey = publicRsaSecurityKey;
         #endregion
     });
+    webApplicationBuilder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
+        // 預設值為 true，有時會特別關閉
+        options.IncludeErrorDetails = true;
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = jwtOption.GetValue<string>(nameof(JwtOption.NameClaimType)),
+            RoleClaimType = jwtOption.GetValue<string>(nameof(JwtOption.RoleClaimType)),
+            ValidateIssuer = true,
+            ValidIssuer = jwtOption.GetValue<string>(nameof(JwtOption.Issuer)),
+            ValidateAudience = true,
+            ValidAudience = jwtOption.GetValue<string>(nameof(JwtOption.Audience)),
+            RequireExpirationTime = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero,
+            IssuerSigningKey = symmetricSecurityKey
+        };
+        options.TokenValidationParameters = tokenValidationParameters;
+    });
 }
 #endregion
 
@@ -347,7 +374,7 @@ else
 // before Middleware
 //webApplication.UseCors();
 // before UseEndpoints
-//webApplication.UseAuthentication();
+webApplication.UseAuthentication();
 //webApplication.UseAuthorization();
 // X-XSS-Protection (Use: Content-Security-Policy)
 //webApplication.Use(async (context, next) =>
@@ -387,3 +414,4 @@ webApplication.MapControllers();
 
 webApplication.Run();
 #endregion
+public partial class Program { }

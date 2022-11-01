@@ -90,6 +90,9 @@ Development Tool: Visual Studio 2022<br>
 > 說明：服務實作 <br>
 > 命名規則：\[Name\]***Service*** <br>
 ## 整合測試
+### [ASP.NET Core 中的整合測試](https://learn.microsoft.com/zh-tw/aspnet/core/test/integration-tests?view=aspnetcore-6.0)
+* Backend
+> 說明：Web服務層測試 <br>
 * BusinessLayer
 > 說明：邏輯處理層測試 <br>
 * DataLayer

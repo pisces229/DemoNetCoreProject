@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DemoNetCoreProject.Backend\DemoNetCoreProject.Backend.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.BusinessLayer\DemoNetCoreProject.BusinessLayer.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.Common\DemoNetCoreProject.Common.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.DataLayer\DemoNetCoreProject.DataLayer.csproj" />

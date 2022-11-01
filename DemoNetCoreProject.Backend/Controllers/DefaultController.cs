@@ -19,7 +19,7 @@ namespace DemoNetCoreProject.Backend.Controllers
             _logger.LogInformation("DefaultController");
         }
         [HttpGet]
-        public ActionResult Run() => Ok(new { Success = true, Message = "Run" });
+        public ActionResult Run() => Ok("Run");
         [HttpPost]
         public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic, 
             [FromBody] DefaultRequestLogicSignInInputDto model)
