@@ -106,6 +106,8 @@ namespace DemoNetCoreProject.Backend.Controllers
                 await HttpContext.Response.Body.WriteAsync(binary);
             }
         }
+        [HttpPost]
+        public ActionResult Validatable(DefaultValidatableModel model) => Ok(model);
         [HttpGet]
         public async Task<ActionResult> Json()
         {

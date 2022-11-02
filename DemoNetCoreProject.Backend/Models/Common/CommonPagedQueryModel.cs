@@ -7,9 +7,9 @@ namespace DemoNetCoreProject.Backend.Models.Common
     {
         [JsonPropertyName(name: "Data")]
         [Required]
-        public T? Data { get; set; }
+        public T Data { get; set; } = null!;
         [JsonPropertyName(name: "Page")]
         [Required]
-        public CommonPageModel? Page { get; set; }
+        public CommonPageModel Page { get; set; } = null!;
     }
 }

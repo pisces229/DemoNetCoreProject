@@ -10,17 +10,13 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
     internal class DefaultRequestRepository : IDefaultRequestRepository
     {
-        private readonly ILogger<DefaultRequestRepository> _logger;
         private readonly IConfiguration _configuration;
-        public DefaultRequestRepository(ILogger<DefaultRequestRepository> logger,
-            IConfiguration configuration)
+        public DefaultRequestRepository(IConfiguration configuration)
         {
-            _logger = logger;
             _configuration = configuration;
         }
         public async Task Upload(DefaultRequestRepositoryUploadInputDto model)
         {
-            _logger.LogInformation(model.File.GetHashCode().ToString());
             var file = FileUtility.GetFile(
                 Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
                 Guid.NewGuid().ToString());

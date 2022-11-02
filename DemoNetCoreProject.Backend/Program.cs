@@ -301,10 +301,10 @@ webApplicationBuilder.Services.AddControllersWithViews(options =>
     options.Filters.Add(typeof(DefaultExceptionFilter));
 });
 
-//webApplicationBuilder.Services.AddMvcCore(options =>
-//{
-//    options.MaxModelValidationErrors = 10;
-//})
+webApplicationBuilder.Services.AddMvcCore(options =>
+{
+    options.MaxModelValidationErrors = 10;
+});
 //.ConfigureApiBehaviorOptions(options =>
 //{
 //    options.InvalidModelStateResponseFactory = actionContext =>

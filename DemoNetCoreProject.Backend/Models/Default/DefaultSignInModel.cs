@@ -7,9 +7,9 @@ namespace DemoNetCoreProject.Backend.Models.Default
     {
         [JsonPropertyName(name: "Account")]
         [Required(ErrorMessage = "[Account] can't be null.")]
-        public string? Account { get; set; }
+        public string Account { get; set; } = null!;
         [JsonPropertyName(name: "Password")]
         [Required(ErrorMessage = "[Password] can't be null.")]
-        public string? Password { get; set; }
+        public string Password { get; set; } = null!;
     }
 }

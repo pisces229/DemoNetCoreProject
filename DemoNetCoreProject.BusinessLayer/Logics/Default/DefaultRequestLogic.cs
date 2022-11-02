@@ -26,15 +26,13 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         private readonly JwtOption _jwtOption;
         private readonly IUserService _userService;
         private readonly ICache _cache;
-        private readonly IConfiguration _configuration;
         public DefaultRequestLogic(ILogger<DefaultRequestLogic> logger,
             IDefaultRequestRepository defaultRequestRepository,
             IDefaultDataProtector defaultDataProtector,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
             IUserService userService,
-            ICache cache,
-            IConfiguration configuration)
+            ICache cache)
         {
             _logger = logger;
             _defaultRequestRepository = defaultRequestRepository;
@@ -43,17 +41,14 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             _jwtOption = JwtOptions.Value;
             _userService = userService;
             _cache = cache;
-            _configuration = configuration;
         }
-        // _defaultDataProtector.Protect("Value")
-        // _defaultDataProtector.UnProtect("Value")
         public void Run()
         {
             var value = "1234567890";
             var protectValue = _defaultDataProtector.Protect(value);
-            _logger.LogInformation(protectValue);
+            _logger.LogInformation("{protectValue}", protectValue);
             var unprotectValue = _defaultDataProtector.Unprotect(protectValue);
-            _logger.LogInformation(unprotectValue);
+            _logger.LogInformation("{unprotectValue}", unprotectValue);
         }
         public async Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
@@ -113,7 +108,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(0, e, "Exception");
             }
             return result;
         }
@@ -139,7 +134,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(0, e, "Exception");
             }
         }
         public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
@@ -164,18 +159,18 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         {
             var result = new CommonPagedResultDto<DefaultRequestLogicJsonOutputDto>()
             {
-                Page = model.Page!,
+                Page = model.Page,
                 Data = new List<DefaultRequestLogicJsonOutputDto>()
                 {
-                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data!)
+                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data)
                 }
             };
+            result.Page.TotalCount = 10;
             return await Task.FromResult(result);
         }
         public async Task<CommonResponseDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
         {
             var result = new CommonResponseDto<string>();
-            _logger.LogInformation(model.File.GetHashCode().ToString());
             using (model.File)
             {
                 await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
