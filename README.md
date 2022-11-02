@@ -31,6 +31,12 @@ Development Tool: Visual Studio 2022<br>
 專案相依：Common <br>
 負責資料存取服務 <br>
 分層結構 <br>
+* DtoMappers
+> 說明：資料結構轉換 <br>
+> 命名規則：\[Name\]***AutoMapper*** <br>
+* Dtos
+> 說明：資料結構 <br>
+> 命名規則：\[Name\]***Repository***\[Input/Output\]***Dto*** <br>
 * Entities
 > 說明：資料表物件 <br>
 > 命名規則：\[Name\]<br>
@@ -123,8 +129,6 @@ Development Tool: Visual Studio 2022<br>
 ## Command
 
 `dotnet test DemoNetCoreProject.UnitTest`
-
-`dotnet test DemoNetCoreProject.IntegrationTest`
 
 `dotnet build DemoNetCoreProject.Backend -c Release /p:DeployOnBuild=true /p:PublishProfile=Publish /p:EnvironmentName=Production`
 
