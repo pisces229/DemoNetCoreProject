@@ -21,6 +21,7 @@ using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using DemoNetCoreProject.Common.Dtos;
 
 Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
@@ -304,19 +305,28 @@ webApplicationBuilder.Services.AddControllersWithViews(options =>
 webApplicationBuilder.Services.AddMvcCore(options =>
 {
     options.MaxModelValidationErrors = 10;
+})
+.ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = actionContext =>
+    {
+        //return new BadRequestObjectResult(new { Message = "Model binding occurs problem." });
+        var message = new StringBuilder();
+        foreach (var modelState in actionContext.ModelState)
+        {
+            foreach (var errors in modelState.Value.Errors)
+            {
+                message.AppendLine(errors.ErrorMessage);
+            }
+        }
+        var result = new CommonResponseDto<string>()
+        {
+            Success = false,
+            Message = message.ToString(),
+        };
+        return new OkObjectResult(result);
+    };
 });
-//.ConfigureApiBehaviorOptions(options =>
-//{
-//    options.InvalidModelStateResponseFactory = actionContext =>
-//    {
-//        //return new BadRequestObjectResult(new { Message = "Model binding occurs problem." });
-//        foreach (var key in actionContext.ModelState.Keys)
-//        {
-//            var errors = actionContext.ModelState.First().Value!.Errors;
-//        }
-//        return new BadRequestResult();
-//    };    
-//});
 
 //webApplicationBuilder.Services.AddSpaStaticFiles(configuration =>
 //{

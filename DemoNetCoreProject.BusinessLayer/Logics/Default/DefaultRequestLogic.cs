@@ -108,7 +108,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             catch (Exception e)
             {
-                _logger.LogError(0, e, "Exception");
+                _logger.LogError(0, e, "");
             }
             return result;
         }
@@ -134,7 +134,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             catch (Exception e)
             {
-                _logger.LogError(0, e, "Exception");
+                _logger.LogError(0, e, "");
             }
         }
         public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
