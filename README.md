@@ -46,6 +46,9 @@ Development Tool: Visual Studio 2022<br>
 * Repositories
 > 說明：儲存庫實作 <br>
 > 命名規則：\[Name\]***Repository*** <br>
+* Utilites
+> 說明：工具 <br>
+> 命名規則：\[Name\]***Utility*** <br>
 ## BusinessLayer 邏輯處理層
 專案相依：Common、DataLayer <br>
 負責處理業務邏輯 <br>
@@ -71,6 +74,12 @@ Development Tool: Visual Studio 2022<br>
 * Controllers
 > 說明：服務進入點 <br>
 > 命名規則：\[Name\]***Controller*** <br>
+* ModelMappers
+> 說明：資料結構轉換 <br>
+> 命名規則：\[Name\]***AutoMapper*** <br>
+* Models
+> 說明：資料結構轉換 <br>
+> 命名規則：\[Name\]***Model*** <br>
 * Filters
 > 說明：過濾器 <br>
 > 命名規則：\[Name\]\[Type\]***Filter*** <br>
@@ -80,6 +89,9 @@ Development Tool: Visual Studio 2022<br>
 * Services
 > 說明：服務實作 <br>
 > 命名規則：\[Name\]***Service*** <br>
+* Validations
+> 說明：模型驗證 <br>
+> 命名規則：\[Name\]***Attribute*** <br>
 ## Batch 批次程式
 專案相依：Common、DataLayer、BusinessLayer <br>
 分層結構 <br>
@@ -108,3 +120,16 @@ Development Tool: Visual Studio 2022<br>
 * Arrange – 初始化
 * Act – 行為，測試對象的執行過程
 * Assert – 驗證結果
+## Command
+
+`dotnet test DemoNetCoreProject.UnitTest`
+
+`dotnet test DemoNetCoreProject.IntegrationTest`
+
+`dotnet build DemoNetCoreProject.Backend -c Release /p:DeployOnBuild=true /p:PublishProfile=Publish /p:EnvironmentName=Production`
+
+`dotnet publish DemoNetCoreProject.Batch -c Release /p:PublishProfile=Publish`
+
+## Diagrams(https://www.diagrams.net/)
+
+* DemoNetCoreProject.drawio

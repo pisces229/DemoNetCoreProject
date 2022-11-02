@@ -12,10 +12,14 @@ namespace DemoNetCoreProject.Backend.Models.Common
         //[BindRequired]
         //[BindNever]
 
-        //[JsonPropertyName(name: "hhh")]
+        //[JsonPropertyName(name: "Name")]
         //[JsonIgnore]
-        //[JsonInclude]
 
         //[Required]
+        //[ValidateNever]
+        //[StringLength(10)]
+        //[RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$")]
+
+        //[Default("")]
     }
 }

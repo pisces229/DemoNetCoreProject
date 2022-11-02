@@ -79,7 +79,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 It.IsAny<CommandType>())
             , Times.Once);
         }
-        [TestMethod]
+        //[TestMethod]
         public async Task RunDapperQueryMultiple()
         {
             var service = new ServiceCollection()

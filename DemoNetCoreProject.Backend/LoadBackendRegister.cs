@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DemoNetCoreProject.Backend.DtoMappers;
+using DemoNetCoreProject.Backend.ModelMappers;
 
 namespace DemoNetCoreProject.Backend
 {
