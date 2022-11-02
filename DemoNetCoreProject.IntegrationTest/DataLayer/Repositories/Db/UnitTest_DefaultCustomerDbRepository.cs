@@ -16,9 +16,9 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
         private readonly IDbManager<DefaultDbContext> _dbContext;
         public UnitTest_DefaultCustomerDbRepository() : base()
         {
-            _logger = _host.Services.GetRequiredService<ILogger<UnitTest_DefaultCustomerDbRepository>>();
-            _repository = _host.Services.GetRequiredService<IDefaultPersonDbRepository>();
-            _dbContext = _host.Services.GetRequiredService<IDbManager<DefaultDbContext>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultCustomerDbRepository>>();
+            _repository = _serviceProvider.GetRequiredService<IDefaultPersonDbRepository>();
+            _dbContext = _serviceProvider.GetRequiredService<IDbManager<DefaultDbContext>>();
         }
         [TestInitialize]
         public void Initialize()
@@ -35,19 +35,42 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
         [TestMethod]
         public async Task Create()
         {
-            await _repository.Create(new Person());
+            await _repository.Create(new Person() 
+            { 
+                Id = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Age = 10,
+                Birthday = DateTime.Now,
+                Remark = Guid.NewGuid().ToString(),
+            });
             await _dbContext.SaveChangesAsync();
         }
         [TestMethod]
         public async Task Modify()
         {
-            await _repository.Modify(new Person());
+            await _repository.Modify(new Person()
+            {
+                Row = 1,
+                Id = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Age = 10,
+                Birthday = DateTime.Now,
+                Remark = Guid.NewGuid().ToString(),
+            });
             await _dbContext.SaveChangesAsync();
         }
         [TestMethod]
         public async Task Remove()
         {
-            await _repository.Remove(new Person());
+            await _repository.Remove(new Person()
+            {
+                Row = 1,
+                Id = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Age = 10,
+                Birthday = DateTime.Now,
+                Remark = Guid.NewGuid().ToString(),
+            });
             await _dbContext.SaveChangesAsync();
         }
     }

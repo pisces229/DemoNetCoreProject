@@ -274,13 +274,14 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
 //webApplicationBuilder.Services.AddHostedService<DefaultBackgroundService>();
 // Service
 webApplicationBuilder.Services.AddScoped<IUserService, UserBackendService>();
-LoadDataLayerRegister.LoadServices(webApplicationBuilder.Services);
 LoadBusinessLayerRegister.LoadServices(webApplicationBuilder.Services);
+LoadDataLayerRegister.LoadServices(webApplicationBuilder.Services);
 webApplicationBuilder.Services.AddAutoMapper(configure =>
 {
     //configure.AllowNullDestinationValues = false;
     LoadBackendRegister.LoadAutoMappers(configure);
     LoadBusinessLayerRegister.LoadAutoMappers(configure);
+    LoadDataLayerRegister.LoadAutoMappers(configure);
 });
 webApplicationBuilder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);

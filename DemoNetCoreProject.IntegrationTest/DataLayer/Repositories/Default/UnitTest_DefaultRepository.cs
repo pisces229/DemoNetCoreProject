@@ -12,8 +12,8 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Default
         private readonly IDefaultRepository _repository;
         public UnitTest_DefaultRepository() : base()
         {
-            _logger = _host.Services.GetRequiredService<ILogger<UnitTest_DefaultRepository>>();
-            _repository = _host.Services.GetRequiredService<IDefaultRepository>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultRepository>>();
+            _repository = _serviceProvider.GetRequiredService<IDefaultRepository>();
         }
         [TestInitialize]
         public void Initialize()

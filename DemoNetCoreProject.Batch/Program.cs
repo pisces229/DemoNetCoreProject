@@ -14,12 +14,12 @@ using DemoNetCoreProject.DataLayer.IServices;
 Console.WriteLine(CommandLineArguments.ENVIRONMENT);
 Console.WriteLine(CommandLineArguments.PROG_ID);
 
+var services = new ServiceCollection();
+
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false)
     .Build();
-
-var services = new ServiceCollection();
 services.AddSingleton<IConfiguration>(_ => configuration);
 services.AddLogging(builder =>
 {
@@ -75,12 +75,13 @@ services.AddDbContext<DefaultDbContext>(option =>
 }
 #endregion
 services.AddScoped<IUserService, UserBachService>();
-LoadDataLayerRegister.LoadServices(services);
 LoadBusinessLayerRegister.LoadServices(services);
+LoadDataLayerRegister.LoadServices(services);
 services.AddAutoMapper(configure =>
 {
     //configure.AllowNullDestinationValues = false;
     LoadBusinessLayerRegister.LoadAutoMappers(configure);
+    LoadDataLayerRegister.LoadAutoMappers(configure);
 });
 
 switch (CommandLineArguments.PROG_ID)

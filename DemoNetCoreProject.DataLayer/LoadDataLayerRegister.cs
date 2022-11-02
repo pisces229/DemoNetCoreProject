@@ -1,4 +1,5 @@
-﻿using DemoNetCoreProject.DataLayer.IServices;
+﻿using AutoMapper;
+using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Registers;
 using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,10 @@ namespace DemoNetCoreProject.DataLayer
 {
     public class LoadDataLayerRegister
     {
+        public static void LoadAutoMappers(IMapperConfigurationExpression configure)
+        {
+
+        }
         public static void LoadServices(IServiceCollection service)
         {
             // Service

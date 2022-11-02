@@ -12,8 +12,8 @@ namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
         private readonly IDefaultLogic _logic;
         public UnitTest_DefaultLogic() : base()
         {
-            _logger = this._host.Services.GetRequiredService<ILogger<UnitTest_DefaultLogic>>();
-            _logic = this._host.Services.GetRequiredService<IDefaultLogic>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultLogic>>();
+            _logic = _serviceProvider.GetRequiredService<IDefaultLogic>();
         }
         [TestInitialize]
         public void Initialize()

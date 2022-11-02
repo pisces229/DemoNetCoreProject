@@ -12,8 +12,8 @@ namespace DemoNetCoreProject.IntegrationTest.Domain.Services
         private readonly ICache _cache;
         public UnitTest_Cache() : base()
         {
-            _logger = this._host.Services.GetRequiredService<ILogger<UnitTest_Cache>>();
-            _cache = this._host.Services.GetRequiredService<ICache>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_Cache>>();
+            _cache = _serviceProvider.GetRequiredService<ICache>();
         }
         [TestInitialize]
         public void Initialize()

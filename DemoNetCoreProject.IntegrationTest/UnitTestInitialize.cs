@@ -5,7 +5,6 @@ using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,85 +13,77 @@ namespace DemoNetCoreProject.IntegrationTest
 {
     public class UnitTestInitialize
     {
-        protected readonly IHost _host;
+        protected readonly ServiceProvider _serviceProvider;
         public UnitTestInitialize()
         {
-            _host = new HostBuilder()
-                .ConfigureAppConfiguration((hostBuilder, configurationBuilder) =>
+            var services = new ServiceCollection();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false)
+                .Build();
+            services.AddSingleton<IConfiguration>(_ => configuration);
+            services.AddLogging(builder =>
+            {
+                builder.ClearProviders();
+                builder.SetMinimumLevel(LogLevel.Trace);
+                builder.AddConsole();
+            });
+            services.AddOptions();
+            #region DbContext
+            services.AddDbContext<DefaultDbContext>(option =>
+            {
+                var connectionName = "Default";
+                option.UseInMemoryDatabase(databaseName: connectionName);
+                //option.UseSqlServer(configuration.GetConnectionString(connectionName),
+                //    sqlServerOption =>
+                //    {
+                //        sqlServerOption.MinBatchSize(10);
+                //        sqlServerOption.MaxBatchSize(1000);
+                //        //sqlServerOption.CommandTimeout(0);
+                //    });
+                option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                option.EnableSensitiveDataLogging();
+                option.EnableDetailedErrors();
+            });
+            #endregion
+
+            #region Cache
+            {
+                #region Memory
+                services.AddSingleton((Func<IServiceProvider, IMemoryCache>)(factory =>
                 {
-                    var environment = hostBuilder.HostingEnvironment;
-                    configurationBuilder
-                        .SetBasePath(environment.ContentRootPath)
-                        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
-                })
-                .ConfigureLogging((hostBuilder, builder) =>
-                {
-                    builder.ClearProviders();
-                    builder.AddConsole();
-                    builder.SetMinimumLevel(LogLevel.Debug);
-                })
-                .ConfigureServices((hostBuilder, services) =>
-                {
-                    var configuration = hostBuilder.Configuration;
-                    // 註冊 Options Pattern 服務，將配置內容註冊到容器裡，來獲取對應的服務 Provider 對象
-                    services.AddOptions();
+                    var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
+                    return cache;
+                }));
+                services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.MemoryCache>();
+                #endregion
 
-                    #region DbContext
-                    services.AddDbContext<DefaultDbContext>(option =>
-                    {
-                        var connectionName = "Default";
-                        //option.UseInMemoryDatabase(databaseName: connectionName);
-                        option.UseSqlServer(configuration.GetConnectionString(connectionName),
-                            sqlServerOption =>
-                            {
-                                sqlServerOption.MinBatchSize(10);
-                                sqlServerOption.MaxBatchSize(1000);
-                                //sqlServerOption.CommandTimeout(0);
-                            });
-                        option.EnableSensitiveDataLogging();
-                        option.EnableDetailedErrors();
-                    });
-                    #endregion
+                #region Redis
+                //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.RedisCache>();
+                #endregion
 
-                    #region Cache
-                    {
-                        #region Memory
-                        services.AddSingleton((Func<IServiceProvider, IMemoryCache>)(factory =>
-                        {
-                            var cache = new Microsoft.Extensions.Caching.Memory.MemoryCache(new MemoryCacheOptions());
-                            return cache;
-                        }));
-                        services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.MemoryCache>();
-                        #endregion
-
-                        #region Redis
-                        //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.RedisCache>();
-                        #endregion
-
-                        #region Database
-                        //services.AddDistributedSqlServerCache(options =>
-                        //{
-                        //    options.ConnectionString = configuration.GetConnectionString("Redis");
-                        //    options.SchemaName = "dbo";
-                        //    options.TableName = "DataCache";
-                        //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
-                        //});
-                        //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.DatabaseCache>();
-                        #endregion
-                    }
-                    #endregion
-
-                    // Service
-                    services.AddScoped<IUserService, UserService>();
-                    LoadDataLayerRegister.LoadServices(services);
-                    LoadBusinessLayerRegister.LoadServices(services);
-                    services.AddAutoMapper(configure =>
-                    {
-                        //configure.AllowNullDestinationValues = false;
-                        LoadBusinessLayerRegister.LoadAutoMappers(configure);
-                    });
-                })
-            .Build();
+                #region Database
+                //services.AddDistributedSqlServerCache(options =>
+                //{
+                //    options.ConnectionString = configuration.GetConnectionString("Redis");
+                //    options.SchemaName = "dbo";
+                //    options.TableName = "DataCache";
+                //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
+                //});
+                //services.AddSingleton<ICache, DemoNetCoreProject.DataLayer.Services.DatabaseCache>();
+                #endregion
+            }
+            #endregion
+            services.AddScoped<IUserService, UserService>();
+            LoadBusinessLayerRegister.LoadServices(services);
+            LoadDataLayerRegister.LoadServices(services);
+            services.AddAutoMapper(configure =>
+            {
+                //configure.AllowNullDestinationValues = false;
+                LoadBusinessLayerRegister.LoadAutoMappers(configure);
+                LoadDataLayerRegister.LoadAutoMappers(configure);
+            });
+            _serviceProvider = services.BuildServiceProvider();
         }
         [TestMethod]
         public void TestRun()
@@ -102,9 +93,9 @@ namespace DemoNetCoreProject.IntegrationTest
             // Assert
         }
         [TestCleanup]
-        public void Cleanup()
+        public async Task Cleanup()
         {
-            _host.Dispose();
+            await _serviceProvider.DisposeAsync();
         }
     }
 }
