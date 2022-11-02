@@ -5,6 +5,7 @@ namespace DemoNetCoreProject.Backend.Models.Default
 {
     public class DefaultUploadModel
     {
+        [BindProperty(Name = "File")]
         [Required]
         public IFormFile File { get; set; } = null!;
         [BindProperty(Name = "Name")]

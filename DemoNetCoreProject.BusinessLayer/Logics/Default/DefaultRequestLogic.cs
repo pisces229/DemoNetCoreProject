@@ -50,9 +50,9 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             var unprotectValue = _defaultDataProtector.Unprotect(protectValue);
             _logger.LogInformation("{unprotectValue}", unprotectValue);
         }
-        public async Task<CommonResponseDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
+        public async Task<CommonOutputDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
-            var result = new CommonResponseDto<string>();
+            var result = new CommonOutputDto<string>();
             if (!string.IsNullOrEmpty(model.Account) && !string.IsNullOrEmpty(model.Password))
             {
                 var commonTokenModel = new CommonTokenDto()
@@ -72,18 +72,18 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             return result;
         }
-        public async Task<CommonResponseDto<string>> Validate()
+        public async Task<CommonOutputDto<string>> Validate()
         {
-            var result = new CommonResponseDto<string>()
+            var result = new CommonOutputDto<string>()
             {
                 Success = true,
                 Data = _userService.UserId
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonResponseDto<string>> Refresh(string model)
+        public async Task<CommonOutputDto<string>> Refresh(string model)
         {
-            var result = new CommonResponseDto<string>();
+            var result = new CommonOutputDto<string>();
             try
             {
                 var tokenValidationParameters = CreateTokenValidationParameters;
@@ -137,18 +137,18 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
                 _logger.LogError(0, e, "");
             }
         }
-        public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
+        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
         {
-            var result = new CommonResponseDto<DefaultRequestLogicJsonOutputDto>()
+            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Success = true,
                 Data = _mapper.Map<DefaultRequestLogicJsonHttpGetInputDto, DefaultRequestLogicJsonOutputDto>(model)
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonResponseDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model)
+        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model)
         {
-            var result = new CommonResponseDto<DefaultRequestLogicJsonOutputDto>()
+            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Success = true,
                 Data = _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model)
@@ -168,29 +168,27 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             result.Page.TotalCount = 10;
             return await Task.FromResult(result);
         }
-        public async Task<CommonResponseDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
+        public async Task<CommonOutputDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
         {
-            var result = new CommonResponseDto<string>();
+            var result = new CommonOutputDto<string>();
             using (model.File)
             {
-                await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
+                result.Success = await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
             }
-            result.Success = true;
             return result;
         }
-        public async Task<CommonResponseDto<CommonDownloadDto>> Download()
+        public async Task<CommonOutputDto<CommonDownloadDto>> Download()
         {
-            var result = new CommonResponseDto<CommonDownloadDto>
-            {
-                Data = _defaultRequestRepository.Download()
-            };
-            if (!string.IsNullOrEmpty(result.Data.FilePath))
+            var result = new CommonOutputDto<CommonDownloadDto>();
+            var downloadResult = _defaultRequestRepository.Download();
+            if (downloadResult.Success)
             {
                 result.Success = true;
+                result.Data = downloadResult.Data;
             }
             else
             {
-                result.Message = "File is not exist.";
+                result.Message = downloadResult.Message;
             }
             return await Task.FromResult(result);
         }

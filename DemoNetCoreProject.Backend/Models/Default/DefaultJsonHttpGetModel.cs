@@ -10,7 +10,7 @@ namespace DemoNetCoreProject.Backend.Models.Default
         public string? Text { get; set; }
         [BindProperty(Name = "Value")]
         public int? Value { get; set; }
-        [BindProperty]
+        [BindProperty(Name = "Date")]
         public DateTime? Date { get; set; }
     }
 }

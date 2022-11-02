@@ -25,9 +25,9 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             _defaultFirstRepository = defaultFirstRepository;
             _mapper = mapper;
         }
-        public async Task<CommonResponseDto<DefaultFirstLogicOutputDto>> Run(DefaultFirstLogicInputDto model)
+        public async Task<CommonOutputDto<DefaultFirstLogicOutputDto>> Run(DefaultFirstLogicInputDto model)
         {
-            var result = new CommonResponseDto<DefaultFirstLogicOutputDto>()
+            var result = new CommonOutputDto<DefaultFirstLogicOutputDto>()
             {
                 Success = true
             };

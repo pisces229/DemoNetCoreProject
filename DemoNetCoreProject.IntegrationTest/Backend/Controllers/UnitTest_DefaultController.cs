@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using DemoNetCoreProject.Backend.Models.Default;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System.Net;
+using System.Text;
 
 namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
 {
@@ -10,7 +13,6 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
         private readonly HttpClient _httpClient;
         public UnitTest_DefaultController()
         {
-            // Arrange
             var application = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
@@ -31,10 +33,42 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
         [TestMethod]
         public async Task Validate()
         {
-            // Act
             var response = await _httpClient.GetAsync("/api/default/validate");
-            // Assert
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+        }
+        [TestMethod]
+        public async Task JsonHttpGet()
+        {
+            var response = await _httpClient.GetAsync("/api/default/jsonHttpGet?Text=Value&Value=9&Date=2020-01-01");
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task JsonHttpPost()
+        {
+            var json = JsonConvert.SerializeObject(new DefaultJsonHttpPostModel { Text = "Value", Value = 9, Date = DateTime.Now });
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/jsonHttpPost", stringContent);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task Upload()
+        {
+            using var multipartFormDataContent = new MultipartFormDataContent();
+            multipartFormDataContent.Add(new StringContent("NameUpload"), "Name");
+            var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes("Upload"));
+            multipartFormDataContent.Add(byteArrayContent, "File", "Upload.txt");
+            var response = await _httpClient.PostAsync("/api/default/upload", multipartFormDataContent);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task Download()
+        {
+            var response = await _httpClient.GetAsync("/api/default/download");
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
     }
 }

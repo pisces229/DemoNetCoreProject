@@ -319,7 +319,7 @@ webApplicationBuilder.Services.AddMvcCore(options =>
                 message.AppendLine(errors.ErrorMessage);
             }
         }
-        var result = new CommonResponseDto<string>()
+        var result = new CommonOutputDto<string>()
         {
             Success = false,
             Message = message.ToString(),

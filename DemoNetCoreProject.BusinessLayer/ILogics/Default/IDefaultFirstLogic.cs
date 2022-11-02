@@ -5,6 +5,6 @@ namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {
     public interface IDefaultFirstLogic
     {
-        Task<CommonResponseDto<DefaultFirstLogicOutputDto>> Run(DefaultFirstLogicInputDto model);
+        Task<CommonOutputDto<DefaultFirstLogicOutputDto>> Run(DefaultFirstLogicInputDto model);
     }
 }

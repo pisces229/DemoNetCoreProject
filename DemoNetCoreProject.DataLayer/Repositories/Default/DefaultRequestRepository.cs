@@ -4,7 +4,6 @@ using DemoNetCoreProject.Common.Utilities;
 using DemoNetCoreProject.DataLayer.Dtos.Default;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
@@ -15,7 +14,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             _configuration = configuration;
         }
-        public async Task Upload(DefaultRequestRepositoryUploadInputDto model)
+        public async Task<bool> Upload(DefaultRequestRepositoryUploadInputDto model)
         {
             var file = FileUtility.GetFile(
                 Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
@@ -26,17 +25,26 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
                 model.File.Seek(0, SeekOrigin.Begin);
                 await model.File.CopyToAsync(fileStream);
             }
+            return true;
         }
-        public CommonDownloadDto Download()
+        public CommonOutputDto<CommonDownloadDto> Download()
         {
-            var result = new CommonDownloadDto();
+            var result = new CommonOutputDto<CommonDownloadDto>();
             var fileInfo = FileUtility.GetFile(
                 Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
                 "temp.zip");
             if (fileInfo.Exists)
             {
-                result.FileName = "Download.zip";
-                result.FilePath = fileInfo.FullName;
+                result.Success = true;
+                result.Data = new CommonDownloadDto()
+                {
+                    FileName = "Download.zip",
+                    FilePath = fileInfo.FullName,
+                };
+            }
+            else
+            {
+                result.Message = "File No Exists";
             }
             return result;
         }
