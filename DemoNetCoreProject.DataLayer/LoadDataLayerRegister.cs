@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DemoNetCoreProject.DataLayer.DtoMappers;
 using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Registers;
 using DemoNetCoreProject.DataLayer.Services;
@@ -7,7 +8,6 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DemoNetCoreProject.Backend")]
 [assembly: InternalsVisibleTo("DemoNetCoreProject.Batch")]
-[assembly: InternalsVisibleTo("DemoNetCoreProject.DataLayer")]
 [assembly: InternalsVisibleTo("DemoNetCoreProject.IntegrationTest")]
 [assembly: InternalsVisibleTo("DemoNetCoreProject.UnitTest")]
 
@@ -17,7 +17,7 @@ namespace DemoNetCoreProject.DataLayer
     {
         public static void LoadAutoMappers(IMapperConfigurationExpression configure)
         {
-
+            DefaultAutoMapper.Load(configure);
         }
         public static void LoadServices(IServiceCollection service)
         {

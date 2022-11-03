@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DemoNetCoreProject.Common.Constants;
+using DemoNetCoreProject.Common.Utilities;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -7,10 +9,12 @@ namespace DemoNetCoreProject.Backend.Models.Default
     public class DefaultValidatableModel : IValidatableObject
     {
         [JsonPropertyName(name: "First")]
-        [Required]
+        [Display(Name = "[First]")]
+        [Required(ErrorMessage = $"First {ValidationErrorMessageConstant.Required}")]
         public string First { get; set; } = null!;
         [JsonPropertyName(name: "Second")]
-        [Required]
+        [Display(Name = "[Second]")]
+        [Required(ErrorMessage = $"Second {ValidationErrorMessageConstant.Required}")]
         public string Second { get; set; } = null!;
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 //[assembly: InternalsVisibleTo("DemoNetCoreProject.Backend")]
-//[assembly: InternalsVisibleTo("DemoNetCoreProject.Btach")]
+//[assembly: InternalsVisibleTo("DemoNetCoreProject.Batch")]
 [assembly: InternalsVisibleTo("DemoNetCoreProject.IntegrationTest")]
 [assembly: InternalsVisibleTo("DemoNetCoreProject.UnitTest")]
 

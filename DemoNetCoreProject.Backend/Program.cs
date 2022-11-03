@@ -305,27 +305,31 @@ webApplicationBuilder.Services.AddControllersWithViews(options =>
 
 webApplicationBuilder.Services.AddMvcCore(options =>
 {
-    options.MaxModelValidationErrors = 10;
+    //options.MaxModelValidationErrors = 50;
 })
 .ConfigureApiBehaviorOptions(options =>
 {
     options.InvalidModelStateResponseFactory = actionContext =>
     {
         //return new BadRequestObjectResult(new { Message = "Model binding occurs problem." });
-        var message = new StringBuilder();
-        foreach (var modelState in actionContext.ModelState)
-        {
-            foreach (var errors in modelState.Value.Errors)
-            {
-                message.AppendLine(errors.ErrorMessage);
-            }
-        }
-        var result = new CommonOutputDto<string>()
+        //var messgae = new List<string>();
+        //foreach (var modelState in actionContext.ModelState)
+        //{
+        //    foreach (var errors in modelState.Value.Errors)
+        //    {
+        //        messgae.Add(errors.ErrorMessage);
+        //    }
+        //}
+        //return new OkObjectResult(new CommonOutputDto<string>()
+        //{
+        //    Success = false,
+        //    Message = string.Join(Environment.NewLine, messgae),
+        //});
+        return new OkObjectResult(new CommonOutputDto<string>()
         {
             Success = false,
-            Message = message.ToString(),
-        };
-        return new OkObjectResult(result);
+            Message = actionContext.ModelState.Last().Value!.Errors.Last().ErrorMessage,
+        });
     };
 });
 
