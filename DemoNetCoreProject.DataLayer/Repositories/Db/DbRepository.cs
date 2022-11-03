@@ -77,44 +77,32 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
         public async Task<int> Create(Entity entity)
         {
             DbSet().Add(entity);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> CreateRange(IEnumerable<Entity> entities)
         {
             DbSet().AddRange(entities);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> Modify(Entity entity)
         {
             DbSet().Update(entity);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> ModifyRange(IEnumerable<Entity> entities)
         {
             DbSet().UpdateRange(entities);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> Remove(Entity entity)
         {
             DbSet().Remove(entity);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
         public async Task<int> RemoveRange(IEnumerable<Entity> entities)
         {
             DbSet().RemoveRange(entities);
-            var result = await _context.SaveChangesAsync();
-            _context.EntityDetached();
-            return result;
+            return await _context.SaveChangesAsync();
         }
     }
 }

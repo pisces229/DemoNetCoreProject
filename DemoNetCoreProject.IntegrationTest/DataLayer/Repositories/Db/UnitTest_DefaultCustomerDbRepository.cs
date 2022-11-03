@@ -13,12 +13,12 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
     {
         private readonly ILogger<UnitTest_DefaultCustomerDbRepository> _logger;
         private readonly IDefaultPersonDbRepository _repository;
-        private readonly IDbManager<DefaultDbContext> _dbContext;
+        private readonly DefaultDbContext _dbContext;
         public UnitTest_DefaultCustomerDbRepository() : base()
         {
             _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultCustomerDbRepository>>();
             _repository = _serviceProvider.GetRequiredService<IDefaultPersonDbRepository>();
-            _dbContext = _serviceProvider.GetRequiredService<IDbManager<DefaultDbContext>>();
+            _dbContext = _serviceProvider.GetRequiredService<DefaultDbContext>();
         }
         [TestInitialize]
         public void Initialize()

@@ -66,22 +66,25 @@ namespace DemoNetCoreProject.DataLayer.Services
                 entity.Property(e => e.Remark).HasMaxLength(100);
             });
             #endregion
-
             OnModelCreatingPartial(modelBuilder);
         }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-        #region Expansion
+        #region IDbContext
         public override int SaveChanges()
         {
-            UpdateInfomation();
-            return base.SaveChanges();
+            EntityDefaultProperty();
+            var result = base.SaveChanges();
+            EntityDetached();
+            return result;
         }
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            UpdateInfomation();
-            return base.SaveChangesAsync();
+            EntityDefaultProperty();
+            var result = await base.SaveChangesAsync();
+            EntityDetached();
+            return result;
         }
-        protected void UpdateInfomation()
+        private void EntityDefaultProperty()
         {
             foreach (var entry in ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
@@ -103,45 +106,45 @@ namespace DemoNetCoreProject.DataLayer.Services
                 //}
             }
         }
-        public void EntityDetached()
+        private void EntityDetached()
         {
             foreach (var entry in ChangeTracker.Entries().Where(e => e.State != EntityState.Detached))
             {
                 entry.State = EntityState.Detached;
             }
         }
-        public DatabaseFacade GetDatabase() => this.Database;
+        public DatabaseFacade GetDatabase() => Database;
         public async Task<DbConnection> GetDbConnection()
         {
             await OpenConnection();
-            return this.Database.GetDbConnection();
+            return Database.GetDbConnection();
         }
         private async Task OpenConnection()
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
-                if (this.Database.GetDbConnection().State == ConnectionState.Closed)
+                if (Database.GetDbConnection().State == ConnectionState.Closed)
                 {
-                    await this.Database.OpenConnectionAsync();
+                    await Database.OpenConnectionAsync();
                 }
             }
         }
-        public DbTransaction GetDbTransaction() => this.DbTransaction!;
+        public DbTransaction GetDbTransaction() => DbTransaction!;
         public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
-                if (!this.Database.IsInMemory())
+                if (!Database.IsInMemory())
                 {
                     await OpenConnection();
-                    DbTransaction = await this.Database.GetDbConnection().BeginTransactionAsync(isolationLevel);
-                    await this.Database.UseTransactionAsync(DbTransaction);
+                    DbTransaction = await Database.GetDbConnection().BeginTransactionAsync(isolationLevel);
+                    await Database.UseTransactionAsync(DbTransaction);
                 }
             }
         }
         public void Commit()
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
@@ -152,7 +155,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         }
         public async Task CommitAsync()
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
@@ -163,7 +166,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         }
         public void Rollback()
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {
@@ -174,7 +177,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         }
         public async Task RollbackAsync()
         {
-            if (!this.Database.IsInMemory())
+            if (!Database.IsInMemory())
             {
                 if (DbTransaction != null)
                 {

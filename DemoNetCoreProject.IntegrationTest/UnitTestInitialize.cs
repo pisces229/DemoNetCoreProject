@@ -33,14 +33,14 @@ namespace DemoNetCoreProject.IntegrationTest
             services.AddDbContext<DefaultDbContext>(option =>
             {
                 var connectionName = "Default";
-                option.UseInMemoryDatabase(databaseName: connectionName);
-                //option.UseSqlServer(configuration.GetConnectionString(connectionName),
-                //    sqlServerOption =>
-                //    {
-                //        sqlServerOption.MinBatchSize(10);
-                //        sqlServerOption.MaxBatchSize(1000);
-                //        //sqlServerOption.CommandTimeout(0);
-                //    });
+                //option.UseInMemoryDatabase(databaseName: connectionName);
+                option.UseSqlServer(configuration.GetConnectionString(connectionName),
+                    sqlServerOption =>
+                    {
+                        sqlServerOption.MinBatchSize(10);
+                        sqlServerOption.MaxBatchSize(1000);
+                        //sqlServerOption.CommandTimeout(0);
+                    });
                 option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 option.EnableSensitiveDataLogging();
                 option.EnableDetailedErrors();

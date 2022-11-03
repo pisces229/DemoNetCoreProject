@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Data;
 
 namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
 {
@@ -48,6 +49,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultLogic>();
+            var mockDefaultDbManager = new Mock<IDbManager<DefaultDbContext>>();
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
@@ -57,6 +59,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
                 logger,
+                mockDefaultDbManager.Object,
                 mockDefaultPersonDbRepository.Object,
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryQuery();
@@ -72,15 +75,26 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultLogic>();
+            var mockDefaultDbManager = new Mock<IDbManager<DefaultDbContext>>();
+            mockDefaultDbManager
+                .Setup(s => s.BeginTransactionAsync(It.IsAny<IsolationLevel>()));
+            mockDefaultDbManager
+                .Setup(s => s.CommitAsync());
+            mockDefaultDbManager
+                .Setup(s => s.RollbackAsync());
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository.Setup(s => s.Create(It.IsAny<Person>())).ReturnsAsync(1);
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
                 logger,
+                mockDefaultDbManager.Object,
                 mockDefaultPersonDbRepository.Object,
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryCreate();
+            mockDefaultDbManager.Verify(v => v.BeginTransactionAsync(It.IsAny<IsolationLevel>()), Times.Once);
             mockDefaultPersonDbRepository.Verify(v => v.Create(It.IsAny<Person>()), Times.Once);
+            mockDefaultDbManager.Verify(v => v.CommitAsync(), Times.Once);
+            mockDefaultDbManager.Verify(v => v.RollbackAsync(), Times.Never);
         }
         [TestMethod]
         public async Task RunDbRepositoryModify()
@@ -89,6 +103,13 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultLogic>();
+            var mockDefaultDbManager = new Mock<IDbManager<DefaultDbContext>>();
+            mockDefaultDbManager
+                .Setup(s => s.BeginTransactionAsync(It.IsAny<IsolationLevel>()));
+            mockDefaultDbManager
+                .Setup(s => s.CommitAsync());
+            mockDefaultDbManager
+                .Setup(s => s.RollbackAsync());
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
@@ -100,6 +121,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
                 logger,
+                mockDefaultDbManager.Object,
                 mockDefaultPersonDbRepository.Object,
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryModify();
@@ -107,8 +129,11 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                 It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
             , Times.Once);
+            mockDefaultDbManager.Verify(v => v.BeginTransactionAsync(It.IsAny<IsolationLevel>()), Times.Once);
             mockDefaultPersonDbRepository.Verify(v => v.Modify(It.IsAny<Person>()), Times.Once);
             //mockDefaultPersonDbRepository.Verify(v => v.Modify(It.IsAny<Person>()), Times.Never);
+            mockDefaultDbManager.Verify(v => v.CommitAsync(), Times.Once);
+            mockDefaultDbManager.Verify(v => v.RollbackAsync(), Times.Never);
         }
         [TestMethod]
         public async Task RunDbRepositoryRemove()
@@ -117,6 +142,13 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultLogic>();
+            var mockDefaultDbManager = new Mock<IDbManager<DefaultDbContext>>();
+            mockDefaultDbManager
+                .Setup(s => s.BeginTransactionAsync(It.IsAny<IsolationLevel>()));
+            mockDefaultDbManager
+                .Setup(s => s.CommitAsync());
+            mockDefaultDbManager
+                .Setup(s => s.RollbackAsync());
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
@@ -128,6 +160,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
                 logger,
+                mockDefaultDbManager.Object,
                 mockDefaultPersonDbRepository.Object,
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryRemove();
@@ -135,8 +168,11 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                 It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
             , Times.Once);
+            mockDefaultDbManager.Verify(v => v.BeginTransactionAsync(It.IsAny<IsolationLevel>()), Times.Never);
             //mockDefaultPersonDbRepository.Verify(v => v.Remove(It.IsAny<Person>()), Times.Once);
             mockDefaultPersonDbRepository.Verify(v => v.Remove(It.IsAny<Person>()), Times.Never);
+            mockDefaultDbManager.Verify(v => v.CommitAsync(), Times.Never);
+            mockDefaultDbManager.Verify(v => v.RollbackAsync(), Times.Never);
         }
         [TestMethod]
         public async Task RunDbRepositoryPagedQuery()
@@ -145,6 +181,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
             var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultLogic>();
+            var mockDefaultDbManager = new Mock<IDbManager<DefaultDbContext>>();
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.PagedQuery(
@@ -156,6 +193,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
                 logger,
+                mockDefaultDbManager.Object,
                 mockDefaultPersonDbRepository.Object,
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryPagedQuery();
