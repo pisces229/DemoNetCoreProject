@@ -309,6 +309,10 @@ webApplicationBuilder.Services.AddMvcCore(options =>
 })
 .ConfigureApiBehaviorOptions(options =>
 {
+    //options.SuppressConsumesConstraintForFormFileParameters = false;
+    //options.SuppressInferBindingSourcesForParameters = false;
+    //options.SuppressModelStateInvalidFilter = false;
+    //options.SuppressMapClientErrors = false;
     options.InvalidModelStateResponseFactory = actionContext =>
     {
         //return new BadRequestObjectResult(new { Message = "Model binding occurs problem." });
