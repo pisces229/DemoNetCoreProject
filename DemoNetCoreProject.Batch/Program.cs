@@ -39,7 +39,8 @@ services.AddDbContext<DefaultDbContext>(option =>
     //    {
     //        sqlServerOption.MinBatchSize(10);
     //        sqlServerOption.MaxBatchSize(1000);
-    //        //sqlServerOption.CommandTimeout(0);
+    //        sqlServerOption.CommandTimeout(0);
+    //        sqlServerOption.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
     //    });
     option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     option.EnableSensitiveDataLogging();
