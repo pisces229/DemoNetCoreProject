@@ -29,6 +29,12 @@ services.AddLogging(builder =>
 });
 services.AddOptions();
 
+// Make HTTP requests using IHttpClientFactory in ASP.NET Core
+services.AddHttpClient("Default", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:9110/api/default/");
+});
+
 #region DbContext
 services.AddDbContext<DefaultDbContext>(option =>
 {
@@ -75,6 +81,7 @@ services.AddDbContext<DefaultDbContext>(option =>
     #endregion
 }
 #endregion
+
 services.AddScoped<IUserService, UserBachService>();
 LoadBusinessLayerRegister.LoadServices(services);
 LoadDataLayerRegister.LoadServices(services);

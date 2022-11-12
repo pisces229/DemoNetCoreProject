@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Builder;
 
 namespace DemoNetCoreProject.IntegrationTest
 {
@@ -29,6 +30,13 @@ namespace DemoNetCoreProject.IntegrationTest
                 builder.AddConsole();
             });
             services.AddOptions();
+
+            // Make HTTP requests using IHttpClientFactory in ASP.NET Core
+            services.AddHttpClient("Default", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:9110/api/default/");
+            });
+
             #region DbContext
             services.AddDbContext<DefaultDbContext>(option =>
             {
@@ -75,6 +83,7 @@ namespace DemoNetCoreProject.IntegrationTest
                 #endregion
             }
             #endregion
+
             services.AddScoped<IUserService, UserService>();
             LoadBusinessLayerRegister.LoadServices(services);
             LoadDataLayerRegister.LoadServices(services);
