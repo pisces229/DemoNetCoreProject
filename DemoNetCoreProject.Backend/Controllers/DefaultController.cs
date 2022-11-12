@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Web;
 using System;
+using DemoNetCoreProject.DataLayer.IRepositories.Http;
 
 namespace DemoNetCoreProject.Backend.Controllers
 {

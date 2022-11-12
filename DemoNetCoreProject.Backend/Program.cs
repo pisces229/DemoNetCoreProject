@@ -79,6 +79,12 @@ webApplicationBuilder.Services.AddCors(options =>
     });
 });
 
+// Make HTTP requests using IHttpClientFactory in ASP.NET Core
+webApplicationBuilder.Services.AddHttpClient("Default", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:9110/api/default/");
+});
+
 #region DbContext
 webApplicationBuilder.Services.AddDbContext<DefaultDbContext>(option =>
 {

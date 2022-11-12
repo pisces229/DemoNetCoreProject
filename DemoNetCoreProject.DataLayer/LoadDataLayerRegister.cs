@@ -28,6 +28,7 @@ namespace DemoNetCoreProject.DataLayer
             service.AddScoped<IDefaultDataProtector, DefaultDataProtector>();
             // Repositories
             DefaultDbRepositoryRegister.Load(service);
+            DefaultHttpRepositoryRegister.Load(service);
             DefaultRepositoryRegister.Load(service);
         }
     }
