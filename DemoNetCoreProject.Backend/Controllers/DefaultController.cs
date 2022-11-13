@@ -116,6 +116,12 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok();
         }
         [HttpGet]
+        public async Task<ActionResult> HTF([FromServices] IDefaultHttpRepository repository)
+        {
+            await repository.Run();
+            return Ok();
+        }
+        [HttpGet]
         public async Task<ActionResult> First([FromServices] IDefaultFirstLogic logic)
             => Ok(await logic.Run(new DefaultFirstLogicInputDto()));
     }

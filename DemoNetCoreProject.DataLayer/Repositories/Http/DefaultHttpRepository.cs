@@ -18,9 +18,9 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Http
         {
             try
             {
-                var responseString = await _httpClientFactory
-                    .CreateClient("Default")
-                    .GetStringAsync("run");
+                var httpClient = _httpClientFactory.CreateClient("Default");
+                _logger.LogInformation(httpClient.GetHashCode().ToString());
+                var responseString = await httpClient.GetStringAsync("run1");
                 _logger.LogInformation(responseString);
             }
             catch (Exception e)

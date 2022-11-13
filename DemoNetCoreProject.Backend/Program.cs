@@ -23,6 +23,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using DemoNetCoreProject.Common.Dtos;
 using Microsoft.Extensions.Configuration;
+using Polly.Extensions.Http;
+using Polly;
+using Microsoft.Extensions.DependencyInjection;
 
 Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
@@ -83,7 +86,18 @@ webApplicationBuilder.Services.AddCors(options =>
 webApplicationBuilder.Services.AddHttpClient("Default", client =>
 {
     client.BaseAddress = new Uri("https://localhost:9110/api/default/");
-});
+})
+//.SetHandlerLifetime(TimeSpan.FromSeconds(5))
+.AddTransientHttpErrorPolicy(policy =>
+    policy.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+    .RetryAsync(1))
+.AddTransientHttpErrorPolicy(policy =>
+    policy.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+    .CircuitBreakerAsync(3, TimeSpan.FromSeconds(30)));
+//.AddPolicyHandler(HttpPolicyExtensions
+//    .HandleTransientHttpError()
+//    .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
+//    .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(1, retryAttempt))));
 
 #region DbContext
 webApplicationBuilder.Services.AddDbContext<DefaultDbContext>(option =>
