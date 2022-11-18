@@ -21,7 +21,7 @@ namespace DemoNetCoreProject.DataLayer.IServices
             int? commandTimeout = null, CommandType commandType = CommandType.Text);
         Task<DbDataReader> ExecuteReader(string sql, DynamicParameters? parameters = null,
             int? commandTimeout = null, CommandType commandType = CommandType.Text);
-        Task<CommonPagedResultDto<T>> PagedQuery<T>(string countSql, string querySql, DynamicParameters parameters, CommonPageDto pageModel,
+        Task<CommonPagedQueryOutputDto<T>> PagedQuery<T>(string countSql, string querySql, DynamicParameters parameters, CommonPageInputDto pageModel,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class;
     }

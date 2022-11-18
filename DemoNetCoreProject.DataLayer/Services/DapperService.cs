@@ -14,8 +14,8 @@ namespace DemoNetCoreProject.DataLayer.Services
 {
     internal sealed class DapperService<DB> : IDapperService<DB> where DB : IDbContext
     {
-        private const string PAGED_SKIP = "__PAGED_SKIP";
-        private const string PAGED_TAKE = "__PAGED_TAKE";
+        private const string PAGED_SKIP = "__paged_skip";
+        private const string PAGED_TAKE = "__paged_take";
         private readonly ILogger<DapperService<DB>> _logger;
         private readonly DB _dbContext;
         public DapperService(ILogger<DapperService<DB>> logger,
@@ -116,17 +116,14 @@ namespace DemoNetCoreProject.DataLayer.Services
                 return await dbConnection.ExecuteReaderAsync(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             });
         }
-        public async Task<CommonPagedResultDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, CommonPageDto pageModel,
+        public async Task<CommonPagedQueryOutputDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, CommonPageInputDto pageModel,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class
         {
-            var result = new CommonPagedResultDto<T>()
-            {
-                Page = pageModel
-            };
+            var result = new CommonPagedQueryOutputDto<T>();
             var dbCommandTimeout = _dbContext.GetDatabase().GetCommandTimeout();
             dbCommandTimeout ??= commandTimeout;
-            result.Page.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M", 
+            result.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M", 
                 parameters, dbCommandTimeout, commandType);
             parameters.Add(PAGED_SKIP, (pageModel.PageNo - 1) * pageModel.PageSize);
             parameters.Add(PAGED_TAKE, pageModel.PageSize);

@@ -305,8 +305,8 @@ webApplicationBuilder.Services.AddAutoMapper(configure =>
     LoadBusinessLayerRegister.LoadAutoMappers(configure);
     LoadDataLayerRegister.LoadAutoMappers(configure);
 });
-webApplicationBuilder.Services.AddControllers()
-    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+webApplicationBuilder.Services.AddControllers();
+    //.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
     //.ConfigureApiBehaviorOptions(options =>
     //{
     //    options.SuppressConsumesConstraintForFormFileParameters = true;

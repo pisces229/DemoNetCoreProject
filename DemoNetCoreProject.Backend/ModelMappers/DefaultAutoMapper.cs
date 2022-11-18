@@ -10,14 +10,40 @@ namespace DemoNetCoreProject.Backend.ModelMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
-            configure.CreateMap<DefaultSignInModel, DefaultRequestLogicSignInInputDto>();
-            configure.CreateMap<DefaultJsonHttpGetModel, DefaultRequestLogicJsonHttpGetInputDto>();
-            configure.CreateMap<DefaultJsonHttpPostModel, DefaultRequestLogicJsonHttpPostInputDto>();
-            configure.CreateMap<CommonPagedQueryModel<DefaultJsonHttpPostModel>, CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto>>();
-            configure.CreateMap<DefaultUploadModel, DefaultRequestLogicUploadInputDto>()
-                //.ForMember(member => member.File, option => option.Ignore());
-                .ForMember(member => member.File, option => option.MapFrom(source => source.File.OpenReadStream()))
-                .ForMember(member => member.FileName, option => option.MapFrom(source => source.File.FileName));
+            LoadInput(configure);
+            LoadOutput(configure);
+        }
+        private static void LoadInput(IMapperConfigurationExpression configure)
+        {
+            configure.CreateMap<DefaultSignInInputModel,
+                DefaultRequestLogicSignInInputDto>();
+
+            configure.CreateMap<DefaultJsonHttpGetInputModel,
+                DefaultRequestLogicJsonHttpGetInputDto>();
+
+            configure.CreateMap<DefaultJsonHttpPostInputModel,
+                DefaultRequestLogicJsonHttpPostInputDto>();
+
+            configure.CreateMap<CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel>,
+                CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto>>();
+
+            configure.CreateMap<DefaultUploadInputModel,
+                DefaultRequestLogicUploadInputDto>()
+            //.ForMember(member => member.File, option => option.Ignore());
+            .ForMember(member => member.File, option => option.MapFrom(source => source.File.OpenReadStream()))
+            .ForMember(member => member.FileName, option => option.MapFrom(source => source.File.FileName));
+        }
+        private static void LoadOutput(IMapperConfigurationExpression configure)
+        {
+            configure.CreateMap<DefaultRequestLogicJsonOutputDto,
+                DefaultJsonHttpOutputModel>();
+            configure.CreateMap<CommonOutputDto<DefaultRequestLogicJsonOutputDto>,
+                CommonOutputModel<DefaultJsonHttpOutputModel>>();
+
+            configure.CreateMap<DefaultRequestLogicJsonOutputDto,
+                DefaultJsonHttpOutputModel>();
+            configure.CreateMap<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>,
+                CommonPagedQueryOutputModel<DefaultJsonHttpOutputModel>>();
         }
     }
 }

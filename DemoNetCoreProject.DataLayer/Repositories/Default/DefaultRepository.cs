@@ -82,7 +82,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             var data = await _defaultDapperService.PagedQuery<Person>(
                 "SELECT * FROM [Person]", "[Row]",
                 dynamicParameters,
-                new CommonPageDto() { PageSize = 3, PageNo = 3 });
+                new CommonPageInputDto() { PageSize = 3, PageNo = 3 });
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunSqlCondition()

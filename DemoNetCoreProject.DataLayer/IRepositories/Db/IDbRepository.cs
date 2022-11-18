@@ -14,7 +14,7 @@ namespace DemoNetCoreProject.DataLayer.IRepositories.Db
         Task<IEnumerable<Entity>> Query(
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null);
-        Task<CommonPagedResultDto<Entity>> PagedQuery(CommonPageDto commonPage,
+        Task<CommonPagedQueryOutputDto<Entity>> PagedQuery(CommonPageInputDto commonPage,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null);
         Task<int> Create(Entity entity);

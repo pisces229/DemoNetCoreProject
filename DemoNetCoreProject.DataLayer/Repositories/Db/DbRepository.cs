@@ -50,20 +50,17 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             }
             return await query.ToListAsync();
         }
-        public async Task<CommonPagedResultDto<Entity>> PagedQuery(CommonPageDto commonPage,
+        public async Task<CommonPagedQueryOutputDto<Entity>> PagedQuery(CommonPageInputDto commonPage,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
         {
-            var result = new CommonPagedResultDto<Entity>()
-            {
-                Page = commonPage
-            };
+            var result = new CommonPagedQueryOutputDto<Entity>();
             var query = DbSet().AsQueryable();
             if (where != null)
             {
                 query = where(query);
             }
-            result.Page.TotalCount = await query.CountAsync();
+            result.TotalCount = await query.CountAsync();
             if (order != null)
             {
                 query = order(query);

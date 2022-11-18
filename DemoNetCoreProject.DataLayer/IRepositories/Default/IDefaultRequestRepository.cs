@@ -6,6 +6,6 @@ namespace DemoNetCoreProject.DataLayer.IRepositories.Default
     public interface IDefaultRequestRepository
     {
         Task<bool> Upload(DefaultRequestRepositoryUploadInputDto model);
-        CommonOutputDto<CommonDownloadDto> Download();
+        CommonOutputDto<CommonDownloadOutputDto> Download();
     }
 }

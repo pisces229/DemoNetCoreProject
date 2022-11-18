@@ -72,10 +72,10 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultRequestRepository = new Mock<IDefaultRequestRepository>();
             mockDefaultRequestRepository
                 .Setup(s => s.Download())
-                .Returns(new CommonOutputDto<CommonDownloadDto>()
+                .Returns(new CommonOutputDto<CommonDownloadOutputDto>()
                 { 
                     Success = true,
-                    Data = new CommonDownloadDto()
+                    Data = new CommonDownloadOutputDto()
                     { 
                         FileName = "FileName",
                         FilePath = "FilePath",

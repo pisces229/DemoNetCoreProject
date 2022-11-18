@@ -27,16 +27,16 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             }
             return true;
         }
-        public CommonOutputDto<CommonDownloadDto> Download()
+        public CommonOutputDto<CommonDownloadOutputDto> Download()
         {
-            var result = new CommonOutputDto<CommonDownloadDto>();
+            var result = new CommonOutputDto<CommonDownloadOutputDto>();
             var fileInfo = FileUtility.GetFile(
                 Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
                 "temp.zip");
             if (fileInfo.Exists)
             {
                 result.Success = true;
-                result.Data = new CommonDownloadDto()
+                result.Data = new CommonDownloadOutputDto()
                 {
                     FileName = "Download.zip",
                     FilePath = fileInfo.FullName,

@@ -1,5 +1,4 @@
-﻿using DemoNetCoreProject.Backend.Models.Default;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Net;
@@ -31,24 +30,56 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
             Assert.AreEqual("Run", responseString);
         }
         [TestMethod]
-        public async Task Validate()
+        public async Task Json()
         {
-            var response = await _httpClient.GetAsync("/api/default/validate");
-            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+            var requestJson = JsonConvert.SerializeObject(new
+            {
+                valueString = "ValueString",
+                valueDate = "2000-01-01",
+            });
+            var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/json", content);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         [TestMethod]
         public async Task JsonHttpGet()
         {
-            var response = await _httpClient.GetAsync("/api/default/jsonHttpGet?Text=Value&Value=9&Date=2020-01-01");
+            var response = await _httpClient.GetAsync("/api/default/jsonHttpGet?text=Value&value=9&date=2020-01-01");
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         [TestMethod]
         public async Task JsonHttpPost()
         {
-            var json = JsonConvert.SerializeObject(new DefaultJsonHttpPostModel { Text = "Value", Value = 9, Date = DateTime.Now });
+            var json = JsonConvert.SerializeObject(new 
+            { 
+                text = "Value", value = 9, date = DateTime.Now 
+            });
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("/api/default/jsonHttpPost", stringContent);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task CommonPagedQuery()
+        {
+            var json = JsonConvert.SerializeObject(new
+            {
+                data = new 
+                { 
+                    text = "Value",
+                    value = 9,
+                    date = DateTime.Now,
+                },
+                page = new
+                {
+                    pageNo = 1,
+                    pageSize = 10,
+                },
+            });
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/commonPagedQuery", stringContent);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
@@ -56,9 +87,9 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
         public async Task Upload()
         {
             using var multipartFormDataContent = new MultipartFormDataContent();
-            multipartFormDataContent.Add(new StringContent("NameUpload"), "Name");
-            var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes("Upload"));
-            multipartFormDataContent.Add(byteArrayContent, "File", "Upload.txt");
+            using var byteArrayContent = new ByteArrayContent(Encoding.UTF8.GetBytes("Upload"));
+            multipartFormDataContent.Add(byteArrayContent, "file", "Upload.txt");
+            multipartFormDataContent.Add(new StringContent("nameUpload"), "Name");
             var response = await _httpClient.PostAsync("/api/default/upload", multipartFormDataContent);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Console.WriteLine(await response.Content.ReadAsStringAsync());
@@ -69,6 +100,25 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
             var response = await _httpClient.GetAsync("/api/default/download");
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task SignIn()
+        {
+            var requestJson = JsonConvert.SerializeObject(new
+            {
+                account = "account",
+                password = "password",
+            });
+            var stringContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/signIn", stringContent);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
+        public async Task Validate()
+        {
+            var response = await _httpClient.GetAsync("/api/default/validate");
+            Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
     }
 }

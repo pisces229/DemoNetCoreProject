@@ -11,6 +11,9 @@ using System.Text;
 using System.Web;
 using System;
 using DemoNetCoreProject.DataLayer.IRepositories.Http;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace DemoNetCoreProject.Backend.Controllers
 {
@@ -18,81 +21,109 @@ namespace DemoNetCoreProject.Backend.Controllers
     [ApiController]
     public class DefaultController : ControllerBase
     {
+        private readonly ILogger<DefaultController> _logger;
         private readonly IMapper _mapper;
-        public DefaultController(IMapper mapper)
+        public DefaultController(ILogger<DefaultController> logger,
+            IMapper mapper)
         {
+            _logger = logger;
             _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult Run() => Ok("Run");
+        public ActionResult Run()
+        { 
+            return Ok("Run");
+        }
         [HttpPost]
-        public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic,
-            [FromBody] DefaultSignInModel model)
+        public ActionResult Json([FromBody] DefaultJsonInputModel inputModel)
         {
-            var result = await logic.SignIn(_mapper.Map<DefaultSignInModel, DefaultRequestLogicSignInInputDto>(model));
-            return Ok(result);
+            _logger.LogInformation(JsonSerializer.Serialize(inputModel));
+            var outputModel = new DefaultJsonOutputModel()
+            {
+                ValueString = inputModel.ValueString,
+                ValueDate = inputModel.ValueDate,
+            };
+            return Ok(outputModel);
+        }
+        [HttpPost]
+        public ActionResult Validatable(DefaultValidatableInputModel inputModel)
+        {
+            var outputModel = inputModel;
+            return Ok(outputModel);
         }
         [HttpGet]
-        [ServiceFilter(typeof(JwtAuthorizationFilter))]
-        public async Task<ActionResult> Validate([FromServices] IDefaultRequestLogic logic)
-            => Ok(await logic.Validate());
-        [HttpPost]
-        public async Task<ActionResult> Refresh([FromServices] IDefaultRequestLogic logic, 
-            [FromBody] string model)
-            => Ok(await logic.Refresh(model));
-        [HttpPost]
-        public async Task<ActionResult> SignOut([FromServices] IDefaultRequestLogic logic, 
-            [FromBody] string model)
+        public async Task<ActionResult> Test([FromServices] IDefaultHttpRepository repository)
         {
-            await logic.SignOut(model);
+            await repository.Run();
             return Ok();
         }
         [HttpGet]
-        public async Task<ActionResult> ValueHttpGet([FromQuery] string model)
-            => Ok(await Task.FromResult(model));
+        public async Task<ActionResult> ValueHttpGet([FromQuery] string inputModel)
+        {
+            var outputModel = await Task.FromResult(inputModel);
+            return Ok(outputModel);
+        }
         [HttpPost]
-        public async Task<ActionResult> ValueHttpPost([FromBody] string model)
-            => Ok(await Task.FromResult(model));
+        public async Task<ActionResult> ValueHttpPost([FromBody] string inputModel)
+        {
+            var outputModel = await Task.FromResult(inputModel);
+            return Ok(outputModel);
+        }
         [HttpGet]
         public async Task<ActionResult> JsonHttpGet([FromServices] IDefaultRequestLogic logic,
-            [FromQuery] DefaultJsonHttpGetModel model)
+            [FromQuery] DefaultJsonHttpGetInputModel inputModel)
         {
-            var result = await logic.JsonHttpGet(_mapper.Map<DefaultJsonHttpGetModel, DefaultRequestLogicJsonHttpGetInputDto>(model));
-            return Ok(result);
+            var inputDto = _mapper.Map<DefaultJsonHttpGetInputModel, 
+                DefaultRequestLogicJsonHttpGetInputDto>(inputModel);
+            var outputDto = await logic.JsonHttpGet(inputDto);
+            var outputModel = _mapper.Map<CommonOutputDto<DefaultRequestLogicJsonOutputDto>, 
+                CommonOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpPost]
         public async Task<ActionResult> JsonHttpPost([FromServices] IDefaultRequestLogic logic,
-            [FromBody] DefaultJsonHttpPostModel model)
+            [FromBody] DefaultJsonHttpPostInputModel inputModel)
         {
-            var result = await logic.JsonHttpPost(_mapper.Map<DefaultJsonHttpPostModel, DefaultRequestLogicJsonHttpPostInputDto>(model));
-            return Ok(result);
+            var inputDto = _mapper.Map<DefaultJsonHttpPostInputModel, 
+                DefaultRequestLogicJsonHttpPostInputDto>(inputModel);
+            var outputDto = await logic.JsonHttpPost(inputDto);
+            var outputModel = _mapper.Map<CommonOutputDto<DefaultRequestLogicJsonOutputDto>,
+                CommonOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpPost]
         public async Task<ActionResult> CommonPagedQuery([FromServices] IDefaultRequestLogic logic,
-            [FromBody] CommonPagedQueryModel<DefaultJsonHttpPostModel> model)
+            [FromBody] CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel> inputModel)
         {
-            var result = await logic.CommonPagedQuery(
-                _mapper.Map<CommonPagedQueryModel<DefaultJsonHttpPostModel>, CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto>>(model));
-            return Ok(result);
+            var inputDto = _mapper.Map<CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel>,
+                CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto>>(inputModel);
+            var outputDto = await logic.CommonPagedQuery(inputDto);
+            var outputModel = _mapper.Map<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>,
+                CommonPagedQueryOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpPost]
         public async Task<ActionResult> Upload([FromServices] IDefaultRequestLogic logic,
-            [FromForm] DefaultUploadModel model)
+            [FromForm] DefaultUploadInputModel inputModel)
         {
-            var result = await logic.Upload(_mapper.Map<DefaultUploadModel, DefaultRequestLogicUploadInputDto>(model));
-            return Ok(result);
+            var inputDto = _mapper.Map<DefaultUploadInputModel, 
+                DefaultRequestLogicUploadInputDto>(inputModel);
+            var outputDto = await logic.Upload(inputDto);
+            var outputModel = _mapper.Map<CommonOutputDto<string>, 
+                CommonOutputModel<string>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpGet]
         public async Task Download([FromServices] IDefaultRequestLogic logic)
         {
-            var result = await logic.Download();
-            if (result.Success)
+            var outputDto = await logic.Download();
+            if (outputDto.Success)
             {
                 Response.ContentType = "application/octet-stream";
-                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(result.Data!.FileName!)}");
+                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(outputDto.Data!.FileName!)}");
                 //await Response.SendFileAsync(result.Data!.FilePath!);
                 var buffer = new byte[16 * 1024];
-                using var fileStream = System.IO.File.OpenRead(result.Data!.FilePath!);
+                using var fileStream = System.IO.File.OpenRead(outputDto.Data!.FilePath!);
                 var read = 0;
                 while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
@@ -103,26 +134,51 @@ namespace DemoNetCoreProject.Backend.Controllers
             else
             {
                 Response.ContentType = "text/plain";
-                var binary = Encoding.UTF8.GetBytes(result.Message!);
+                var binary = Encoding.UTF8.GetBytes(outputDto.Message!);
                 await HttpContext.Response.Body.WriteAsync(binary);
             }
         }
         [HttpPost]
-        public ActionResult Validatable(DefaultValidatableModel model) => Ok(model);
-        [HttpGet]
-        public async Task<ActionResult> Json()
+        public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic,
+    [FromBody] DefaultSignInInputModel inputModel)
         {
-            await Response.WriteAsJsonAsync(new { Success = true, Message = "Message" });
-            return Ok();
+            var inputDto = _mapper.Map<DefaultSignInInputModel,
+                DefaultRequestLogicSignInInputDto>(inputModel);
+            var outputDto = await logic.SignIn(inputDto);
+            var outputModel = _mapper.Map<CommonOutputDto<string>,
+                CommonOutputModel<string>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpGet]
-        public async Task<ActionResult> HTF([FromServices] IDefaultHttpRepository repository)
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
+        public async Task<ActionResult> Validate([FromServices] IDefaultRequestLogic logic)
         {
-            await repository.Run();
+            var outputDto = await logic.Validate();
+            var outputModel = _mapper.Map<CommonOutputDto<string>,
+                CommonOutputModel<string>>(outputDto);
+            return Ok(outputModel);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Refresh([FromServices] IDefaultRequestLogic logic,
+            [FromBody] string inputModel)
+        {
+            var outputDto = await logic.Refresh(inputModel);
+            var outputModel = _mapper.Map<CommonOutputDto<string>,
+                CommonOutputModel<string>>(outputDto);
+            return Ok(outputModel);
+        }
+        [HttpPost]
+        public async Task<ActionResult> SignOut([FromServices] IDefaultRequestLogic logic,
+            [FromBody] string inputModel)
+        {
+            await logic.SignOut(inputModel);
             return Ok();
         }
         [HttpGet]
         public async Task<ActionResult> First([FromServices] IDefaultFirstLogic logic)
-            => Ok(await logic.Run(new DefaultFirstLogicInputDto()));
+        {
+            var outputDto = await logic.Run(new DefaultFirstLogicInputDto());
+            return Ok(outputDto);
+        }
     }
 }

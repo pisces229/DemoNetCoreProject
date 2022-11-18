@@ -150,7 +150,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<DynamicParameters>(),
-                    It.IsAny<CommonPageDto>(),
+                    It.IsAny<CommonPageInputDto>(),
                     It.IsAny<int?>(),
                     It.IsAny<CommandType>()))
                 .Callback(DapperPagedQueryCallback);
@@ -163,7 +163,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<DynamicParameters>(),
-                It.IsAny<CommonPageDto>(),
+                It.IsAny<CommonPageInputDto>(),
                 It.IsAny<int?>(),
                 It.IsAny<CommandType>())
             , Times.Once);

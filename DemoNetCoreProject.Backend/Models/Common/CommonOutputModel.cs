@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DemoNetCoreProject.Common.Dtos
+namespace DemoNetCoreProject.Backend.Models.Common
 {
-    public class CommonOutputDto<T>
+    public class CommonOutputModel<T>
     {
         public bool Success { get; set; }
         public string? Message { get; set; }

@@ -185,10 +185,10 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.PagedQuery(
-                    It.IsAny<CommonPageDto>(),
+                    It.IsAny<CommonPageInputDto>(),
                     It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                     It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>()))
-                .ReturnsAsync(new CommonPagedResultDto<Person>());
+                .ReturnsAsync(new CommonPagedQueryOutputDto<Person>());
             mockDefaultPersonDbRepository.Setup(s => s.Remove(It.IsAny<Person>()));
             var mockDefaultRepository = new Mock<IDefaultRepository>();
             var defaultLogic = new DefaultLogic(
@@ -198,7 +198,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryPagedQuery();
             mockDefaultPersonDbRepository.Verify(v => v.PagedQuery(
-                It.IsAny<CommonPageDto>(),
+                It.IsAny<CommonPageInputDto>(),
                 It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                 It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
             , Times.Once);

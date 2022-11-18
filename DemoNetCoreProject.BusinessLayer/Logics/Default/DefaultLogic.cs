@@ -84,7 +84,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryPagedQuery()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryPagedQuery----------"));
-            var commonPage = new CommonPageDto() { PageSize = 3, PageNo = 3 };
+            var commonPage = new CommonPageInputDto() { PageSize = 3, PageNo = 3 };
             IQueryable<Person> where(IQueryable<Person> query) => query.Where(p => p.Age > 0);
             IOrderedQueryable<Person> order(IQueryable<Person> query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
             var data = await _defaultPersonDbRepository

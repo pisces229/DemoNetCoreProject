@@ -50,6 +50,61 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             var unprotectValue = _defaultDataProtector.Unprotect(protectValue);
             _logger.LogInformation("{unprotectValue}", unprotectValue);
         }
+        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
+        {
+            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
+            {
+                Success = true,
+                Data = _mapper.Map<DefaultRequestLogicJsonHttpGetInputDto, DefaultRequestLogicJsonOutputDto>(model)
+            };
+            return await Task.FromResult(result);
+        }
+        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model)
+        {
+            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
+            {
+                Success = true,
+                Data = _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model)
+            };
+            return await Task.FromResult(result);
+        }
+        public async Task<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto> model)
+        {
+            var result = new CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>()
+            {
+                Data = new List<DefaultRequestLogicJsonOutputDto>()
+                {
+                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data),
+                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data),
+                },
+                TotalCount = 10,
+            };
+            return await Task.FromResult(result);
+        }
+        public async Task<CommonOutputDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
+        {
+            var result = new CommonOutputDto<string>();
+            using (model.File)
+            {
+                result.Success = await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
+            }
+            return result;
+        }
+        public async Task<CommonOutputDto<CommonDownloadOutputDto>> Download()
+        {
+            var result = new CommonOutputDto<CommonDownloadOutputDto>();
+            var downloadResult = _defaultRequestRepository.Download();
+            if (downloadResult.Success)
+            {
+                result.Success = true;
+                result.Data = downloadResult.Data;
+            }
+            else
+            {
+                result.Message = downloadResult.Message;
+            }
+            return await Task.FromResult(result);
+        }
         public async Task<CommonOutputDto<string>> SignIn(DefaultRequestLogicSignInInputDto model)
         {
             var result = new CommonOutputDto<string>();
@@ -136,61 +191,6 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             {
                 _logger.LogError(0, e, "");
             }
-        }
-        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
-        {
-            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
-            {
-                Success = true,
-                Data = _mapper.Map<DefaultRequestLogicJsonHttpGetInputDto, DefaultRequestLogicJsonOutputDto>(model)
-            };
-            return await Task.FromResult(result);
-        }
-        public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model)
-        {
-            var result = new CommonOutputDto<DefaultRequestLogicJsonOutputDto>()
-            {
-                Success = true,
-                Data = _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model)
-            };
-            return await Task.FromResult(result);
-        }
-        public async Task<CommonPagedResultDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryDto<DefaultRequestLogicJsonHttpPostInputDto> model)
-        {
-            var result = new CommonPagedResultDto<DefaultRequestLogicJsonOutputDto>()
-            {
-                Page = model.Page,
-                Data = new List<DefaultRequestLogicJsonOutputDto>()
-                {
-                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data)
-                }
-            };
-            result.Page.TotalCount = 10;
-            return await Task.FromResult(result);
-        }
-        public async Task<CommonOutputDto<string>> Upload(DefaultRequestLogicUploadInputDto model)
-        {
-            var result = new CommonOutputDto<string>();
-            using (model.File)
-            {
-                result.Success = await _defaultRequestRepository.Upload(_mapper.Map<DefaultRequestLogicUploadInputDto, DefaultRequestRepositoryUploadInputDto>(model));
-            }
-            return result;
-        }
-        public async Task<CommonOutputDto<CommonDownloadDto>> Download()
-        {
-            var result = new CommonOutputDto<CommonDownloadDto>();
-            var downloadResult = _defaultRequestRepository.Download();
-            if (downloadResult.Success)
-            {
-                result.Success = true;
-                result.Data = downloadResult.Data;
-            }
-            else
-            {
-                result.Message = downloadResult.Message;
-            }
-            return await Task.FromResult(result);
         }
         private string GenerateToken(string account, string refreshTokenId)
         {

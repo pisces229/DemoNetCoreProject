@@ -46,7 +46,7 @@ namespace DemoNetCoreProject.UnitTest
             Console.WriteLine(c1);
             Console.WriteLine(c2);
         };
-        protected Action<string, string, DynamicParameters, CommonPageDto, int?, CommandType> DapperPagedQueryCallback = 
+        protected Action<string, string, DynamicParameters, CommonPageInputDto, int?, CommandType> DapperPagedQueryCallback = 
             (c1, c2, c3, c4, c5, c6) =>
         {
             Console.WriteLine(c1);
