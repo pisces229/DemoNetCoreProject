@@ -69,6 +69,7 @@ namespace DemoNetCoreProject.DataLayer.Services
             OnModelCreatingPartial(modelBuilder);
         }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
         #region IDbContext
         public override int SaveChanges()
         {
@@ -77,10 +78,10 @@ namespace DemoNetCoreProject.DataLayer.Services
             EntityDetached();
             return result;
         }
-        public async Task<int> SaveChangesAsync()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             EntityDefaultProperty();
-            var result = await base.SaveChangesAsync();
+            var result = await base.SaveChangesAsync(cancellationToken);
             EntityDetached();
             return result;
         }

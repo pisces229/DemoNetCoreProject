@@ -140,7 +140,7 @@ namespace DemoNetCoreProject.Backend.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> SignIn([FromServices] IDefaultRequestLogic logic,
-    [FromBody] DefaultSignInInputModel inputModel)
+            [FromBody] DefaultSignInInputModel inputModel)
         {
             var inputDto = _mapper.Map<DefaultSignInInputModel,
                 DefaultRequestLogicSignInInputDto>(inputModel);
