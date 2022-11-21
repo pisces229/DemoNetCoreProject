@@ -76,7 +76,7 @@ webApplicationBuilder.Services.AddCors(options =>
             //.WithOrigins("https://localhost:44387", "")
             //.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
             .AllowAnyHeader()
-            //.WithExposedHeaders("content-disposition")
+            .WithExposedHeaders("content-disposition")
             .AllowAnyMethod();
             //.AllowCredentials();
     });
