@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DemoNetCoreProject.Backend.Models.Default
 {
-    public class DefaultDonwloadInputModel
+    public class DefaultDownloadInputModel
     {
         [JsonPropertyName(name: "filename")]
         [Required]

@@ -119,7 +119,7 @@ namespace DemoNetCoreProject.Backend.Controllers
         [HttpPost]
         //[ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task Download([FromServices] IDefaultRequestLogic logic,
-            [FromBody] DefaultDonwloadInputModel inputModel)
+            [FromBody] DefaultDownloadInputModel inputModel)
         {
             var outputDto = await logic.Download();
             //var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
