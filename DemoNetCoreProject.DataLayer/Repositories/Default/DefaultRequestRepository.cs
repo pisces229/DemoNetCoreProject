@@ -32,13 +32,13 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             var result = new CommonOutputDto<CommonDownloadOutputDto>();
             var fileInfo = FileUtility.GetFile(
                 Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
-                "temp.zip");
+                "Ubuntu.pdf");
             if (fileInfo.Exists)
             {
                 result.Success = true;
                 result.Data = new CommonDownloadOutputDto()
                 {
-                    FileName = "Download.zip",
+                    FileName = "Download.pdf",
                     FilePath = fileInfo.FullName,
                 };
             }

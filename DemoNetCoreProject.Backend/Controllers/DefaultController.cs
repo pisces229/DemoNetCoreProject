@@ -133,20 +133,13 @@ namespace DemoNetCoreProject.Backend.Controllers
                 var read = 0;
 
                 Response.ContentType = DownloadUtility.ContentTypeOctetStream;
+                //Response.ContentType = DownloadUtility.ContentTypePdf;
                 Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(outputDto.Data!.FileName!)}");
                 using var fileStream = System.IO.File.OpenRead(outputDto.Data!.FilePath!);
                 while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     await Response.Body.WriteAsync(buffer.AsMemory(0, read));
                 }
-
-                //Response.ContentType = DownloadUtility.ContentTypePdf;
-                //Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode("Ubuntu.pdf")}");
-                //using var fileStream = System.IO.File.OpenRead("c:\\workspace\\Ubuntu.pdf");
-                //while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-                //{
-                //    await Response.Body.WriteAsync(buffer.AsMemory(0, read));
-                //}
 
                 //System.IO.File.Delete(...);
             }
