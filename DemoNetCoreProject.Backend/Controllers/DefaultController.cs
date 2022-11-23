@@ -10,6 +10,7 @@ using System.Text;
 using System.Web;
 using DemoNetCoreProject.DataLayer.IRepositories.Http;
 using System.Text.Json;
+using DemoNetCoreProject.Backend.Utilities;
 
 namespace DemoNetCoreProject.Backend.Controllers
 {
@@ -115,11 +116,17 @@ namespace DemoNetCoreProject.Backend.Controllers
                 CommonOutputModel<string>>(outputDto);
             return Ok(outputModel);
         }
-        [HttpGet]
+        [HttpPost]
         //[ServiceFilter(typeof(JwtAuthorizationFilter))]
-        public async Task Download([FromServices] IDefaultRequestLogic logic)
+        public async Task Download([FromServices] IDefaultRequestLogic logic,
+            [FromBody] DefaultDonwloadInputModel inputModel)
         {
             var outputDto = await logic.Download();
+            //var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
+            //{
+            //    Message = "File Not Exist",
+            //};
+            //throw new Exception("Exception");
             if (outputDto.Success)
             {
                 Response.ContentType = "application/octet-stream";
@@ -136,9 +143,8 @@ namespace DemoNetCoreProject.Backend.Controllers
             }
             else
             {
-                Response.ContentType = "text/plain";
-                var binary = Encoding.UTF8.GetBytes(outputDto.Message!);
-                await HttpContext.Response.Body.WriteAsync(binary);
+                Response.ContentType = DownloadUtility.ContentType;
+                await HttpContext.Response.Body.WriteAsync(DownloadUtility.ToBytes(outputDto.Message!));
             }
         }
         [HttpPost]
