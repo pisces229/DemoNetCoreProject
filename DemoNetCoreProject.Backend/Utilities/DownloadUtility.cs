@@ -6,7 +6,9 @@ namespace DemoNetCoreProject.Backend.Utilities
 {
     public class DownloadUtility
     {
-        public const string ContentType = "application/json; charset=utf-8";
+        public const string ContentTypeJson = "application/json; charset=utf-8";
+        public const string ContentTypeOctetStream = "application/octet-stream";
+        public const string ContentTypePdf = "application/pdf";
         public static byte[] ToBytes(string message)
         {
             var json = JsonSerializer.Serialize(new CommonOutputModel<string>

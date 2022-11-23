@@ -129,21 +129,30 @@ namespace DemoNetCoreProject.Backend.Controllers
             //throw new Exception("Exception");
             if (outputDto.Success)
             {
-                Response.ContentType = "application/octet-stream";
-                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(outputDto.Data!.FileName!)}");
-                //await Response.SendFileAsync(result.Data!.FilePath!);
                 var buffer = new byte[16 * 1024];
-                using var fileStream = System.IO.File.OpenRead(outputDto.Data!.FilePath!);
                 var read = 0;
+
+                Response.ContentType = DownloadUtility.ContentTypeOctetStream;
+                Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(outputDto.Data!.FileName!)}");
+                using var fileStream = System.IO.File.OpenRead(outputDto.Data!.FilePath!);
                 while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     await Response.Body.WriteAsync(buffer.AsMemory(0, read));
                 }
-                //System.IO.File.Delete(result.Data!.FilePath!);
+
+                //Response.ContentType = DownloadUtility.ContentTypePdf;
+                //Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode("Ubuntu.pdf")}");
+                //using var fileStream = System.IO.File.OpenRead("c:\\workspace\\Ubuntu.pdf");
+                //while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                //{
+                //    await Response.Body.WriteAsync(buffer.AsMemory(0, read));
+                //}
+
+                //System.IO.File.Delete(...);
             }
             else
             {
-                Response.ContentType = DownloadUtility.ContentType;
+                Response.ContentType = DownloadUtility.ContentTypeJson;
                 await HttpContext.Response.Body.WriteAsync(DownloadUtility.ToBytes(outputDto.Message!));
             }
         }
