@@ -8,19 +8,11 @@ namespace DemoNetCoreProject.Backend.ModelMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
-            LoadInput(configure);
-            LoadOutput(configure);
-        }
-        private static void LoadInput(IMapperConfigurationExpression configure)
-        {
+            configure.CreateMap(typeof(CommonOutputDto<>), typeof(CommonOutputModel<>));
+            configure.CreateMap(typeof(CommonPagedQueryInputModel<>), typeof(CommonPagedQueryInputDto<>));
+            configure.CreateMap(typeof(CommonPagedQueryOutputDto<>), typeof(CommonPagedQueryOutputModel<>));
             configure.CreateMap<CommonPageInputModel, CommonPageInputDto>();
-        }
-        private static void LoadOutput(IMapperConfigurationExpression configure)
-        {
             configure.CreateMap<CommonOptionOutputDto, CommonOptionOutputModel>();
-            configure.CreateMap<CommonOutputDto<string>, CommonOutputModel<string>>();
-            configure.CreateMap<CommonOutputDto<int>, CommonOutputModel<int>>();
-            configure.CreateMap<CommonOutputDto<long>, CommonOutputModel<long>>();
         }
     }
 }

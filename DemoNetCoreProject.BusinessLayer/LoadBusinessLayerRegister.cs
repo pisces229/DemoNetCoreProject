@@ -15,6 +15,7 @@ namespace DemoNetCoreProject.BusinessLayer
     {
         public static void LoadAutoMappers(IMapperConfigurationExpression configure)
         {
+            CommonAutoMapper.Load(configure);
             DefaultAutoMapper.Load(configure);
         }
         public static void LoadServices(IServiceCollection service)

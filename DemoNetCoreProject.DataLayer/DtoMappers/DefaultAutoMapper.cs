@@ -6,14 +6,7 @@ namespace DemoNetCoreProject.DataLayer.DtoMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
-            LoadInput(configure);
-            LoadOutput(configure);
-        }
-        private static void LoadInput(IMapperConfigurationExpression configure)
-        {
-        }
-        private static void LoadOutput(IMapperConfigurationExpression configure)
-        {
+            // ...
         }
     }
 }
