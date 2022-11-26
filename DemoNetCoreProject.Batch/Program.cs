@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.DataLayer.IServices;
 
-Console.WriteLine(CommandLineArguments.ENVIRONMENT);
+Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 Console.WriteLine(CommandLineArguments.PROG_ID);
 
 var services = new ServiceCollection();
@@ -25,7 +25,7 @@ services.AddLogging(builder =>
 {
     builder.ClearProviders();
     builder.SetMinimumLevel(LogLevel.Trace);
-    builder.AddDemoBatchSerilog();
+    builder.UseDemoBackendSerilog();
 });
 services.AddOptions();
 

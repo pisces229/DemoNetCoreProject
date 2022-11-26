@@ -2,10 +2,9 @@
   "profiles": {
     "DemoNetCoreProject.Batch": {
       "commandName": "Project",
-      "commandLineArgs": "Development Default",
+      "commandLineArgs": "Default",
       "environmentVariables": {
-        "ENVIRONMENT": "Development",
-        "PROG_ID": "Default"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

@@ -27,7 +27,7 @@ using Polly.Extensions.Http;
 using Polly;
 using Microsoft.Extensions.DependencyInjection;
 
-Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
 #region WebApplicationBuilder
 var webApplicationBuilder = WebApplication.CreateBuilder(args);

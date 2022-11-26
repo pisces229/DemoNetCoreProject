@@ -134,6 +134,18 @@ Development Tool: Visual Studio 2022<br>
 
 `dotnet publish DemoNetCoreProject.Batch -c Release /p:PublishProfile=Publish`
 
+## Environment Variables
+
+### WINDOWS
+`set ASPNETCORE_ENVIRONMENT=Development`
+
+### LINUX
+`export ASPNETCORE_ENVIRONMENT=Development`
+
+`dotnet <Name>.dll <Arguments>`
+
+`<Name>.exe <Arguments>`
+
 ## Diagrams(https://www.diagrams.net/)
 
 ## [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
