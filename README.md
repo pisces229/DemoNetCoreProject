@@ -126,7 +126,7 @@ Development Tool: Visual Studio 2022<br>
 * Arrange – 初始化
 * Act – 行為，測試對象的執行過程
 * Assert – 驗證結果
-## Command
+## Command (For Windwos Environment)
 
 `dotnet test DemoNetCoreProject.UnitTest`
 
