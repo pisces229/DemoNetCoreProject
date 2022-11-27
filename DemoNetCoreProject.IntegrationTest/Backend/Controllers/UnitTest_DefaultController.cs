@@ -97,8 +97,17 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
         [TestMethod]
         public async Task Download()
         {
-            var response = await _httpClient.GetAsync("/api/default/download");
+            var json = JsonConvert.SerializeObject(new
+            {
+                filename = "name",
+            });
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/download", stringContent);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            response.Headers.ToList().ForEach(f =>
+            {
+                Console.WriteLine($"[{f.Key}]:[{f.Value}]");
+            });
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         [TestMethod]

@@ -390,9 +390,18 @@ else
 var webApplication = webApplicationBuilder.Build();
 
 #region Lifetime
-webApplication.Lifetime.ApplicationStarted.Register(() => webApplication.Logger.LogInformation($"ApplicationStarted"));
-webApplication.Lifetime.ApplicationStopping.Register(() => webApplication.Logger.LogInformation($"ApplicationStopping"));
-webApplication.Lifetime.ApplicationStopped.Register(() => webApplication.Logger.LogInformation($"ApplicationStopped"));
+webApplication.Lifetime.ApplicationStarted.Register(() =>
+{
+    webApplication.Logger.LogInformation("Started:[{time}]", DateTimeOffset.Now);
+});
+webApplication.Lifetime.ApplicationStopping.Register(() =>
+{
+    webApplication.Logger.LogInformation("Stopping:[{time}]", DateTimeOffset.Now);
+});
+webApplication.Lifetime.ApplicationStopped.Register(() =>
+{
+    webApplication.Logger.LogInformation("Stopped:[{time}]", DateTimeOffset.Now);
+});
 #endregion
 
 #region ¤¤¤¶³nÅé
@@ -473,6 +482,8 @@ webApplication.Use(async (context, next) =>
 
 webApplication.MapControllers();
 
+Console.WriteLine("app Start");
 webApplication.Run();
+Console.WriteLine("app End");
 #endregion
 public partial class Program { }

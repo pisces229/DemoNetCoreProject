@@ -121,11 +121,11 @@ namespace DemoNetCoreProject.Backend.Controllers
         public async Task Download([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultDownloadInputModel inputModel)
         {
-            var outputDto = await logic.Download();
-            //var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
-            //{
-            //    Message = "File Not Exist",
-            //};
+            //var outputDto = await logic.Download();
+            var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
+            {
+                Message = "File Not Exist",
+            };
             //throw new Exception("Exception");
             if (outputDto.Success)
             {
