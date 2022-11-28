@@ -22,11 +22,12 @@ hostbuilder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
     configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
 });
+
 hostbuilder.ConfigureLogging((hostContext, loggingBuilder) =>
 {
     loggingBuilder.ClearProviders();
     loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-    loggingBuilder.UseDemoBackendSerilog();
+    loggingBuilder.UseDefaultSerilog();
 });
 
 hostbuilder.ConfigureServices((hostContext, services) =>

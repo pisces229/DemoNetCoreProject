@@ -26,6 +26,7 @@ using Microsoft.Extensions.Configuration;
 using Polly.Extensions.Http;
 using Polly;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
@@ -40,7 +41,12 @@ webApplicationBuilder.Host.ConfigureAppConfiguration((hostBuilder, configuration
         .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true);
 });
 
-webApplicationBuilder.Host.UseDemoBackendSerilog();
+webApplicationBuilder.Host.ConfigureLogging((hostContext, loggingBuilder) =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+    loggingBuilder.UseDefaultSerilog();
+});
 
 // KestrelHttpServer
 //webApplicationBuilder.WebHost.UseKestrel(options =>
