@@ -38,7 +38,7 @@ var webApplicationBuilder = WebApplication.CreateBuilder(args);
 webApplicationBuilder.Host.ConfigureAppConfiguration((hostBuilder, configurationBuilder) =>
 {
     configurationBuilder.SetBasePath(webApplicationBuilder.Environment.ContentRootPath)
-        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true);
+        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
 });
 
 webApplicationBuilder.Host.ConfigureLogging((hostContext, loggingBuilder) =>
