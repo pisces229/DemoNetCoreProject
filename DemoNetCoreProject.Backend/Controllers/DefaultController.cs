@@ -55,21 +55,21 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok();
         }
         [HttpGet]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> ValueHttpGet([FromQuery] string inputModel)
         {
             var outputModel = await Task.FromResult(inputModel);
             return Ok(outputModel);
         }
         [HttpPost]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> ValueHttpPost([FromBody] string inputModel)
         {
             var outputModel = await Task.FromResult(inputModel);
             return Ok(outputModel);
         }
         [HttpGet]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> JsonHttpGet([FromServices] IDefaultRequestLogic logic,
             [FromQuery] DefaultJsonHttpGetInputModel inputModel)
         {
@@ -81,7 +81,7 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok(outputModel);
         }
         [HttpPost]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> JsonHttpPost([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultJsonHttpPostInputModel inputModel)
         {
@@ -93,7 +93,7 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok(outputModel);
         }
         [HttpPost]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> CommonPagedQuery([FromServices] IDefaultRequestLogic logic,
             [FromBody] CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel> inputModel)
         {
@@ -105,7 +105,7 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok(outputModel);
         }
         [HttpPost]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task<ActionResult> Upload([FromServices] IDefaultRequestLogic logic,
             [FromForm] DefaultUploadInputModel inputModel)
         {
@@ -117,7 +117,7 @@ namespace DemoNetCoreProject.Backend.Controllers
             return Ok(outputModel);
         }
         [HttpPost]
-        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        [ServiceFilter(typeof(JwtAuthorizationFilter))]
         public async Task Download([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultDownloadInputModel inputModel)
         {

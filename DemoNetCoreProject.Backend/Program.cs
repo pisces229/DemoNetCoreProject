@@ -459,26 +459,26 @@ webApplication.UseAuthentication();
 //    await next();
 //});
 // Content-Security-Policy
-webApplication.UseCsp(options =>
-{
-    options.ScriptSrc.AllowSelf().UnsafeInline().UnsafeEval();
-    options.StyleSrc.AllowSelf().UnsafeInline();
-    options.ImageSrc.AllowSelf().Allow("data:");
-    options.ChildSrc.Disallow();
-    options.FrameAncestors.Disallow();
-});
+//webApplication.UseCsp(options =>
+//{
+//    options.ScriptSrc.AllowSelf().UnsafeInline().UnsafeEval();
+//    options.StyleSrc.AllowSelf().UnsafeInline();
+//    options.ImageSrc.AllowSelf().Allow("data:");
+//    options.ChildSrc.Disallow();
+//    options.FrameAncestors.Disallow();
+//});
 // X-Frame-Options
-webApplication.Use(async (context, next) =>
-{
-    context.Response.Headers.Add("X-Frame-Options", "DENY");
-    await next();
-});
+//webApplication.Use(async (context, next) =>
+//{
+//    context.Response.Headers.Add("X-Frame-Options", "DENY");
+//    await next();
+//});
 // X-Content-Type-Options
-webApplication.Use(async (context, next) =>
-{
-    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-    await next();
-});
+//webApplication.Use(async (context, next) =>
+//{
+//    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+//    await next();
+//});
 // Strict-Transport-Security (UseHsts)
 //webApplication.Use(async (context, next) =>
 //{
