@@ -43,6 +43,20 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
         [TestMethod]
+        public async Task Validatable()
+        {
+            var requestJson = JsonConvert.SerializeObject(new
+            {
+                value = "幹",
+                first = "first",
+                second = "second",
+            });
+            var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("/api/default/validatable", content);
+            //Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+        }
+        [TestMethod]
         public async Task JsonHttpGet()
         {
             var response = await _httpClient.GetAsync("/api/default/jsonHttpGet?text=Value&value=9&date=2020-01-01");

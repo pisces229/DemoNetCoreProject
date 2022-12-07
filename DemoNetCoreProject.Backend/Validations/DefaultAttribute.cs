@@ -4,14 +4,14 @@ namespace DemoNetCoreProject.Backend.Validations
 {
     public class DefaultAttribute : ValidationAttribute
     {
-        public string Value { get; }
-        public DefaultAttribute(string value) => Value = value;
-        public string GetErrorMessage() => $"DefaultAttribute.";
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        public DefaultAttribute()
         { 
-            if (value!.ToString() == "Default")
+        }
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value?.ToString() == "")
             {
-                return new ValidationResult(GetErrorMessage());
+                return new ValidationResult(string.Format("{0}Default", validationContext.DisplayName));
             }
             else
             {
