@@ -47,7 +47,7 @@ namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
         {
             var requestJson = JsonConvert.SerializeObject(new
             {
-                value = "幹",
+                value = "",
                 first = "first",
                 second = "second",
             });

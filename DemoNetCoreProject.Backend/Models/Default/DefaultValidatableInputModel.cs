@@ -15,9 +15,10 @@ namespace DemoNetCoreProject.Backend.Models.Default
         //[MaxLength(length: 2, ErrorMessage = $"【Value】{ValidationErrorMessageConstant.MinLength}2")]
         //[Range(0, int.MaxValue, ErrorMessage = $"【Value】{ValidationErrorMessageConstant.Number}")]
         //[RegularExpression(ValidationRegexConstant.Ascii, ErrorMessage = $"【Value】{ValidationErrorMessageConstant.Ascii}")]
-        [RegularExpression(ValidationRegexConstant.Email, ErrorMessage = $"【Value】{ValidationErrorMessageConstant.Email}")]
+        //[RegularExpression(ValidationRegexConstant.Email, ErrorMessage = $"【Value】{ValidationErrorMessageConstant.Email}")]
         //[RegularExpression(@"^[0-9]{1}\.[0-9]{1,6}$", ErrorMessage = $"【Value】{ValidationErrorMessageConstant.Format}0.000000")]
         //[Default]
+        [Email]
         public string Value { get; set; } = null!;
         [JsonPropertyName(name: "first")]
         [Display(Name = "[First]")]
