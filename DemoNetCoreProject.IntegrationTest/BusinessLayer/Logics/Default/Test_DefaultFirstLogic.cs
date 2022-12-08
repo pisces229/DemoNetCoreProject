@@ -7,13 +7,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class UnitTest_DefaultFirstLogic : UnitTestInitialize
+    public class Test_DefaultFirstLogic : TestInitialize
     {
-        private readonly ILogger<UnitTest_DefaultLogic> _logger;
+        private readonly ILogger<Test_DefaultLogic> _logger;
         private readonly IDefaultFirstLogic _logic;
-        public UnitTest_DefaultFirstLogic() : base()
+        public Test_DefaultFirstLogic() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultLogic>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<Test_DefaultLogic>>();
             _logic = _serviceProvider.GetRequiredService<IDefaultFirstLogic>();
         }
         [TestInitialize]

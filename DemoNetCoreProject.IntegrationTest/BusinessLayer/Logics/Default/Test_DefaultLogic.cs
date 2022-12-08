@@ -6,13 +6,13 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class UnitTest_DefaultLogic : UnitTestInitialize
+    public class Test_DefaultLogic : TestInitialize
     {
-        private readonly ILogger<UnitTest_DefaultLogic> _logger;
+        private readonly ILogger<Test_DefaultLogic> _logger;
         private readonly IDefaultLogic _logic;
-        public UnitTest_DefaultLogic() : base()
+        public Test_DefaultLogic() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_DefaultLogic>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<Test_DefaultLogic>>();
             _logic = _serviceProvider.GetRequiredService<IDefaultLogic>();
         }
         [TestInitialize]

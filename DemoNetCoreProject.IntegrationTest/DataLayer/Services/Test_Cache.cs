@@ -6,13 +6,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.Domain.Services
 {
     [TestClass]
-    public class UnitTest_Cache : UnitTestInitialize
+    public class Test_Cache : TestInitialize
     {
-        private readonly ILogger<UnitTest_Cache> _logger;
+        private readonly ILogger<Test_Cache> _logger;
         private readonly ICache _cache;
-        public UnitTest_Cache() : base()
+        public Test_Cache() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<UnitTest_Cache>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<Test_Cache>>();
             _cache = _serviceProvider.GetRequiredService<ICache>();
         }
         [TestInitialize]

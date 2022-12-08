@@ -2,7 +2,7 @@
 
 namespace DemoNetCoreProject.IntegrationTest
 {
-    internal class UserService : IUserService
+    internal class TestUserService : IUserService
     {
         public string ProgId => "Test";
         public string UserId => "Test";

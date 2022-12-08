@@ -3,16 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace DemoNetCoreProject.Backend.Validations
 {
-    public class EmailAttribute : ValidationAttribute
+    public class DefaultAttribute : ValidationAttribute
     {
-        public EmailAttribute()
-        { 
+        public DefaultAttribute()
+        {
         }
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (!string.IsNullOrEmpty(value?.ToString()) && !Regex.IsMatch(value?.ToString()!, "^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$"))
+            if (value?.ToString() == "")
             {
-                return new ValidationResult(string.Format("{0}Email", validationContext.DisplayName));
+                return new ValidationResult(string.Format("{0}Default", validationContext.DisplayName));
             }
             else
             {
