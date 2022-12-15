@@ -5,7 +5,6 @@ namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {
     public interface IDefaultRequestLogic
     {
-        void Run();
         Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model);
         Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpPost(DefaultRequestLogicJsonHttpPostInputDto model);
         Task<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto> model);

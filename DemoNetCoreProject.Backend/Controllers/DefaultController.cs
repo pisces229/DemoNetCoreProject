@@ -11,6 +11,7 @@ using System.Web;
 using DemoNetCoreProject.DataLayer.IRepositories.Http;
 using System.Text.Json;
 using DemoNetCoreProject.Backend.Utilities;
+using DemoNetCoreProject.Backend.Services;
 
 namespace DemoNetCoreProject.Backend.Controllers
 {
@@ -20,21 +21,27 @@ namespace DemoNetCoreProject.Backend.Controllers
     {
         private readonly ILogger<DefaultController> _logger;
         private readonly IMapper _mapper;
+        private readonly DefaultDataProtector _defaultDataProtector;
         public DefaultController(ILogger<DefaultController> logger,
-            IMapper mapper)
+            IMapper mapper,
+            DefaultDataProtector defaultDataProtector)
         {
             _logger = logger;
             _mapper = mapper;
+            _defaultDataProtector = defaultDataProtector;
         }
         [HttpGet]
         public ActionResult Run()
-        { 
+        {
+            var protect = _defaultDataProtector.Protect("1234567890");
+            var unprotect = _defaultDataProtector.Unprotect(protect);
+            _logger.LogInformation("[{protect}][{unprotect}]", protect, unprotect);
             return Ok("Run");
         }
         [HttpPost]
         public ActionResult Json([FromBody] DefaultJsonInputModel inputModel)
         {
-            _logger.LogInformation(JsonSerializer.Serialize(inputModel));
+            _logger.LogInformation("", JsonSerializer.Serialize(inputModel));
             var outputModel = new DefaultJsonOutputModel()
             {
                 ValueString = inputModel.ValueString,
@@ -121,11 +128,11 @@ namespace DemoNetCoreProject.Backend.Controllers
         public async Task Download([FromServices] IDefaultRequestLogic logic,
             [FromBody] DefaultDownloadInputModel inputModel)
         {
-            //var outputDto = await logic.Download();
-            var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
-            {
-                Message = "File Not Exist",
-            };
+            var outputDto = await logic.Download();
+            //var outputDto = new CommonOutputDto<CommonDownloadOutputDto>()
+            //{
+            //    Message = "File Not Exist",
+            //};
             //throw new Exception("Exception");
             if (outputDto.Success)
             {

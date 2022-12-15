@@ -3,24 +3,29 @@ using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Utilities;
 using DemoNetCoreProject.DataLayer.Dtos.Default;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
+using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
     internal class DefaultRequestRepository : IDefaultRequestRepository
     {
+        private readonly IFileManager _fileManager;
         private readonly IConfiguration _configuration;
-        public DefaultRequestRepository(IConfiguration configuration)
+        public DefaultRequestRepository(IFileManager fileManager,
+            IConfiguration configuration)
         {
+            _fileManager = fileManager;
             _configuration = configuration;
         }
         public async Task<bool> Upload(DefaultRequestRepositoryUploadInputDto model)
         {
-            var file = FileUtility.GetFile(
-                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
+            var filepath = _fileManager.CombineFilePath(
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
                 Guid.NewGuid().ToString());
             using (model.File)
-            using (var fileStream = file.Create())
+            using (var fileStream = File.Create(filepath))
             {
                 model.File.Seek(0, SeekOrigin.Begin);
                 await model.File.CopyToAsync(fileStream);
@@ -30,16 +35,16 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         public CommonOutputDto<CommonDownloadOutputDto> Download()
         {
             var result = new CommonOutputDto<CommonDownloadOutputDto>();
-            var fileInfo = FileUtility.GetFile(
-                Directory.CreateDirectory(_configuration.GetValue<string>(ConfigurationConstant.PathTemp)),
+            var filepath = _fileManager.CombineFilePath(
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
                 "Ubuntu.pdf");
-            if (fileInfo.Exists)
+            if (File.Exists(filepath))
             {
                 result.Success = true;
                 result.Data = new CommonDownloadOutputDto()
                 {
                     FileName = "Download.pdf",
-                    FilePath = fileInfo.FullName,
+                    FilePath = filepath,
                 };
             }
             else

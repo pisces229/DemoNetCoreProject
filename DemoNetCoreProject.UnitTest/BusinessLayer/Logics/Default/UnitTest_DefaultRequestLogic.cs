@@ -39,7 +39,6 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             mockDefaultRequestRepository
                 .Setup(s => s.Upload(It.IsAny<DefaultRequestRepositoryUploadInputDto>()))
                 .ReturnsAsync(true);
-            var mockDefaultDataProtector = new Mock<IDefaultDataProtector>();
             var mapper = new Mapper(new MapperConfiguration(c => DefaultAutoMapper.Load(c)));
             var mockOptions = new Mock<IOptions<JwtOption>>();
             var mockUserService = new Mock<IUserService>();
@@ -47,7 +46,6 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var defaultFirstLogic = new DefaultRequestLogic(
                 logger,
                 mockDefaultRequestRepository.Object,
-                mockDefaultDataProtector.Object,
                 mapper,
                 mockOptions.Object,
                 mockUserService.Object,
@@ -81,7 +79,6 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                         FilePath = "FilePath",
                     }
                 });
-            var mockDefaultDataProtector = new Mock<IDefaultDataProtector>();
             var mapper = new Mapper(new MapperConfiguration(c => DefaultAutoMapper.Load(c)));
             var mockOptions = new Mock<IOptions<JwtOption>>();
             var mockUserService = new Mock<IUserService>();
@@ -89,7 +86,6 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var defaultFirstLogic = new DefaultRequestLogic(
                 logger,
                 mockDefaultRequestRepository.Object,
-                mockDefaultDataProtector.Object,
                 mapper,
                 mockOptions.Object,
                 mockUserService.Object,

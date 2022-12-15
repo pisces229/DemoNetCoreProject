@@ -295,6 +295,8 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     //    dataProtectionBuilder.PersistKeysToDbContext<DataProtectionDbContext>();
     //}
     #endregion
+
+    webApplicationBuilder.Services.AddSingleton<DefaultDataProtector>();
 }
 #endregion
 // Background

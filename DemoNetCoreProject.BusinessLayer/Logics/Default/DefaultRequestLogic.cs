@@ -21,14 +21,12 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
     {
         private readonly ILogger<DefaultRequestLogic> _logger;
         private readonly IDefaultRequestRepository _defaultRequestRepository;
-        private readonly IDefaultDataProtector _defaultDataProtector;
         private readonly IMapper _mapper;
         private readonly JwtOption _jwtOption;
         private readonly IUserService _userService;
         private readonly ICache _cache;
         public DefaultRequestLogic(ILogger<DefaultRequestLogic> logger,
             IDefaultRequestRepository defaultRequestRepository,
-            IDefaultDataProtector defaultDataProtector,
             IMapper mapper,
             IOptions<JwtOption> JwtOptions,
             IUserService userService,
@@ -36,19 +34,10 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         {
             _logger = logger;
             _defaultRequestRepository = defaultRequestRepository;
-            _defaultDataProtector = defaultDataProtector;
             _mapper = mapper;
             _jwtOption = JwtOptions.Value;
             _userService = userService;
             _cache = cache;
-        }
-        public void Run()
-        {
-            var value = "1234567890";
-            var protectValue = _defaultDataProtector.Protect(value);
-            _logger.LogInformation("{protectValue}", protectValue);
-            var unprotectValue = _defaultDataProtector.Unprotect(protectValue);
-            _logger.LogInformation("{unprotectValue}", unprotectValue);
         }
         public async Task<CommonOutputDto<DefaultRequestLogicJsonOutputDto>> JsonHttpGet(DefaultRequestLogicJsonHttpGetInputDto model)
         {

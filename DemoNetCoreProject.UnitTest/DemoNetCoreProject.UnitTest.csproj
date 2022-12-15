@@ -23,4 +23,8 @@
     <ProjectReference Include="..\DemoNetCoreProject.DataLayer\DemoNetCoreProject.DataLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
 </Project>

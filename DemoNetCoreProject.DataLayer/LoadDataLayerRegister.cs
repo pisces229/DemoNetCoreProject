@@ -25,8 +25,8 @@ namespace DemoNetCoreProject.DataLayer
             // Service
             service.AddScoped<IDbManager<DefaultDbContext>, DbManager<DefaultDbContext>>();
             service.AddScoped<IDapperService<DefaultDbContext>, DapperService<DefaultDbContext>>();
+            service.AddScoped<IFileManager, FileManager>();
             service.AddScoped<IMailClient, MailClient>();
-            service.AddScoped<IDefaultDataProtector, DefaultDataProtector>();
             // Repositories
             DefaultDbRepositoryRegister.Load(service);
             DefaultHttpRepositoryRegister.Load(service);

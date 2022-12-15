@@ -79,7 +79,8 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 It.IsAny<CommandType>())
             , Times.Once);
         }
-        //[TestMethod]
+        [Ignore]
+        [TestMethod]
         public async Task RunDapperQueryMultiple()
         {
             var service = new ServiceCollection()
@@ -107,6 +108,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                 It.IsAny<CommandType>())
             , Times.Once);
         }
+        [Ignore]
         [TestMethod]
         public async Task RunDapperExecuteReader()
         {
