@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <None Remove="Common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
@@ -21,10 +27,6 @@
     <ProjectReference Include="..\DemoNetCoreProject.BusinessLayer\DemoNetCoreProject.BusinessLayer.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.Common\DemoNetCoreProject.Common.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.DataLayer\DemoNetCoreProject.DataLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>
