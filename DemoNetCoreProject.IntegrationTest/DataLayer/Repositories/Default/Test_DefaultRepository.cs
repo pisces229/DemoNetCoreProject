@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Default
 {
     [TestClass]
-    public class Test_DefaultRepository : TestInitialize
+    public class Test_DefaultRepository : Test_Initialize
     {
         private readonly ILogger<Test_DefaultRepository> _logger;
         private readonly IDefaultRepository _repository;

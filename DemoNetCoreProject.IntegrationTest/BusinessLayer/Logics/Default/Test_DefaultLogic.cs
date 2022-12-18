@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class Test_DefaultLogic : TestInitialize
+    public class Test_DefaultLogic : Test_Initialize
     {
         private readonly ILogger<Test_DefaultLogic> _logger;
         private readonly IDefaultLogic _logic;

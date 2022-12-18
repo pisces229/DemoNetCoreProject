@@ -10,12 +10,12 @@ using System.Data;
 namespace DemoNetCoreProject.UnitTest
 {
     [TestClass]
-    public class UnitTestInitialize
+    public class Test_Initialize
     {
         protected readonly ServiceProvider _serviceProvider;
         protected readonly ILoggerFactory _loggerFactory;
         protected readonly DefaultDbContext _defaultDbContext;
-        public UnitTestInitialize()
+        public Test_Initialize()
         {
             _serviceProvider = new ServiceCollection()
                 .AddLogging(builder => builder.AddConsole())

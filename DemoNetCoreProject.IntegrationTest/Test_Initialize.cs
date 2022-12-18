@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Builder;
 
 namespace DemoNetCoreProject.IntegrationTest
 {
-    public class TestInitialize
+    public class Test_Initialize
     {
         protected readonly ServiceProvider _serviceProvider;
-        public TestInitialize()
+        public Test_Initialize()
         {
             var services = new ServiceCollection();
             var configuration = new ConfigurationBuilder()

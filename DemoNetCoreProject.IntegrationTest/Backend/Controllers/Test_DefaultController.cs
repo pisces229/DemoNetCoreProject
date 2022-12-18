@@ -7,18 +7,8 @@ using System.Text;
 namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
 {
     [TestClass]
-    public class Test_DefaultController
+    public class Test_DefaultController : Test_Backend_Initialize
     {
-        private readonly HttpClient _httpClient;
-        public Test_DefaultController()
-        {
-            var application = new WebApplicationFactory<Program>()
-                .WithWebHostBuilder(builder =>
-                {
-                    // ... Configure test services
-                });
-            _httpClient = application.CreateClient();
-        }
         [TestMethod]
         public async Task Run()
         {

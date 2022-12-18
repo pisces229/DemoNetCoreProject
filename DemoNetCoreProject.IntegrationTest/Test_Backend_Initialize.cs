@@ -2,10 +2,10 @@
 
 namespace DemoNetCoreProject.IntegrationTest
 {
-    public class TestBackendInitialize
+    public class Test_Backend_Initialize
     {
         protected readonly HttpClient _httpClient;
-        public TestBackendInitialize()
+        public Test_Backend_Initialize()
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             var application = new WebApplicationFactory<Program>()

@@ -9,7 +9,7 @@ using System.Text;
 namespace DemoNetCoreProject.UnitTest.DataLayer.Utilities
 {
     [TestClass]
-    public class UnitTest_SqlConditionUtility
+    public class Test_SqlConditionUtility
     {
         [TestMethod]
         public void Run()

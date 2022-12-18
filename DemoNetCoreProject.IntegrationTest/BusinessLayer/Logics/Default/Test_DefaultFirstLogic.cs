@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class Test_DefaultFirstLogic : TestInitialize
+    public class Test_DefaultFirstLogic : Test_Initialize
     {
         private readonly ILogger<Test_DefaultLogic> _logger;
         private readonly IDefaultFirstLogic _logic;

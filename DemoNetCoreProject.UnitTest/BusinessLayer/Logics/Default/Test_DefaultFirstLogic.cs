@@ -14,9 +14,9 @@ using Moq;
 namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class UnitTest_DefaultFirstLogic : UnitTestInitialize
+    public class Test_DefaultFirstLogic : Test_Initialize
     {
-        public UnitTest_DefaultFirstLogic() : base()
+        public Test_DefaultFirstLogic() : base()
         { 
         }
         [TestInitialize]

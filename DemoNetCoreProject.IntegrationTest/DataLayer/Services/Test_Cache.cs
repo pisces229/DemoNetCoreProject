@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.Domain.Services
 {
     [TestClass]
-    public class Test_Cache : TestInitialize
+    public class Test_Cache : Test_Initialize
     {
         private readonly ILogger<Test_Cache> _logger;
         private readonly ICache _cache;

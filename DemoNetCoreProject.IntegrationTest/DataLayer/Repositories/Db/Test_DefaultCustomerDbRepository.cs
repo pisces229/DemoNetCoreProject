@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
 {
     [TestClass]
-    public class Test_DefaultCustomerDbRepository : TestInitialize
+    public class Test_DefaultCustomerDbRepository : Test_Initialize
     {
         private readonly ILogger<Test_DefaultCustomerDbRepository> _logger;
         private readonly IDefaultPersonDbRepository _repository;
