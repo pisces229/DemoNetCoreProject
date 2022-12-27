@@ -1,6 +1,5 @@
 ﻿using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Enums;
-using System.ComponentModel;
 using System.Reflection;
 
 namespace DemoNetCoreProject.Common.Utilities
@@ -14,7 +13,7 @@ namespace DemoNetCoreProject.Common.Utilities
             .Cast<T>()
             .Select(s => new CommonOptionOutputDto() { Value = s.Value, Text = s.Text })
             .ToList();
-        public static string? GetDescription<T>(string value) where T : Enumeration =>
+        public static string? GetText<T>(string value) where T : Enumeration =>
             GetOption<T>()
             .Where(p => p.Value == value)
             .Select(s => s.Text)
