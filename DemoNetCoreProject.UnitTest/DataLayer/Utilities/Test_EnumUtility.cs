@@ -21,7 +21,7 @@ namespace DemoNetCoreProject.UnitTest.DataLayer.Utilities
         [TestMethod]
         public void Test_GetDescription()
         {
-            var result = EnumUtility.GetDescription<DefaultEnum>("1");
+            var result = EnumUtility.GetText<DefaultEnum>("1");
             Console.WriteLine(result);
         }
     }

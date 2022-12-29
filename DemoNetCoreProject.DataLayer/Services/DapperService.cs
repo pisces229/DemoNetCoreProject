@@ -40,7 +40,7 @@ namespace DemoNetCoreProject.DataLayer.Services
                 return await dbConnection.QueryFirstOrDefaultAsync<T>(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             });
         }
-        public async Task<List<T>> Query<T>(string sql, DynamicParameters? parameters = null,
+        public async Task<IEnumerable<T>> Query<T>(string sql, DynamicParameters? parameters = null,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class
         {
@@ -48,12 +48,12 @@ namespace DemoNetCoreProject.DataLayer.Services
             var dbTransaction = _dbContext.GetDbTransaction();
             var dbCommandTimeout = _dbContext.GetDatabase().GetCommandTimeout();
             dbCommandTimeout ??= commandTimeout;
-            //return (await dbConnection.QueryAsync<T>(sql, parameters, dbTransaction, dbCommandTimeout, commandType)).ToList();
+            //return await dbConnection.QueryAsync<T>(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             return await Run(async (message) =>
             {
                 message.AppendLine(GetSqlString(sql));
                 message.AppendLine(GetDynamicParameters(parameters));
-                return (await dbConnection.QueryAsync<T>(sql, parameters, dbTransaction, dbCommandTimeout, commandType)).ToList();
+                return await dbConnection.QueryAsync<T>(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             });
         }
         public async Task<SqlMapper.GridReader> QueryMultiple(string sql, DynamicParameters? parameters = null,

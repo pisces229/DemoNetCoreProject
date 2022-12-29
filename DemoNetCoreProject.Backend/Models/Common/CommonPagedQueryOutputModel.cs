@@ -4,7 +4,7 @@ namespace DemoNetCoreProject.Backend.Models.Common
 {
     public class CommonPagedQueryOutputModel<T> where T : class
     {
-        public List<T> Data { get; set; } = null!;
+        public IEnumerable<T> Data { get; set; } = null!;
         public int TotalCount { get; set; }
     }
 }

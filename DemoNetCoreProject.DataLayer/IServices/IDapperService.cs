@@ -10,7 +10,7 @@ namespace DemoNetCoreProject.DataLayer.IServices
         Task<T> QueryFirstOrDefault<T>(string sql, DynamicParameters? parameters = null,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class;
-        Task<List<T>> Query<T>(string sql, DynamicParameters? parameters = null,
+        Task<IEnumerable<T>> Query<T>(string sql, DynamicParameters? parameters = null,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class;
         Task<SqlMapper.GridReader> QueryMultiple(string sql, DynamicParameters? parameters = null,
