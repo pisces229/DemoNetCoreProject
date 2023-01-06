@@ -71,7 +71,7 @@ webApplicationBuilder.Host.ConfigureLogging((hostContext, loggingBuilder) =>
 //webApplicationBuilder.Services.AddSingleton(provider => configurationRoot);
 webApplicationBuilder.Services.AddHttpContextAccessor();
 // 註冊 Options Pattern 服務，將配置內容註冊到容器裡，來獲取對應的服務 Provider 對象
-webApplicationBuilder.Services.AddOptions();
+//webApplicationBuilder.Services.AddOptions();
 webApplicationBuilder.Services.AddCors(options =>
 {
     // CorsPolicy 是自訂的 Policy 名稱

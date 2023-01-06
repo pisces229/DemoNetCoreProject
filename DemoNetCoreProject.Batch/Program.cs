@@ -32,7 +32,7 @@ hostbuilder.ConfigureLogging((hostContext, loggingBuilder) =>
 
 hostbuilder.ConfigureServices((hostContext, services) =>
 {
-    services.AddOptions();
+    //services.AddOptions();
     // Make HTTP requests using IHttpClientFactory in ASP.NET Core
     services.AddHttpClient("Default", client =>
     {

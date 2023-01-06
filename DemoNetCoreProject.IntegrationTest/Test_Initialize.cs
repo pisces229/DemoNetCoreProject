@@ -29,7 +29,7 @@ namespace DemoNetCoreProject.IntegrationTest
                 builder.SetMinimumLevel(LogLevel.Trace);
                 builder.AddConsole();
             });
-            services.AddOptions();
+            //services.AddOptions();
 
             // Make HTTP requests using IHttpClientFactory in ASP.NET Core
             services.AddHttpClient("Default", client =>
