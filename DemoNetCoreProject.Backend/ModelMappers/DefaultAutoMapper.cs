@@ -21,6 +21,8 @@ namespace DemoNetCoreProject.Backend.ModelMappers
             //.ForMember(member => member.File, option => option.Ignore());
             .ForMember(member => member.File, option => option.MapFrom(source => source.File.OpenReadStream()))
             .ForMember(member => member.FileName, option => option.MapFrom(source => source.File.FileName));
+            // PagedQuery
+            configure.CreateMap<DefaultPagedQueryGetInputModel, DefaultRequestLogicPagedQueryGetInputDto>();
         }
     }
 }

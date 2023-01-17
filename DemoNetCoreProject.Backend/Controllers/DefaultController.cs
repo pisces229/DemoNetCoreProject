@@ -99,14 +99,26 @@ namespace DemoNetCoreProject.Backend.Controllers
                 CommonOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
             return Ok(outputModel);
         }
+        [HttpGet]
+        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        public async Task<ActionResult> CommonPagedQueryGet([FromServices] IDefaultRequestLogic logic,
+            [FromQuery] DefaultPagedQueryGetInputModel inputModel)
+        {
+            var inputDto = _mapper.Map<DefaultPagedQueryGetInputModel,
+                DefaultRequestLogicPagedQueryGetInputDto>(inputModel);
+            var outputDto = await logic.CommonPagedQueryGet(inputDto);
+            var outputModel = _mapper.Map<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>,
+                CommonPagedQueryOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
+            return Ok(outputModel);
+        }
         [HttpPost]
-        [ServiceFilter(typeof(JwtAuthorizationFilter))]
-        public async Task<ActionResult> CommonPagedQuery([FromServices] IDefaultRequestLogic logic,
+        //[ServiceFilter(typeof(JwtAuthorizationFilter))]
+        public async Task<ActionResult> CommonPagedQueryPost([FromServices] IDefaultRequestLogic logic,
             [FromBody] CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel> inputModel)
         {
             var inputDto = _mapper.Map<CommonPagedQueryInputModel<DefaultJsonHttpPostInputModel>,
                 CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto>>(inputModel);
-            var outputDto = await logic.CommonPagedQuery(inputDto);
+            var outputDto = await logic.CommonPagedQueryPost(inputDto);
             var outputModel = _mapper.Map<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>,
                 CommonPagedQueryOutputModel<DefaultJsonHttpOutputModel>>(outputDto);
             return Ok(outputModel);

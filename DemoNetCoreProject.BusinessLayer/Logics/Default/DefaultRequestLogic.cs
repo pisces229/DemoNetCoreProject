@@ -57,14 +57,27 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             };
             return await Task.FromResult(result);
         }
-        public async Task<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQuery(CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto> model)
+        public async Task<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQueryGet(DefaultRequestLogicPagedQueryGetInputDto model)
         {
             var result = new CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>()
             {
                 Data = new List<DefaultRequestLogicJsonOutputDto>()
                 {
-                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data),
-                    _mapper.Map<DefaultRequestLogicJsonHttpPostInputDto, DefaultRequestLogicJsonOutputDto>(model.Data),
+                    new DefaultRequestLogicJsonOutputDto() { Text = "A" },
+                    new DefaultRequestLogicJsonOutputDto() { Text = "B" },
+                },
+                TotalCount = 10,
+            };
+            return await Task.FromResult(result);
+        }
+        public async Task<CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>> CommonPagedQueryPost(CommonPagedQueryInputDto<DefaultRequestLogicJsonHttpPostInputDto> model)
+        {
+            var result = new CommonPagedQueryOutputDto<DefaultRequestLogicJsonOutputDto>()
+            {
+                Data = new List<DefaultRequestLogicJsonOutputDto>()
+                {
+                    new DefaultRequestLogicJsonOutputDto() { Text = "A" },
+                    new DefaultRequestLogicJsonOutputDto() { Text = "B" },
                 },
                 TotalCount = 10,
             };
