@@ -169,8 +169,9 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             }
             return result;
         }
-        public async Task SignOut(string model)
+        public async Task<CommonOutputDto<string>> SignOut(string model)
         {
+            var result = new CommonOutputDto<string>();
             try
             {
                 var tokenValidationParameters = CreateTokenValidationParameters;
@@ -188,11 +189,13 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
                 {
                     await _cache.Remove(refreshTokenId);
                 }
+                result.Success = true;
             }
             catch (Exception e)
             {
                 _logger.LogError(0, e, "");
             }
+            return result;
         }
         private string GenerateToken(string account, string refreshTokenId)
         {

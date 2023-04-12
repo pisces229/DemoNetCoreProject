@@ -39,7 +39,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         {
             if (await Exists(key))
             {
-                await Remove(key);
+                //await Remove(key);
                 await Add(key, value, expiry);
             }
         }

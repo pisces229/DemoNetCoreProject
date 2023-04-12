@@ -151,8 +151,8 @@ namespace DemoNetCoreProject.Backend.Controllers
                 var buffer = new byte[16 * 1024];
                 var read = 0;
 
-                Response.ContentType = DownloadUtility.ContentTypeOctetStream;
-                //Response.ContentType = DownloadUtility.ContentTypePdf;
+                //Response.ContentType = DownloadUtility.ContentTypeOctetStream;
+                Response.ContentType = DownloadUtility.ContentTypePdf;
                 Response.Headers.Add("content-disposition", $"attachment; filename={HttpUtility.UrlEncode(outputDto.Data!.FileName!)}");
                 using var fileStream = System.IO.File.OpenRead(outputDto.Data!.FilePath!);
                 while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -202,8 +202,10 @@ namespace DemoNetCoreProject.Backend.Controllers
         public async Task<ActionResult> SignOut([FromServices] IDefaultRequestLogic logic,
             [FromBody] string inputModel)
         {
-            await logic.SignOut(inputModel);
-            return Ok();
+            var outputDto = await logic.SignOut(inputModel);
+            var outputModel = _mapper.Map<CommonOutputDto<string>,
+                CommonOutputModel<string>>(outputDto);
+            return Ok(outputModel);
         }
         [HttpGet]
         public async Task<ActionResult> First([FromServices] IDefaultFirstLogic logic)

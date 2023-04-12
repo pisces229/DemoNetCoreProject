@@ -14,6 +14,6 @@ namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
         Task<CommonOutputDto<string>> SignIn(DefaultRequestLogicSignInInputDto model);
         Task<CommonOutputDto<string>> Validate();
         Task<CommonOutputDto<string>> Refresh(string model);
-        Task SignOut(string model);
+        Task<CommonOutputDto<string>> SignOut(string model);
     }
 }
