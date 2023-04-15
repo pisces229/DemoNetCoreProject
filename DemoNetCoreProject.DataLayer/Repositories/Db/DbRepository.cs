@@ -50,7 +50,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             }
             return await query.ToListAsync();
         }
-        public async Task<CommonPagedQueryOutputDto<Entity>> PagedQuery(CommonPageInputDto commonPage,
+        public async Task<CommonPagedQueryOutputDto<Entity>> PagedQuery(int pageSize, int pageNo,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
         {
@@ -66,8 +66,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
                 query = order(query);
             }
             result.Data = await query
-                .Skip((commonPage.PageNo - 1) * commonPage.PageSize)
-                .Take(commonPage.PageSize)
+                .Skip(pageSize * (pageNo - 1))
+                .Take(pageSize)
                 .ToListAsync();
             return result;
         }

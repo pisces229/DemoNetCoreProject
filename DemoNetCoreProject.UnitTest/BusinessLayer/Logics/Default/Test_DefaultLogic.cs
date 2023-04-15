@@ -185,7 +185,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.PagedQuery(
-                    It.IsAny<CommonPageInputDto>(),
+                    It.IsAny<int>(), It.IsAny<int>(),
                     It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                     It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>()))
                 .ReturnsAsync(new CommonPagedQueryOutputDto<Person>());
@@ -198,7 +198,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryPagedQuery();
             mockDefaultPersonDbRepository.Verify(v => v.PagedQuery(
-                It.IsAny<CommonPageInputDto>(),
+                It.IsAny<int>(), It.IsAny<int>(),
                 It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
                 It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
             , Times.Once);

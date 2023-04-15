@@ -116,7 +116,7 @@ namespace DemoNetCoreProject.DataLayer.Services
                 return await dbConnection.ExecuteReaderAsync(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             });
         }
-        public async Task<CommonPagedQueryOutputDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, CommonPageInputDto pageModel,
+        public async Task<CommonPagedQueryOutputDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, int pageSize, int pageNo,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class
         {
@@ -125,8 +125,8 @@ namespace DemoNetCoreProject.DataLayer.Services
             dbCommandTimeout ??= commandTimeout;
             result.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M", 
                 parameters, dbCommandTimeout, commandType);
-            parameters.Add(PAGED_SKIP, (pageModel.PageNo - 1) * pageModel.PageSize);
-            parameters.Add(PAGED_TAKE, pageModel.PageSize);
+            parameters.Add(PAGED_SKIP, pageSize * (pageNo - 1));
+            parameters.Add(PAGED_TAKE, pageSize);
             result.Data = await Query<T>($"{sql} ORDER BY {order} OFFSET @{PAGED_SKIP} ROWS FETCH NEXT @{PAGED_TAKE} ROWS ONLY", 
                 parameters, dbCommandTimeout, commandType);
             return result;

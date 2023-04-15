@@ -84,11 +84,10 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryPagedQuery()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryPagedQuery----------"));
-            var commonPage = new CommonPageInputDto() { PageSize = 3, PageNo = 3 };
             IQueryable<Person> where(IQueryable<Person> query) => query.Where(p => p.Age > 0);
             IOrderedQueryable<Person> order(IQueryable<Person> query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
             var data = await _defaultPersonDbRepository
-                .PagedQuery(commonPage, where, order);
+                .PagedQuery(pageSize: 3, pageNo: 3, where, order);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunDapperQuery() => await _defaultRepository.RunDapperQuery();
