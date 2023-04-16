@@ -1,126 +1,57 @@
-﻿using DemoNetCoreProject.DataLayer.Entities;
-using DemoNetCoreProject.DataLayer.Services;
-using Microsoft.EntityFrameworkCore;
-using DemoNetCoreProject.DataLayer.IRepositories.Default;
-using Dapper;
+﻿using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.Common.Dtos;
-using DemoNetCoreProject.Common.Enums;
 using DemoNetCoreProject.Common.Utilities;
-using System.Data;
-using System.Text.Json;
-using System.Text;
+using DemoNetCoreProject.DataLayer.Dtos.Default;
+using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
-using Microsoft.Extensions.Logging;
-using DemoNetCoreProject.DataLayer.Utilities;
+using DemoNetCoreProject.DataLayer.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
     internal class DefaultRepository : IDefaultRepository
     {
-        private readonly ILogger<DefaultRepository> _logger;
-        private readonly DefaultDbContext _defaultDbContext;
-        private readonly IDapperService<DefaultDbContext> _defaultDapperService;
-        public DefaultRepository(ILogger<DefaultRepository> logger, 
-            DefaultDbContext defaultDbContext,
-            IDapperService<DefaultDbContext> defaultDapperService)
+        private readonly IFileManager _fileManager;
+        private readonly IConfiguration _configuration;
+        public DefaultRepository(IFileManager fileManager,
+            IConfiguration configuration)
         {
-            _logger = logger;
-            _defaultDbContext = defaultDbContext;
-            _defaultDapperService = defaultDapperService;
+            _fileManager = fileManager;
+            _configuration = configuration;
         }
-        public async Task<int?> MaxRow()
-            => await _defaultDbContext.People.Select(s => s.Row).MaxAsync();
-        public async Task RunDapperQuery()
+        public async Task<bool> Upload(DefaultRepositoryUploadInputDto model)
         {
-            await Task.Run(() => _logger.LogInformation("RunDapperQuery"));
-            var dynamicParameters = new DynamicParameters();
-            var data = await _defaultDapperService.Query<Person>(
-                "SELECT * FROM [Person]",
-                dynamicParameters);
-            _logger.LogInformation(JsonSerializer.Serialize(data));
-        }
-        public async Task RunDapperExecuteScalar()
-        {
-            await Task.Run(() => _logger.LogInformation("RunDapperExecuteScalar"));
-            var dynamicParameters = new DynamicParameters();
-            var data = await _defaultDapperService.ExecuteScalar<int>(
-                "SELECT [Row] FROM [Person]",
-                dynamicParameters);
-            _logger.LogInformation(JsonSerializer.Serialize(data));
-        }
-        public async Task RunDapperQueryMultiple()
-        {
-            await Task.Run(() => _logger.LogInformation("RunDapperQueryMultiple"));
-            var dynamicParameters = new DynamicParameters();
-            using var gridReader = await _defaultDapperService.QueryMultiple(
-                "SELECT top 1 Row FROM [Person] SELECT top 2 Row FROM [Person]",
-                dynamicParameters);
-            var first = await gridReader.ReadAsync<Person>();
-            var second = await gridReader.ReadAsync<Person>();
-            _logger.LogInformation(JsonSerializer.Serialize(first));
-            _logger.LogInformation(JsonSerializer.Serialize(second));
-        }
-        public async Task RunDapperExecuteReader()
-        {
-            await Task.Run(() => _logger.LogInformation("RunDapperExecuteReader"));
-            var dynamicParameters = new DynamicParameters();
-            using var dbDataReader = await _defaultDapperService.ExecuteReader(
-                "SELECT [Row] FROM [Person]",
-                dynamicParameters);
-            if (dbDataReader.HasRows)
+            var filepath = _fileManager.CombineFilePath(
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
+                Guid.NewGuid().ToString());
+            using (model.File)
+            using (var fileStream = File.Create(filepath))
             {
-                while (await dbDataReader.ReadAsync())
-                {
-                    _logger.LogInformation(JsonSerializer.Serialize(dbDataReader.GetRowParser<Person>()(dbDataReader)));
-                }
+                model.File.Seek(0, SeekOrigin.Begin);
+                await model.File.CopyToAsync(fileStream);
             }
+            return true;
         }
-        public async Task RunDapperPagedQuery()
+        public CommonOutputDto<CommonDownloadOutputDto> Download()
         {
-            await Task.Run(() => _logger.LogInformation("RunDapperPagedQuery"));
-            var dynamicParameters = new DynamicParameters();
-            var data = await _defaultDapperService.PagedQuery<Person>(
-                "SELECT * FROM [Person]", "[Row]",
-                dynamicParameters,
-                pageSize: 3, pageNo: 3 );
-            _logger.LogInformation(JsonSerializer.Serialize(data));
-        }
-        public async Task RunSqlCondition()
-        {
-            await Task.Run(() => _logger.LogInformation("RunSqlCondition"));
-            var sql = new StringBuilder("SELECT M.* FROM [Person] M WHERE 1=1");
-            var dynamicParameters = new DynamicParameters();
-            //dynamicParameters.Add("ValueA", "A");
-            //dynamicParameters.Add("ValueB", new[] { "1", "2", "3" });
-            sql.AppendLine();
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.Equal, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.NotEqual, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.GreaterThan, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.GreaterThanOrEqual, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.LessThan, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.LessThanOrEqual, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.LikeStart, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.LikeEnd, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.LikeContain, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.NotLikeStart, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.NotLikeEnd, "0");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.NotLikeContain, "0");
-            sql.AppendLine();
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.Equal, "1");
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Birthday", SqlOperatorType.Equal, DateTime.Now.AddHours(1));
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Age", SqlOperatorType.Equal, Convert.ToInt32("1"));
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Age", SqlOperatorType.Equal, Convert.ToDouble("1"));
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Remark", SqlOperatorType.Equal, '1', DbType.AnsiString);
-            sql.AppendLine();
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.Contain, new List<string>() { "1", "2" });
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.NotContain, new List<string>() { "1", "2" });
-            sql.AppendLine();
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Name", SqlOperatorType.Contain, new List<string>() { "1", "2" });
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Birthday", SqlOperatorType.Contain, new List<DateTime>() { DateTime.Now.AddHours(1), DateTime.Now.AddHours(2) });
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Age", SqlOperatorType.Contain, new List<int>() { Convert.ToInt32("1"), Convert.ToInt32("2") });
-            SqlConditionUtility.Add(sql, dynamicParameters, "M.Age", SqlOperatorType.Contain, new List<double>() { Convert.ToDouble("1"), Convert.ToInt64("2") });
-            _logger.LogInformation(sql.ToString());
-            _logger.LogInformation(JsonSerializer.Serialize(dynamicParameters));
+            var result = new CommonOutputDto<CommonDownloadOutputDto>();
+            var filepath = _fileManager.CombineFilePath(
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
+                "Ubuntu.pdf");
+            if (File.Exists(filepath))
+            {
+                result.Success = true;
+                result.Data = new CommonDownloadOutputDto()
+                {
+                    FileName = "Download.pdf",
+                    FilePath = filepath,
+                };
+            }
+            else
+            {
+                result.Message = "File No Exists";
+            }
+            return result;
         }
     }
 }

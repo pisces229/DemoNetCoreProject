@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using DemoNetCoreProject.Common.Utilities;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 Console.WriteLine(CommandLineArguments.PROG_ID);
@@ -19,8 +20,23 @@ var hostbuilder = Host.CreateDefaultBuilder(args);
 
 hostbuilder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
 {
-    configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
+    configurationBuilder.SetBasePath(Directory.GetCurrentDirectory());
+    var appsettings = "appsettings.json";
+    if (!EnvironmentVariable.IsDevelopment())
+    {
+        appsettings = $"appsettings.{EnvironmentVariable.ASPNETCORE_ENVIRONMENT}.json";
+    }
+    configurationBuilder.AddJsonFile(path: appsettings, optional: false, reloadOnChange: false);
+    var configuration = configurationBuilder.Build();
+    // Load Resource
+    try
+    {
+        Directory.CreateDirectory(configuration.GetValue<string>("Path:Temp"));
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
 });
 
 hostbuilder.ConfigureLogging((hostContext, loggingBuilder) =>
@@ -32,27 +48,36 @@ hostbuilder.ConfigureLogging((hostContext, loggingBuilder) =>
 
 hostbuilder.ConfigureServices((hostContext, services) =>
 {
-    //services.AddOptions();
+    services.AddHostedService<HostedService>();
     // Make HTTP requests using IHttpClientFactory in ASP.NET Core
     services.AddHttpClient("Default", client =>
     {
         client.BaseAddress = new Uri("https://localhost:9110/api/default/");
     });
-    services.AddHostedService<HostedService>();
-
+    services.AddOptions();
+    var secret = hostContext.Configuration.GetValue<string>("Secret");
+    if (!string.IsNullOrEmpty(secret))
+    {
+        var decryptStrings = hostContext.Configuration.GetSection("DecryptStrings").Get<string[]>();
+        foreach (var decryptString in decryptStrings)
+        {
+            hostContext.Configuration[decryptString] = SecretUtility.Decrypt(
+                hostContext.Configuration[decryptString], secret);
+        }
+    }
     #region DbContext
     services.AddDbContext<DefaultDbContext>(option =>
     {
         var connectionName = "Default";
-        option.UseInMemoryDatabase(databaseName: connectionName);
-        //option.UseSqlServer(configuration.GetConnectionString(connectionName),
-        //    sqlServerOption =>
-        //    {
-        //        sqlServerOption.MinBatchSize(10);
-        //        sqlServerOption.MaxBatchSize(1000);
-        //        sqlServerOption.CommandTimeout(0);
-        //        sqlServerOption.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-        //    });
+        //option.UseInMemoryDatabase(databaseName: connectionName);
+        option.UseSqlServer(hostContext.Configuration.GetConnectionString(connectionName),
+            sqlServerOption =>
+            {
+                sqlServerOption.MinBatchSize(10);
+                sqlServerOption.MaxBatchSize(1000);
+                sqlServerOption.CommandTimeout(hostContext.Configuration.GetValue<int>($"ConnectionTimeout:{connectionName}"));
+                //sqlServerOption.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            });
         option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         option.EnableSensitiveDataLogging();
         option.EnableDetailedErrors();
@@ -77,7 +102,7 @@ hostbuilder.ConfigureServices((hostContext, services) =>
         #region Database
         //services.AddDistributedSqlServerCache(options =>
         //{
-        //    options.ConnectionString = configuration.GetConnectionString("Redis");
+        //    options.ConnectionString = configuration.GetConnectionString("Cache");
         //    options.SchemaName = "dbo";
         //    options.TableName = "DataCache";
         //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);

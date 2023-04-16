@@ -27,6 +27,7 @@ using Polly.Extensions.Http;
 using Polly;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DemoNetCoreProject.Common.Utilities;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
@@ -37,8 +38,21 @@ var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
 webApplicationBuilder.Host.ConfigureAppConfiguration((hostBuilder, configurationBuilder) =>
 {
-    configurationBuilder.SetBasePath(webApplicationBuilder.Environment.ContentRootPath)
-        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
+    configurationBuilder.SetBasePath(webApplicationBuilder.Environment.ContentRootPath);
+    var appsettings = "appsettings.json";
+    if (!EnvironmentVariable.IsDevelopment())
+    {
+        appsettings = $"appsettings.{EnvironmentVariable.ASPNETCORE_ENVIRONMENT}.json";
+    }
+    configurationBuilder.AddJsonFile(path: appsettings, optional: false, reloadOnChange: false);
+    try
+    {
+        Directory.CreateDirectory(webApplicationBuilder.Configuration.GetValue<string>("Path:Temp"));
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
 });
 
 webApplicationBuilder.Host.ConfigureLogging((hostContext, loggingBuilder) =>
@@ -105,26 +119,37 @@ webApplicationBuilder.Services.AddHttpClient("Default", client =>
 //    .OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
 //    .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(1, retryAttempt))));
 
+var secret = webApplicationBuilder.Configuration.GetValue<string>("Secret");
+if (!string.IsNullOrEmpty(secret))
+{
+    var decryptStrings = webApplicationBuilder.Configuration.GetSection("DecryptStrings").Get<string[]>();
+    foreach (var decryptString in decryptStrings)
+    {
+        webApplicationBuilder.Configuration[decryptString] = SecretUtility.Decrypt(
+            webApplicationBuilder.Configuration[decryptString], secret);
+    }
+}
+
 #region DbContext
 webApplicationBuilder.Services.AddDbContext<DefaultDbContext>(option =>
 {
     var connectionName = "Default";
-    option.UseInMemoryDatabase(databaseName: connectionName);
-    //option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString(connectionName),
-    //    sqlServerOption =>
-    //    {
-    //        sqlServerOption.MinBatchSize(10);
-    //        sqlServerOption.MaxBatchSize(1000);
-    //        sqlServerOption.CommandTimeout(0);
-    //        sqlServerOption.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-    //    });
+    //option.UseInMemoryDatabase(databaseName: connectionName);
+    option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString(connectionName),
+        sqlServerOption =>
+        {
+            sqlServerOption.MinBatchSize(10);
+            sqlServerOption.MaxBatchSize(1000);
+            sqlServerOption.CommandTimeout(webApplicationBuilder.Configuration.GetValue<int>($"ConnectionTimeout:{connectionName}"));
+            //sqlServerOption.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+        });
     option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     option.EnableSensitiveDataLogging();
     option.EnableDetailedErrors();
 });
 webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
 {
-    var connectionName = "DataProtection";
+    var connectionName = "Cache";
     //option.UseInMemoryDatabase(databaseName: connectionName);
     option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString(connectionName));
     option.EnableSensitiveDataLogging();
@@ -150,7 +175,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     #region Database
     //webApplicationBuilder.Services.AddDistributedSqlServerCache(options =>
     //{
-    //    options.ConnectionString = webApplicationBuilder.Configuration.GetConnectionString("Redis");
+    //    options.ConnectionString = webApplicationBuilder.Configuration.GetConnectionString("Cache");
     //    options.SchemaName = "dbo";
     //    options.TableName = "DataCache";
     //    options.ExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
@@ -215,6 +240,7 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
         options.Subject = jwtOption.GetValue<string>(nameof(JwtOption.Subject));
         options.Audience = jwtOption.GetValue<string>(nameof(JwtOption.Audience));
         options.ValidFor = TimeSpan.FromSeconds(jwtOption.GetValue<double>(nameof(JwtOption.ValidFor)));
+        options.IdleTime = TimeSpan.FromSeconds(jwtOption.GetValue<double>(nameof(JwtOption.IdleTime)));
         #region String
         {
             options.SigningCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -359,11 +385,28 @@ webApplicationBuilder.Services.AddMvcCore(options =>
         //    Success = false,
         //    Message = string.Join(Environment.NewLine, messgae),
         //});
-        return new OkObjectResult(new CommonOutputDto<string>()
+        var result = new CommonOutputDto<string>()
         {
             Success = false,
-            Message = actionContext.ModelState.Last().Value!.Errors.Last().ErrorMessage,
-        });
+            Message = "Fail",
+        };
+        try
+        {
+            var state = actionContext.ModelState;
+            if (state.Any())
+            {
+                var error = state.Last().Value!.Errors;
+                if (error.Any())
+                {
+                    result.Message = error.Last().ErrorMessage;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            result.Message = e.Message;
+        }
+        return new OkObjectResult(result);
     };
 });
 

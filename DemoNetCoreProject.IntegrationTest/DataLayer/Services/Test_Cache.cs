@@ -1,7 +1,6 @@
 using DemoNetCoreProject.DataLayer.IServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DemoNetCoreProject.IntegrationTest.Domain.Services
 {
@@ -18,7 +17,7 @@ namespace DemoNetCoreProject.IntegrationTest.Domain.Services
         [TestInitialize]
         public void Initialize()
         {
-            _logger.LogInformation("UnitTest_Cache.Initialize");
+            _logger.LogInformation("Test_Cache.Initialize");
         }
         [TestMethod]
         public async Task TestMethod()

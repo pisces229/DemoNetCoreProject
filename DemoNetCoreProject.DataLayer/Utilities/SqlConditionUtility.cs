@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using DemoNetCoreProject.Common.Enums;
+using DemoNetCoreProject.DataLayer.Enums;
 using System.Data;
 using System.Text;
 

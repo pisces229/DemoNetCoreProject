@@ -1,11 +1,5 @@
-﻿using Dapper;
-using DemoNetCoreProject.Common.Enums;
+﻿using DemoNetCoreProject.DataLayer.Enums;
 using DemoNetCoreProject.Common.Utilities;
-using DemoNetCoreProject.DataLayer.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
-using System.Data;
-using System.Text;
 
 namespace DemoNetCoreProject.UnitTest.DataLayer.Utilities
 {

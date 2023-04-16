@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
+using System.Reflection;
 
 namespace DemoNetCoreProject.UnitTest
 {
@@ -46,13 +47,14 @@ namespace DemoNetCoreProject.UnitTest
             Console.WriteLine(c1);
             Console.WriteLine(c2);
         };
-        protected Action<string, string, DynamicParameters, CommonPageInputDto, int?, CommandType> DapperPagedQueryCallback = 
-            (c1, c2, c3, c4, c5, c6) =>
+        protected Action<string, string, DynamicParameters, int, int, int?, CommandType> DapperPagedQueryCallback = 
+            (c1, c2, c3, c4, c5, c6, c7) =>
         {
             Console.WriteLine(c1);
             Console.WriteLine(c2);
             Console.WriteLine(c3);
             Console.WriteLine(c4);
+            Console.WriteLine(c5);
         };
     }
 }

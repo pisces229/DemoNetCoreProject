@@ -116,11 +116,11 @@ namespace DemoNetCoreProject.DataLayer.Services
                 return await dbConnection.ExecuteReaderAsync(sql, parameters, dbTransaction, dbCommandTimeout, commandType);
             });
         }
-        public async Task<CommonPagedQueryOutputDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, int pageSize, int pageNo,
+        public async Task<CommonPageOutputDto<T>> PagedQuery<T>(string sql, string order, DynamicParameters parameters, int pageSize, int pageNo,
             int? commandTimeout = null, CommandType commandType = CommandType.Text)
             where T : class
         {
-            var result = new CommonPagedQueryOutputDto<T>();
+            var result = new CommonPageOutputDto<T>();
             var dbCommandTimeout = _dbContext.GetDatabase().GetCommandTimeout();
             dbCommandTimeout ??= commandTimeout;
             result.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M", 

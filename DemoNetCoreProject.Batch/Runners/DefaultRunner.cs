@@ -8,10 +8,10 @@ namespace DemoNetCoreProject.Batch.Runners
     {
         private readonly ILogger<DefaultRunner> _logger;
         private readonly IConfiguration _configuration;
-        private readonly IDefaultLogic _defaultLogic;
+        private readonly IDefaultSqlLogic _defaultLogic;
         public DefaultRunner(ILogger<DefaultRunner> logger,
             IConfiguration configuration,
-            IDefaultLogic defaultLogic)
+            IDefaultSqlLogic defaultLogic)
         {
             _logger = logger;
             _configuration = configuration;

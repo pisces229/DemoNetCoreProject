@@ -14,34 +14,13 @@ namespace DemoNetCoreProject.BusinessLayer.DtoMappers
         private static void LoadInput(IMapperConfigurationExpression configure)
         {
             // DefaultRequest
-            configure.CreateMap<DefaultRequestLogicJsonHttpGetInputDto, 
-                DefaultRequestLogicJsonOutputDto>();
-            configure.CreateMap<DefaultRequestLogicJsonHttpPostInputDto, 
-                DefaultRequestLogicJsonOutputDto>();
-            configure.CreateMap<DefaultRequestLogicUploadInputDto, 
-                DefaultRequestRepositoryUploadInputDto>();
-            // DefaultFirst
-            configure.CreateMap<DefaultFirstLogicInputDto, 
-                DefaultSecondLogicInputDto>();
-            configure.CreateMap<DefaultFirstLogicInputDto, 
-                DefaultFirstRepositoryInputDto>();
-            // DefaultSecond
-            configure.CreateMap<DefaultSecondLogicInputDto, 
-                DefaultSecondRepositoryInputDto>();
+            configure.CreateMap<DefaultLogicFromFormInputDto, 
+                DefaultRepositoryUploadInputDto>();
+
         }
         private static void LoadOutput(IMapperConfigurationExpression configure)
         {
             // DefaultRequest
-            // ...
-            // DefaultFirst
-            // ...
-            // DefaultSecond
-            configure.CreateMap<DefaultSecondLogicOutputDto, 
-                DefaultFirstLogicOutputDto>();
-            configure.CreateMap<DefaultFirstRepositoryOutputDto, 
-                DefaultFirstLogicOutputDto>();
-            configure.CreateMap<DefaultSecondRepositoryOutputDto, 
-                DefaultSecondLogicOutputDto>();
         }
     }
 }

@@ -10,19 +10,19 @@ namespace DemoNetCoreProject.Backend.ModelMappers
     {
         public static void Load(IMapperConfigurationExpression configure)
         {
+            // FromBody
+            configure.CreateMap<DefaultFromBodyInputModel, DefaultLogicFromBodyInputDto>();
+            // FromForm
+            configure.CreateMap<DefaultFromFormInputModel, DefaultLogicFromFormInputDto>()
+            .ForMember(member => member.File, option => option.MapFrom(source => source.File.OpenReadStream()));
+            // FromQuery
+            configure.CreateMap<DefaultFromQueryInputModel, DefaultLogicFromQueryInputDto>();
+            // PageQuery
+            configure.CreateMap<DefaultPageQueryBindInputModel, DefaultLogicPageQueryInputDto>();
+            configure.CreateMap<DefaultPageQueryJsonInputModel, DefaultLogicPageQueryInputDto>();
+            configure.CreateMap<DefaultLogicPageQueryOutputDto, DefaultPageQueryOutputModel>();
             // DefaultSign
-            configure.CreateMap<DefaultSignInInputModel, DefaultRequestLogicSignInInputDto>();
-            // DefaultJson
-            configure.CreateMap<DefaultJsonHttpGetInputModel, DefaultRequestLogicJsonHttpGetInputDto>();
-            configure.CreateMap<DefaultJsonHttpPostInputModel, DefaultRequestLogicJsonHttpPostInputDto>();
-            configure.CreateMap<DefaultRequestLogicJsonOutputDto, DefaultJsonHttpOutputModel>();
-            // DefaultUpload
-            configure.CreateMap<DefaultUploadInputModel, DefaultRequestLogicUploadInputDto>()
-            //.ForMember(member => member.File, option => option.Ignore());
-            .ForMember(member => member.File, option => option.MapFrom(source => source.File.OpenReadStream()))
-            .ForMember(member => member.FileName, option => option.MapFrom(source => source.File.FileName));
-            // PagedQuery
-            configure.CreateMap<DefaultPagedQueryGetInputModel, DefaultRequestLogicPagedQueryGetInputDto>();
+            configure.CreateMap<DefaultSignInInputModel, DefaultLogicSignInInputDto>();
         }
     }
 }
