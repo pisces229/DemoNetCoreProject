@@ -83,6 +83,21 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
                 pageSize: 3, pageNo: 3 );
             _logger.LogInformation("{v}", JsonSerializer.Serialize(data));
         }
+        public async Task RunDapperExcute()
+        {
+            await _defaultDapperService.Execute(@"
+                INSERT INTO [dbo].[person]
+                (
+                    [id]
+                    ,[name]
+                    ,[age]
+                    ,[birthday]
+                    ,[remark]
+                )
+                VALUES
+                ('A','',0,GETDATE(),'')
+            ");
+        }
         public async Task RunSqlCondition()
         {
             await Task.Run(() => _logger.LogInformation("RunSqlCondition"));

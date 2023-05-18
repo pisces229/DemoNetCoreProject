@@ -10,6 +10,7 @@ namespace DemoNetCoreProject.DataLayer.IRepositories.Default
         Task RunDapperQueryMultiple();
         Task RunDapperExecuteReader();
         Task RunDapperPagedQuery();
+        Task RunDapperExcute();
         Task RunSqlCondition();
     }
 }

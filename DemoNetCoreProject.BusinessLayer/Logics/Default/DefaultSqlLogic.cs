@@ -7,6 +7,8 @@ using DemoNetCoreProject.DataLayer.IRepositories.Db;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
@@ -50,6 +52,34 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             await _defaultDbManager.CommitAsync();
             //await _defaultDbManager.RollbackAsync();
             _logger.LogInformation(JsonSerializer.Serialize(data));
+            // test " Cannot insert duplicate key row in object 'dbo.person' with unique index 'uni__person__id'. The duplicate key value is (A                                   )."
+            //try
+            //{
+            //    await _defaultPersonDbRepository.Create(new Person()
+            //    {
+            //        Id = "A",
+            //        Name = Guid.NewGuid().ToString(),
+            //        Birthday = DateTime.Now,
+            //        Age = 10,
+            //        Remark = Guid.NewGuid().ToString(),
+            //    });
+            //    //await _defaultRepository.RunDapperExcute();
+            //}
+            //catch (DbUpdateException e)
+            //{
+            //    Console.WriteLine("DbUpdateException");
+            //    Console.WriteLine(e.ToString());
+            //}
+            //catch (SqlException e)
+            //{
+            //    Console.WriteLine("SqlException");
+            //    Console.WriteLine(e.ToString());
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Exception");
+            //    Console.WriteLine(e.ToString());
+            //}
         }
         public async Task RunDbRepositoryModify()
         {
