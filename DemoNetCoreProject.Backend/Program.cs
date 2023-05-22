@@ -28,6 +28,7 @@ using Polly;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DemoNetCoreProject.Common.Utilities;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
@@ -392,7 +393,8 @@ webApplicationBuilder.Services.AddMvcCore(options =>
         };
         try
         {
-            var state = actionContext.ModelState;
+            var state = actionContext.ModelState
+                .Where(p => p.Value!.ValidationState == ModelValidationState.Invalid);
             if (state.Any())
             {
                 var error = state.Last().Value!.Errors;
