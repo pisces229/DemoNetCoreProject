@@ -389,7 +389,7 @@ webApplicationBuilder.Services.AddMvcCore(options =>
         var result = new CommonOutputDto<string>()
         {
             Success = false,
-            Message = "Fail",
+            Message = "InvalidModelState",
         };
         try
         {
@@ -406,7 +406,7 @@ webApplicationBuilder.Services.AddMvcCore(options =>
         }
         catch (Exception e)
         {
-            result.Message = e.Message;
+            result.Message = $"InvalidModelState:{e.Message}";
         }
         return new OkObjectResult(result);
     };
