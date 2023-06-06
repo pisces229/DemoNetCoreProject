@@ -19,53 +19,47 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Db
             => await DbSet().FindAsync(row);
         public async Task<bool> Any(Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
         {
-            var query = DbSet().AsQueryable();
+            var queryable = DbSet().AsQueryable();
             if (where != null)
             {
-                query = where(query);
+                queryable = where(queryable);
             }
-            return await query.AnyAsync();
+            return await queryable.AnyAsync();
         }
-        public async Task<int> Count(Func<IQueryable<Entity>, IQueryable<Entity>>? where = null)
+        public async Task<int> Count(Func<IQueryable<Entity>, IQueryable<Entity>>? query = null)
         {
-            var query = DbSet().AsQueryable();
-            if (where != null)
+            var queryable = DbSet().AsQueryable();
+            if (query != null)
             {
-                query = where(query);
+                queryable = query(queryable);
             }
-            return await query.CountAsync();
+            return await queryable.CountAsync();
         }
-        public async Task<IEnumerable<Entity>> Query(
-            Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
-            Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
+        public async Task<IEnumerable<Entity>> Query(Func<IQueryable<Entity>, IQueryable<Entity>>? query = null)
         {
-            var query = DbSet().AsQueryable();
-            if (where != null)
+            var queryable = DbSet().AsQueryable();
+            if (query != null)
             {
-                query = where(query);
+                queryable = query(queryable);
             }
-            if (order != null)
-            {
-                query = order(query);
-            }
-            return await query.ToListAsync();
+            return await queryable.ToListAsync();
         }
         public async Task<CommonPageOutputDto<Entity>> PagedQuery(int pageSize, int pageNo,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null)
         {
             var result = new CommonPageOutputDto<Entity>();
-            var query = DbSet().AsQueryable();
+            var queryable = DbSet().AsQueryable();
             if (where != null)
             {
-                query = where(query);
+                queryable = where(queryable);
             }
-            result.TotalCount = await query.CountAsync();
+            result.TotalCount = await queryable.CountAsync();
             if (order != null)
             {
-                query = order(query);
+                queryable = order(queryable);
             }
-            result.Data = await query
+            result.Data = await queryable
                 .Skip(pageSize * (pageNo - 1))
                 .Take(pageSize)
                 .ToListAsync();

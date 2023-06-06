@@ -31,9 +31,12 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryQuery()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryQuery----------"));
-            IQueryable<Person> where(IQueryable<Person> query) => query.Where(p => p.Id.StartsWith("A")).Where(p => p.Age > 0);
-            IOrderedQueryable<Person> order(IQueryable<Person> query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
-            var data = await _defaultPersonDbRepository.Query(where, order);
+            IQueryable<Person> where(IQueryable<Person> query) => query
+                .Where(p => p.Id.StartsWith("A"))
+                .Where(p => p.Age > 0)
+                .OrderBy(o => o.Row)
+                .ThenBy(o => o.Id);
+            var data = await _defaultPersonDbRepository.Query(where);
             _logger.LogInformation(JsonSerializer.Serialize(data));
         }
         public async Task RunDbRepositoryCreate()
@@ -84,8 +87,8 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryModify()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryModify----------"));
-            IOrderedQueryable<Person> order(IQueryable<Person> query) => query.OrderByDescending(o => o.Row);
-            var data = (await _defaultPersonDbRepository.Query((Func<IQueryable<Person>, IOrderedQueryable<Person>>)order)).FirstOrDefault();
+            IQueryable<Person> query(IQueryable<Person> query) => query.OrderByDescending(o => o.Row);
+            var data = (await _defaultPersonDbRepository.Query(query)).FirstOrDefault();
             if (data != null)
             {
                 data.Remark = Guid.NewGuid().ToString();
@@ -99,8 +102,8 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public async Task RunDbRepositoryRemove()
         {
             await Task.Run(() => _logger.LogInformation("----------RunDbRepositoryRemove----------"));
-            IOrderedQueryable<Person> order(IQueryable<Person> query) => query.OrderByDescending(o => o.Row);
-            var data = (await _defaultPersonDbRepository.Query((Func<IQueryable<Person>, IOrderedQueryable<Person>>)order)).FirstOrDefault();
+            IQueryable<Person> query(IQueryable<Person> query) => query.OrderByDescending(o => o.Row);
+            var data = (await _defaultPersonDbRepository.Query(query)).FirstOrDefault();
             if (data != null)
             {
                 await _defaultDbManager.BeginTransactionAsync();

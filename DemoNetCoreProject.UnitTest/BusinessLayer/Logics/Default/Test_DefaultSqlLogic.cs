@@ -52,8 +52,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
-                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                    It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>()))
+                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>()))
                 .ReturnsAsync(new List<Person>() { new Person() });
             var mockDefaultRepository = new Mock<IDefaultSqlRepository>();
             var defaultLogic = new DefaultSqlLogic(
@@ -63,8 +62,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryQuery();
             mockDefaultPersonDbRepository.Verify(v => v.Query(
-                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
+                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>())
             , Times.Once);
         }
         [TestMethod]
@@ -112,8 +110,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
-                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                    It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>()))
+                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>()))
                 .ReturnsAsync(new List<Person>() { new Person() });
                 //.ReturnsAsync(new List<Person>());
             mockDefaultPersonDbRepository.Setup(s => s.Modify(It.IsAny<Person>())).ReturnsAsync(1);
@@ -125,8 +122,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryModify();
             mockDefaultPersonDbRepository.Verify(v => v.Query(
-                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
+                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>())
             , Times.Once);
             mockDefaultDbManager.Verify(v => v.BeginTransactionAsync(It.IsAny<IsolationLevel>()), Times.Once);
             mockDefaultPersonDbRepository.Verify(v => v.Modify(It.IsAny<Person>()), Times.Once);
@@ -151,8 +147,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var mockDefaultPersonDbRepository = new Mock<IDefaultPersonDbRepository>();
             mockDefaultPersonDbRepository
                 .Setup(s => s.Query(
-                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                    It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>()))
+                    It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>()))
                 //.ReturnsAsync(new List<Person>() { new Customer() });
                 .ReturnsAsync(new List<Person>());
             mockDefaultPersonDbRepository.Setup(s => s.Remove(It.IsAny<Person>())).ReturnsAsync(1);
@@ -164,8 +159,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockDefaultRepository.Object);
             await defaultLogic.RunDbRepositoryRemove();
             mockDefaultPersonDbRepository.Verify(v => v.Query(
-                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>(),
-                It.IsAny<Func<IQueryable<Person>, IOrderedQueryable<Person>>>())
+                It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>())
             , Times.Once);
             mockDefaultDbManager.Verify(v => v.BeginTransactionAsync(It.IsAny<IsolationLevel>()), Times.Never);
             //mockDefaultPersonDbRepository.Verify(v => v.Remove(It.IsAny<Person>()), Times.Once);

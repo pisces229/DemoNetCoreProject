@@ -26,9 +26,17 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
         [TestMethod]
         public async Task Query()
         {
-            Func<IQueryable<Person>, IQueryable<Person>> where = (query) => query.Where(p => p.Id.StartsWith("A")).Where(p => p.Age > 0);
-            Func<IQueryable<Person>, IOrderedQueryable<Person>> order = (query) => query.OrderBy(o => o.Row).ThenBy(o => o.Id);
-            await _repository.Query(where, order);
+            //await _repository.Query((IQueryable<Person> query) => query
+            //    .Where(p => p.Id.StartsWith("A"))
+            //    .Where(p => p.Age > 0)
+            //    .OrderBy(o => o.Row)
+            //    .ThenBy(o => o.Id));
+            Func<IQueryable<Person>, IQueryable<Person>> query = (query) => query
+                .Where(p => p.Id.StartsWith("A"))
+                .Where(p => p.Age > 0)
+                .OrderBy(o => o.Row)
+                .ThenBy(o => o.Id);
+            await _repository.Query(query);
         }
         [TestMethod]
         public async Task Create()
