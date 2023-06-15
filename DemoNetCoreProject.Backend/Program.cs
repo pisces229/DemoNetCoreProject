@@ -1,34 +1,23 @@
-using DemoNetCoreProject.Backend.Csp;
 using DemoNetCoreProject.Backend;
 using DemoNetCoreProject.Backend.Filters;
 using DemoNetCoreProject.Backend.Services;
 using DemoNetCoreProject.BusinessLayer;
+using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Options;
+using DemoNetCoreProject.Common.Utilities;
 using DemoNetCoreProject.DataLayer;
-using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Security;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
-using System.Net;
-using StackExchange.Redis;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using DemoNetCoreProject.Common.Dtos;
-using Microsoft.Extensions.Configuration;
-using Polly.Extensions.Http;
 using Polly;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using DemoNetCoreProject.Common.Utilities;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Net;
+using System.Text;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
@@ -99,7 +88,7 @@ webApplicationBuilder.Services.AddCors(options =>
             .AllowAnyHeader()
             .WithExposedHeaders("content-disposition")
             .AllowAnyMethod();
-            //.AllowCredentials();
+        //.AllowCredentials();
     });
 });
 
@@ -341,15 +330,15 @@ webApplicationBuilder.Services.AddAutoMapper(configure =>
     LoadDataLayerRegister.LoadAutoMappers(configure);
 });
 webApplicationBuilder.Services.AddControllers();
-    //.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
-    //.ConfigureApiBehaviorOptions(options =>
-    //{
-    //    options.SuppressConsumesConstraintForFormFileParameters = true;
-    //    options.SuppressInferBindingSourcesForParameters = true;
-    //    options.SuppressModelStateInvalidFilter = true;
-    //    options.SuppressMapClientErrors = true;
-    //    options.ClientErrorMapping[StatusCodes.Status404NotFound].Link = "https://httpstatuses.com/404";
-    //});
+//.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+//.ConfigureApiBehaviorOptions(options =>
+//{
+//    options.SuppressConsumesConstraintForFormFileParameters = true;
+//    options.SuppressInferBindingSourcesForParameters = true;
+//    options.SuppressModelStateInvalidFilter = true;
+//    options.SuppressMapClientErrors = true;
+//    options.ClientErrorMapping[StatusCodes.Status404NotFound].Link = "https://httpstatuses.com/404";
+//});
 webApplicationBuilder.Services.AddScoped<JwtAuthorizationFilter>();
 webApplicationBuilder.Services.AddControllersWithViews(options =>
 {
@@ -418,7 +407,7 @@ webApplicationBuilder.Services.AddMvcCore(options =>
 //});
 
 if (webApplicationBuilder.Environment.IsDevelopment())
-{ 
+{
     // do something
 }
 else

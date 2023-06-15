@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DemoNetCoreProject.DataLayer.Enums
+﻿namespace DemoNetCoreProject.DataLayer.Enums
 {
-    public enum SqlOperatorType 
+    public enum SqlOperatorType
     {
         Equal,
         NotEqual,

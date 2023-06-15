@@ -1,7 +1,6 @@
 ﻿using DemoNetCoreProject.Backend.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace DemoNetCoreProject.Backend.Models.Default
 {

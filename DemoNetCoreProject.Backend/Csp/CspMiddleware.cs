@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace DemoNetCoreProject.Backend.Csp
 {

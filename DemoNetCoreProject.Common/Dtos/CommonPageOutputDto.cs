@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Common.Dtos
+﻿namespace DemoNetCoreProject.Common.Dtos
 {
     public class CommonPageOutputDto<T> where T : class
     {

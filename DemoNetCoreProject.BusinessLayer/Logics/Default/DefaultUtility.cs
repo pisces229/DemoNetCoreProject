@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.BusinessLayer.Logics.Default
+﻿namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
     internal class DefaultUtility
     {

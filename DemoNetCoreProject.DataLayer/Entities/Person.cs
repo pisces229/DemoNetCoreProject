@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DemoNetCoreProject.DataLayer.Entities
+﻿namespace DemoNetCoreProject.DataLayer.Entities
 {
     public partial class Person
     {

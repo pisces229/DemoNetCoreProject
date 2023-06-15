@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Common.Constants
+﻿namespace DemoNetCoreProject.Common.Constants
 {
     public class ValidationRegexConstant
     {

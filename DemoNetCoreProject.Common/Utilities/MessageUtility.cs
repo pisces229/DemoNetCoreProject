@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Common.Utilities
+﻿namespace DemoNetCoreProject.Common.Utilities
 {
     public class MessageUtility
     {

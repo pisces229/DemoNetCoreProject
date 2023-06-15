@@ -1,14 +1,12 @@
 ﻿using DemoNetCoreProject.BusinessLayer.ILogics.Default;
 using DemoNetCoreProject.DataLayer.Entities;
-using Microsoft.Extensions.Logging;
-using System.Data;
-using System.Text.Json;
 using DemoNetCoreProject.DataLayer.IRepositories.Db;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
+using System.Data;
+using System.Text.Json;
 
 namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
@@ -21,7 +19,7 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
         public DefaultSqlLogic(ILogger<DefaultSqlLogic> logger,
             IDbManager<DefaultDbContext> defaultDbManager,
             IDefaultPersonDbRepository defaultPersonDbRepository,
-            IDefaultSqlRepository defaultRepository) 
+            IDefaultSqlRepository defaultRepository)
         {
             _logger = logger;
             _defaultDbManager = defaultDbManager;

@@ -1,17 +1,17 @@
 ﻿using DemoNetCoreProject.Batch;
-using DemoNetCoreProject.BusinessLayer;
-using DemoNetCoreProject.DataLayer;
-using DemoNetCoreProject.DataLayer.Services;
-using DemoNetCoreProject.DataLayer.IServices;
-using DemoNetCoreProject.Batch.Services;
 using DemoNetCoreProject.Batch.Runners;
+using DemoNetCoreProject.Batch.Services;
+using DemoNetCoreProject.BusinessLayer;
+using DemoNetCoreProject.Common.Utilities;
+using DemoNetCoreProject.DataLayer;
+using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using DemoNetCoreProject.Common.Utilities;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 Console.WriteLine(CommandLineArguments.PROG_ID);

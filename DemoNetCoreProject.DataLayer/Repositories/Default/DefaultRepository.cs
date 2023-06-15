@@ -1,10 +1,8 @@
 ﻿using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.Common.Dtos;
-using DemoNetCoreProject.Common.Utilities;
 using DemoNetCoreProject.DataLayer.Dtos.Default;
 using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
-using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default

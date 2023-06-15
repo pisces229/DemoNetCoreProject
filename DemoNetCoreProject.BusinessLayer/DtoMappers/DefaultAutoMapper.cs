@@ -14,7 +14,7 @@ namespace DemoNetCoreProject.BusinessLayer.DtoMappers
         private static void LoadInput(IMapperConfigurationExpression configure)
         {
             // DefaultRequest
-            configure.CreateMap<DefaultLogicFromFormInputDto, 
+            configure.CreateMap<DefaultLogicFromFormInputDto,
                 DefaultRepositoryUploadInputDto>();
 
         }

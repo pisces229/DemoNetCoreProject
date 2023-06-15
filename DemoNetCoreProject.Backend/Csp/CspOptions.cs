@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Backend.Csp
+﻿namespace DemoNetCoreProject.Backend.Csp
 {
     public class CspOptions
     {
@@ -16,6 +14,6 @@ namespace DemoNetCoreProject.Backend.Csp
         public CspDirective ScriptSrc { get; set; } = new CspDirective("script-src");
         public CspDirective StyleSrc { get; set; } = new CspDirective("style-src");
         public CspDirective FrameAncestors { get; set; } = new CspDirective("frame-ancestors");
-        public string? ReportURL { get; set; } 
+        public string? ReportURL { get; set; }
     }
 }

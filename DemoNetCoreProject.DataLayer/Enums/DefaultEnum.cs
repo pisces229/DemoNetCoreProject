@@ -1,5 +1,4 @@
 ﻿using DemoNetCoreProject.Common.Enums;
-using System;
 
 namespace DemoNetCoreProject.DataLayer.Enums
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
+﻿namespace DemoNetCoreProject.BusinessLayer.ILogics.Default
 {
     public interface IDefaultSqlLogic
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using System.Diagnostics;
 
 namespace DemoNetCoreProject.Batch
 {

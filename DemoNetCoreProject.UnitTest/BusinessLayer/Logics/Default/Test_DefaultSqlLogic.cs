@@ -112,7 +112,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 .Setup(s => s.Query(
                     It.IsAny<Func<IQueryable<Person>, IQueryable<Person>>>()))
                 .ReturnsAsync(new List<Person>() { new Person() });
-                //.ReturnsAsync(new List<Person>());
+            //.ReturnsAsync(new List<Person>());
             mockDefaultPersonDbRepository.Setup(s => s.Modify(It.IsAny<Person>())).ReturnsAsync(1);
             var mockDefaultRepository = new Mock<IDefaultSqlRepository>();
             var defaultLogic = new DefaultSqlLogic(

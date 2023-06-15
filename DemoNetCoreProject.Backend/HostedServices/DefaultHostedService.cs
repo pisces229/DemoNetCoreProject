@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Backend.HostedServices
+﻿namespace DemoNetCoreProject.Backend.HostedServices
 {
     public class DefaultHostedService : IHostedService, IDisposable
     {

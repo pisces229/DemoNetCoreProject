@@ -1,13 +1,7 @@
 ﻿using DemoNetCoreProject.Common.Constants;
 using DemoNetCoreProject.DataLayer.IServices;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {

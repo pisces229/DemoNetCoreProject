@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.DataLayer.IRepositories.Default
+﻿namespace DemoNetCoreProject.DataLayer.IRepositories.Default
 {
     public interface IDefaultSqlRepository
     {

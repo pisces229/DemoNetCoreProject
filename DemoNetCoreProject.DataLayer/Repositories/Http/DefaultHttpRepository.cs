@@ -9,7 +9,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Http
         private readonly IHttpClientFactory _httpClientFactory;
         public DefaultHttpRepository(
             ILogger<DefaultHttpRepository> logger,
-            IHttpClientFactory httpClientFactory) 
+            IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;

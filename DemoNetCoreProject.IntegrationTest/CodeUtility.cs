@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using System.Text;
-using DemoNetCoreProject.Backend.Models.Default;
+﻿using DemoNetCoreProject.Backend.Models.Default;
 using DemoNetCoreProject.BusinessLayer.Dtos.Default;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace DemoNetCoreProject.IntegrationTest
 {
@@ -42,7 +41,7 @@ namespace DemoNetCoreProject.IntegrationTest
                 JsonConvert.SerializeObject(dto, new JsonSerializerSettings()));
             var result = new StringBuilder();
             for (var i = 0; i < names.Count(); ++i)
-            { 
+            {
                 var name = names.Keys.Skip(i).First();
                 var member = members.Keys.Skip(i).First();
                 result.AppendLine($"[BindProperty(Name = \"{name}\")]");

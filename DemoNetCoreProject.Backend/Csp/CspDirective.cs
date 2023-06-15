@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DemoNetCoreProject.Backend.Csp
+﻿namespace DemoNetCoreProject.Backend.Csp
 {
     public class CspDirective
     {

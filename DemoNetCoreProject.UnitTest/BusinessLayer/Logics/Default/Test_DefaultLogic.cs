@@ -18,7 +18,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
     public class Test_DefaultLogic : Test_Initialize
     {
         public Test_DefaultLogic() : base()
-        { 
+        {
         }
         [TestInitialize]
         public void Initialize()
@@ -47,8 +47,8 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                 mockOptions.Object,
                 mockUserService.Object,
                 mockCache.Object);
-            var result = await defaultFirstLogic.FromForm(new DefaultLogicFromFormInputDto() 
-            { 
+            var result = await defaultFirstLogic.FromForm(new DefaultLogicFromFormInputDto()
+            {
                 Value = "1",
                 Values = new string[] { "1", "2" },
                 File = new MemoryStream()
@@ -68,10 +68,10 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             mockDefaultRequestRepository
                 .Setup(s => s.Download())
                 .Returns(new CommonOutputDto<CommonDownloadOutputDto>()
-                { 
+                {
                     Success = true,
                     Data = new CommonDownloadOutputDto()
-                    { 
+                    {
                         FileName = "FileName",
                         FilePath = "FilePath",
                     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.BusinessLayer.Dtos.Default
+﻿namespace DemoNetCoreProject.BusinessLayer.Dtos.Default
 {
     public class DefaultLogicFromFormInputDto
     {

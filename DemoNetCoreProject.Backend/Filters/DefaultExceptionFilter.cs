@@ -1,5 +1,4 @@
-﻿using DemoNetCoreProject.Common.Dtos;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DemoNetCoreProject.Backend.Filters

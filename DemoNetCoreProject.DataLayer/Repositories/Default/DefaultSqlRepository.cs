@@ -1,15 +1,15 @@
-﻿using DemoNetCoreProject.DataLayer.Entities;
-using DemoNetCoreProject.DataLayer.Services;
-using Microsoft.EntityFrameworkCore;
-using DemoNetCoreProject.DataLayer.IRepositories.Default;
-using Dapper;
+﻿using Dapper;
+using DemoNetCoreProject.DataLayer.Entities;
 using DemoNetCoreProject.DataLayer.Enums;
-using System.Data;
-using System.Text.Json;
-using System.Text;
+using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
-using Microsoft.Extensions.Logging;
+using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.DataLayer.Utilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Data;
+using System.Text;
+using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
@@ -18,7 +18,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         private readonly ILogger<DefaultSqlRepository> _logger;
         private readonly DefaultDbContext _defaultDbContext;
         private readonly IDapperService<DefaultDbContext> _defaultDapperService;
-        public DefaultSqlRepository(ILogger<DefaultSqlRepository> logger, 
+        public DefaultSqlRepository(ILogger<DefaultSqlRepository> logger,
             DefaultDbContext defaultDbContext,
             IDapperService<DefaultDbContext> defaultDapperService)
         {
@@ -80,7 +80,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             var data = await _defaultDapperService.PagedQuery<Person>(
                 "SELECT * FROM [Person]", "[Row]",
                 dynamicParameters,
-                pageSize: 3, pageNo: 3 );
+                pageSize: 3, pageNo: 3);
             _logger.LogInformation("{v}", JsonSerializer.Serialize(data));
         }
         public async Task RunDapperExcute()

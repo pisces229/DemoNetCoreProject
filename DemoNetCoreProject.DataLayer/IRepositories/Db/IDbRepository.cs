@@ -9,10 +9,10 @@ namespace DemoNetCoreProject.DataLayer.IRepositories.Db
         where Entity : class
     {
         Task<Entity?> Find(int row);
-        Task<bool> Any( Func<IQueryable<Entity>, IQueryable<Entity>>? query = null);
+        Task<bool> Any(Func<IQueryable<Entity>, IQueryable<Entity>>? query = null);
         Task<int> Count(Func<IQueryable<Entity>, IQueryable<Entity>>? query = null);
         Task<IEnumerable<Entity>> Query(Func<IQueryable<Entity>, IQueryable<Entity>>? query = null);
-        Task<CommonPageOutputDto<Entity>> PagedQuery(int pageSize, int pageNo, 
+        Task<CommonPageOutputDto<Entity>> PagedQuery(int pageSize, int pageNo,
             Func<IQueryable<Entity>, IQueryable<Entity>>? where = null,
             Func<IQueryable<Entity>, IOrderedQueryable<Entity>>? order = null);
         Task<int> Create(Entity entity);

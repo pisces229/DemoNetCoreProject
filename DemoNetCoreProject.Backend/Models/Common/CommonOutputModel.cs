@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Backend.Models.Common
+﻿namespace DemoNetCoreProject.Backend.Models.Common
 {
     public class CommonOutputModel<T>
     {

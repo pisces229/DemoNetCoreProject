@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Backend.Models.Default
+﻿namespace DemoNetCoreProject.Backend.Models.Default
 {
     public class DefaultPageQueryOutputModel
     {

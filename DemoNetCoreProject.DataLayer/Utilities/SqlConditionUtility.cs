@@ -9,13 +9,13 @@ namespace DemoNetCoreProject.DataLayer.Utilities
     {
         public static void Add(StringBuilder sql, string condition)
             => sql.Append($"{StratWithWhereOrAnd(sql)} {condition} ");
-        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters, 
+        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters,
             string condition, SqlOperatorType sqlOperator, string? value, DbType dbType = DbType.String)
             => AddValue(sql, dynamicParameters, condition, sqlOperator, value, dbType);
-        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters, 
+        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters,
             string condition, SqlOperatorType sqlOperator, int? value, DbType dbType = DbType.Int32)
             => AddValue(sql, dynamicParameters, condition, sqlOperator, value, dbType);
-        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters, 
+        public static void Add(StringBuilder sql, DynamicParameters dynamicParameters,
             string condition, SqlOperatorType sqlOperator, double? value, DbType dbType = DbType.Double)
              => AddValue(sql, dynamicParameters, condition, sqlOperator, value, dbType);
         public static void Add(StringBuilder sql, DynamicParameters dynamicParameters,
@@ -59,7 +59,7 @@ namespace DemoNetCoreProject.DataLayer.Utilities
                     break;
             }
         }
-        public static void Add<T>(StringBuilder sql, DynamicParameters dynamicParameters, 
+        public static void Add<T>(StringBuilder sql, DynamicParameters dynamicParameters,
             string condition, SqlOperatorType sqlOperator, IEnumerable<T> value)
         {
             if (value == null || !value.Any())

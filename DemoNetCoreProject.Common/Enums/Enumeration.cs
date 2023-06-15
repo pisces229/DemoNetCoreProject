@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Common.Enums
+﻿namespace DemoNetCoreProject.Common.Enums
 {
     public abstract class Enumeration
     {

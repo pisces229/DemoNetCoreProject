@@ -1,7 +1,7 @@
 ﻿using DemoNetCoreProject.DataLayer.Entities;
+using DemoNetCoreProject.DataLayer.IRepositories.Db;
 using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.EntityFrameworkCore;
-using DemoNetCoreProject.DataLayer.IRepositories.Db;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {

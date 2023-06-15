@@ -1,6 +1,6 @@
 ﻿using DemoNetCoreProject.Backend.Models.Common;
-using System.Text.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace DemoNetCoreProject.Backend.Utilities
 {

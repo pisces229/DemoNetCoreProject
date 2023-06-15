@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Backend.Middlewares
+﻿namespace DemoNetCoreProject.Backend.Middlewares
 {
     public class DefaultMiddleware
     {

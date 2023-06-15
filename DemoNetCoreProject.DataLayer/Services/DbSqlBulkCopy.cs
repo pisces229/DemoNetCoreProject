@@ -104,7 +104,7 @@ namespace DemoNetCoreProject.DataLayer.Services
         private void DataTableDetail(DataTable data)
         {
 #pragma warning disable CA2254 // 範本應為靜態運算式
-            _logger.LogInformation($"Batch Insert Table [{ data.TableName }] Count [{ data.Rows.Count }]");
+            _logger.LogInformation($"Batch Insert Table [{data.TableName}] Count [{data.Rows.Count}]");
 #pragma warning restore CA2254 // 範本應為靜態運算式
         }
     }

@@ -29,7 +29,7 @@ namespace DemoNetCoreProject.Batch.Runners
                     cancellationTokenSource.Cancel();
                 }
                 Console.WriteLine(_configuration.GetValue<string>("Path:Temp"));
-   
+
                 await _defaultLogic.RunSqlCondition();
                 await Task.Run(() => _logger.LogInformation("..."));
                 await Task.Delay(5000);
@@ -38,7 +38,7 @@ namespace DemoNetCoreProject.Batch.Runners
                 _logger.LogInformation("DefaultRunner End");
             }
             catch (Exception e)
-            { 
+            {
                 _logger.LogError(0, e, "Exception");
             }
         }

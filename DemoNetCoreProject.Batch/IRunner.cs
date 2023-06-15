@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.Batch
+﻿namespace DemoNetCoreProject.Batch
 {
     internal interface IRunner
     {

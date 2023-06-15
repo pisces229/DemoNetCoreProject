@@ -1,6 +1,6 @@
 ﻿using DemoNetCoreProject.DataLayer.IServices;
-using StackExchange.Redis;
 using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Services

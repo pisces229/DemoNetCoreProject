@@ -3,12 +3,10 @@ using DemoNetCoreProject.DataLayer;
 using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.AspNetCore.Builder;
 
 namespace DemoNetCoreProject.IntegrationTest
 {

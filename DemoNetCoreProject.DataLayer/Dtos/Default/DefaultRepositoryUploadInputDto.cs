@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.DataLayer.Dtos.Default
+﻿namespace DemoNetCoreProject.DataLayer.Dtos.Default
 {
     public class DefaultRepositoryUploadInputDto
     {

@@ -1,5 +1,5 @@
-﻿using DemoNetCoreProject.DataLayer.Enums;
-using DemoNetCoreProject.Common.Utilities;
+﻿using DemoNetCoreProject.Common.Utilities;
+using DemoNetCoreProject.DataLayer.Enums;
 
 namespace DemoNetCoreProject.UnitTest.DataLayer.Utilities
 {

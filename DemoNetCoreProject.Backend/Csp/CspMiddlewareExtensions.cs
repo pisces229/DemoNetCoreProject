@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using System;
-
-namespace DemoNetCoreProject.Backend.Csp
+﻿namespace DemoNetCoreProject.Backend.Csp
 {
     public static class CspMiddlewareExtensions
     {

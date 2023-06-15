@@ -1,14 +1,14 @@
-﻿using DemoNetCoreProject.DataLayer.IServices;
-using Dapper;
-using System.Data;
-using System.Data.Common;
+﻿using Dapper;
+using DemoNetCoreProject.Common.Dtos;
+using DemoNetCoreProject.DataLayer.IServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Text;
 using System.Collections;
-using System.Text.RegularExpressions;
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
-using DemoNetCoreProject.Common.Dtos;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
@@ -123,11 +123,11 @@ namespace DemoNetCoreProject.DataLayer.Services
             var result = new CommonPageOutputDto<T>();
             var dbCommandTimeout = _dbContext.GetDatabase().GetCommandTimeout();
             dbCommandTimeout ??= commandTimeout;
-            result.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M", 
+            result.TotalCount = await ExecuteScalar<int>($"SELECT COUNT(1) FROM ({sql}) M",
                 parameters, dbCommandTimeout, commandType);
             parameters.Add(PAGED_SKIP, pageSize * (pageNo - 1));
             parameters.Add(PAGED_TAKE, pageSize);
-            result.Data = await Query<T>($"{sql} ORDER BY {order} OFFSET @{PAGED_SKIP} ROWS FETCH NEXT @{PAGED_TAKE} ROWS ONLY", 
+            result.Data = await Query<T>($"{sql} ORDER BY {order} OFFSET @{PAGED_SKIP} ROWS FETCH NEXT @{PAGED_TAKE} ROWS ONLY",
                 parameters, dbCommandTimeout, commandType);
             return result;
         }

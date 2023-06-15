@@ -1,5 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using DemoNetCoreProject.BusinessLayer.ILogics.Default;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
@@ -20,7 +20,7 @@ namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
             _logger.LogInformation("Test_DefaultSqlLogic.Initialize");
         }
         [TestMethod]
-        public async Task RunDbRepositoryQuery() 
+        public async Task RunDbRepositoryQuery()
         {
             await _logic.RunDbRepositoryQuery();
         }

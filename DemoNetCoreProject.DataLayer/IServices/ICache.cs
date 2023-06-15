@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DemoNetCoreProject.DataLayer.IServices
+﻿namespace DemoNetCoreProject.DataLayer.IServices
 {
     public interface ICache
     {
