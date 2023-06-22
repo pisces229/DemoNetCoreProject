@@ -328,6 +328,7 @@ webApplicationBuilder.Services.AddAutoMapper(configure =>
     LoadBackendRegister.LoadAutoMappers(configure);
     LoadBusinessLayerRegister.LoadAutoMappers(configure);
     LoadDataLayerRegister.LoadAutoMappers(configure);
+    //configure.AddProfile<>();
 });
 webApplicationBuilder.Services.AddControllers();
 //.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
