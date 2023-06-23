@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DemoNetCoreProject.DataLayer.DtoMappers;
 using DemoNetCoreProject.DataLayer.IServices;
+using DemoNetCoreProject.DataLayer.Profiles;
 using DemoNetCoreProject.DataLayer.Registers;
 using DemoNetCoreProject.DataLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,11 +15,11 @@ namespace DemoNetCoreProject.DataLayer
 {
     public class LoadDataLayerRegister
     {
-        public static void LoadAutoMappers(IMapperConfigurationExpression configure)
+        public static IEnumerable<Profile> Profiles() => new Profile[]
         {
-            CommonAutoMapper.Load(configure);
-            DefaultAutoMapper.Load(configure);
-        }
+            new CommonProfile(),
+            new DefaultProfile(),
+        };
         public static void LoadServices(IServiceCollection service)
         {
             // Service

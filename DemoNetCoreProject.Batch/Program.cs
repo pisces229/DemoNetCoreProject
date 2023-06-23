@@ -118,8 +118,8 @@ hostbuilder.ConfigureServices((hostContext, services) =>
     services.AddAutoMapper(configure =>
     {
         //configure.AllowNullDestinationValues = false;
-        LoadBusinessLayerRegister.LoadAutoMappers(configure);
-        LoadDataLayerRegister.LoadAutoMappers(configure);
+        configure.AddProfiles(LoadBusinessLayerRegister.Profiles());
+        configure.AddProfiles(LoadDataLayerRegister.Profiles());
     });
 
     switch (CommandLineArguments.PROG_ID)

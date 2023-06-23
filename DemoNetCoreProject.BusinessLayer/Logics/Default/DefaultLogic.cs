@@ -62,8 +62,8 @@ namespace DemoNetCoreProject.BusinessLayer.Logics.Default
             _logger.LogInformation("Values:[{v}]", inputDto.Values?.Count());
             using (inputDto.File)
             {
-                result.Success = await _defaultRepository.Upload(
-                    _mapper.Map<DefaultLogicFromFormInputDto, DefaultRepositoryUploadInputDto>(inputDto));
+                var input = _mapper.Map<DefaultLogicFromFormInputDto, DefaultRepositoryUploadInputDto>(inputDto);
+                result.Success = await _defaultRepository.Upload(input);
             }
             return result;
         }

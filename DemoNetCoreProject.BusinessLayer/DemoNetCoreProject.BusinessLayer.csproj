@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DtoMappers\" />
     <Folder Include="Registers\" />
   </ItemGroup>
 

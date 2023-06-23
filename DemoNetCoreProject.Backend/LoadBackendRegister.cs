@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using DemoNetCoreProject.Backend.ModelMappers;
+using DemoNetCoreProject.Backend.Profiles;
 
 namespace DemoNetCoreProject.Backend
 {
     public class LoadBackendRegister
     {
-        public static void LoadAutoMappers(IMapperConfigurationExpression configure)
+        public static IEnumerable<Profile> Profiles() => new Profile[]
         {
-            CommonAutoMapper.Load(configure);
-            DefaultAutoMapper.Load(configure);
-        }
+            new CommonProfile(),
+            new DefaultProfile(),
+        };
     }
 }

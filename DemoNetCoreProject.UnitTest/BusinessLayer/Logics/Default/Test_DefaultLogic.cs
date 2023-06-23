@@ -1,7 +1,7 @@
 using AutoMapper;
-using DemoNetCoreProject.BusinessLayer.DtoMappers;
 using DemoNetCoreProject.BusinessLayer.Dtos.Default;
 using DemoNetCoreProject.BusinessLayer.Logics.Default;
+using DemoNetCoreProject.BusinessLayer.Profiles;
 using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.Common.Options;
 using DemoNetCoreProject.DataLayer.Dtos.Default;
@@ -26,7 +26,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             Console.WriteLine("Test_DefaultLogic.Initialize");
         }
         [TestMethod]
-        public async Task Upload()
+        public async Task FromForm()
         {
             var service = new ServiceCollection()
                 .AddLogging(configure => configure.AddConsole())
@@ -36,7 +36,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             mockDefaultRequestRepository
                 .Setup(s => s.Upload(It.IsAny<DefaultRepositoryUploadInputDto>()))
                 .ReturnsAsync(true);
-            var mapper = new Mapper(new MapperConfiguration(c => DefaultAutoMapper.Load(c)));
+            var mapper = new Mapper(new MapperConfiguration(c => c.AddProfile<DefaultProfile>()));
             var mockOptions = new Mock<IOptions<JwtOption>>();
             var mockUserService = new Mock<IUserService>();
             var mockCache = new Mock<ICache>();
@@ -76,7 +76,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
                         FilePath = "FilePath",
                     }
                 });
-            var mapper = new Mapper(new MapperConfiguration(c => DefaultAutoMapper.Load(c)));
+            var mapper = new Mapper(new MapperConfiguration(c => c.AddProfile<DefaultProfile>()));
             var mockOptions = new Mock<IOptions<JwtOption>>();
             var mockUserService = new Mock<IUserService>();
             var mockCache = new Mock<ICache>();

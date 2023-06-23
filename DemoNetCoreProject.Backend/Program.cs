@@ -325,10 +325,9 @@ LoadDataLayerRegister.LoadServices(webApplicationBuilder.Services);
 webApplicationBuilder.Services.AddAutoMapper(configure =>
 {
     //configure.AllowNullDestinationValues = false;
-    LoadBackendRegister.LoadAutoMappers(configure);
-    LoadBusinessLayerRegister.LoadAutoMappers(configure);
-    LoadDataLayerRegister.LoadAutoMappers(configure);
-    //configure.AddProfile<>();
+    configure.AddProfiles(LoadBackendRegister.Profiles());
+    configure.AddProfiles(LoadBusinessLayerRegister.Profiles());
+    configure.AddProfiles(LoadDataLayerRegister.Profiles());
 });
 webApplicationBuilder.Services.AddControllers();
 //.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);

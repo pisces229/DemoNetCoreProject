@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DemoNetCoreProject.BusinessLayer.DtoMappers;
 using DemoNetCoreProject.BusinessLayer.LogicRegisters;
+using DemoNetCoreProject.BusinessLayer.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
@@ -13,11 +13,11 @@ namespace DemoNetCoreProject.BusinessLayer
 {
     public class LoadBusinessLayerRegister
     {
-        public static void LoadAutoMappers(IMapperConfigurationExpression configure)
+        public static IEnumerable<Profile> Profiles() => new Profile[]
         {
-            CommonAutoMapper.Load(configure);
-            DefaultAutoMapper.Load(configure);
-        }
+            new CommonProfile(),
+            new DefaultProfile(),
+        };
         public static void LoadServices(IServiceCollection service)
         {
             DefaultLogicRegister.Load(service);

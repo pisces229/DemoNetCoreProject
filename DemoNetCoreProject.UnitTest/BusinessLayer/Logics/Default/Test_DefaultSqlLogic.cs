@@ -1,6 +1,6 @@
 using AutoMapper;
-using DemoNetCoreProject.BusinessLayer.DtoMappers;
 using DemoNetCoreProject.BusinessLayer.Logics.Default;
+using DemoNetCoreProject.BusinessLayer.Profiles;
 using DemoNetCoreProject.Common.Dtos;
 using DemoNetCoreProject.DataLayer.Entities;
 using DemoNetCoreProject.DataLayer.IRepositories.Db;
@@ -33,8 +33,8 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var service = new ServiceCollection()
                 .AddLogging(configure => configure.AddConsole())
                 .BuildServiceProvider();
-            var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultSqlLogic>();
-            var mapper = new Mapper(new MapperConfiguration(c => DefaultAutoMapper.Load(c)));
+            var logger = service.GetRequiredService<ILoggerFactory>().CreateLogger<DefaultSqlLogic>(); 
+            var mapper = new Mapper(new MapperConfiguration(c => c.AddProfile<DefaultProfile>()));
             // Act
             // ...Run
             // Assert
