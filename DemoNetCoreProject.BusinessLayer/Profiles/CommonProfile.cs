@@ -3,7 +3,7 @@ using DemoNetCoreProject.Common.Dtos;
 
 namespace DemoNetCoreProject.BusinessLayer.Profiles
 {
-    public class CommonProfile : Profile
+    internal class CommonProfile : Profile
     {
         public CommonProfile()
         {

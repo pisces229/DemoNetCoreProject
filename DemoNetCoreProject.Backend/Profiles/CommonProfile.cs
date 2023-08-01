@@ -4,7 +4,7 @@ using DemoNetCoreProject.Common.Dtos;
 
 namespace DemoNetCoreProject.Backend.Profiles
 {
-    public class CommonProfile : Profile
+    internal class CommonProfile : Profile
     {
         public CommonProfile()
         {
