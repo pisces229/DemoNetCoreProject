@@ -15,9 +15,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Asn1.X9;
 using Polly;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
+using static DemoNetCoreProject.Common.Converter.CommonConverter;
 
 Console.WriteLine(EnvironmentVariable.ASPNETCORE_ENVIRONMENT);
 
@@ -324,6 +327,10 @@ LoadBusinessLayerRegister.LoadServices(webApplicationBuilder.Services);
 LoadDataLayerRegister.LoadServices(webApplicationBuilder.Services);
 webApplicationBuilder.Services.AddAutoMapper(configure =>
 {
+    configure.CreateMap<string?, DateTime?>().ConvertUsing(new RocDateToDateTimeConverter());
+    configure.CreateMap<DateTime?, string?>().ConvertUsing(new DateTimeToRocDateConverter());
+    configure.CreateMap<string?, int?>().ConvertUsing(new ToIntegerConverter());
+    configure.CreateMap<int?, string>().ConvertUsing(new ToStringConverter());
     //configure.AllowNullDestinationValues = false;
     configure.AddProfiles(LoadBackendRegister.Profiles());
     configure.AddProfiles(LoadBusinessLayerRegister.Profiles());
