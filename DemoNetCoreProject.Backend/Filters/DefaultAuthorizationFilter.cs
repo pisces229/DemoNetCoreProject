@@ -2,6 +2,9 @@
 
 namespace DemoNetCoreProject.Backend.Filters
 {
+    /// <summary>
+    /// 用於授權控制器方法的呼叫
+    /// </summary>
     public class DefaultAuthorizationFilter : IAsyncAuthorizationFilter
     {
         private readonly ILogger<DefaultAuthorizationFilter> _logger;

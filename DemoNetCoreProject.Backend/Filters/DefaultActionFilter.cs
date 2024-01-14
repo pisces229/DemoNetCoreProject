@@ -2,6 +2,9 @@
 
 namespace DemoNetCoreProject.Backend.Filters
 {
+    /// <summary>
+    /// 用於在控制器方法執行之前和之後執行任意程式碼
+    /// </summary>
     public class DefaultActionFilter : IAsyncActionFilter
     {
         private readonly ILogger<DefaultActionFilter> _logger;

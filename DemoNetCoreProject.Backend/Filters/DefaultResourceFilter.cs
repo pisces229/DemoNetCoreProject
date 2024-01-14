@@ -2,6 +2,9 @@
 
 namespace DemoNetCoreProject.Backend.Filters
 {
+    /// <summary>
+    /// 用於在模型綁定之前和之後執行任意程式碼
+    /// </summary>
     public class DefaultResourceFilter : IAsyncResourceFilter
     {
         private readonly ILogger<DefaultResourceFilter> _logger;

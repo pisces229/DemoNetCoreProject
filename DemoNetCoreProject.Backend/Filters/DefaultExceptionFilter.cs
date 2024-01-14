@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace DemoNetCoreProject.Backend.Filters
 {
+    /// <summary>
+    /// 用於處理未處理的例外狀況
+    /// </summary>
     public class DefaultExceptionFilter : IAsyncExceptionFilter
     {
         private readonly ILogger<DefaultExceptionFilter> _logger;
