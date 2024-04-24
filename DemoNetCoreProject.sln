@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{17E19E42-395B-47EE-B701-071F4A9213A5}"
 	ProjectSection(SolutionItems) = preProject
 		.http = .http
+		http-client.env.json = http-client.env.json
 	EndProjectSection
 EndProject
 Global
