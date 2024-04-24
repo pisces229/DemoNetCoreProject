@@ -1,0 +1,32 @@
+### Variable
+@protocol=https
+@hostname=localhost
+@port=9110
+### Run
+###
+GET https://localhost:9110/api/default/run
+###
+GET {{protocol}}://{{hostname}}:{{port}}/api/default/run
+###
+GET {{HostAddress}}/api/default/run
+
+### From
+###
+GET {{HostAddress}}/api/default/FromQueryString?inputModel=123
+### 
+POST {{HostAddress}}/api/default/FromBodyString
+Content-Type: application/json
+
+"123"
+###
+GET {{HostAddress}}/api/default/FromQueryModel?value=123&values[]=1&values[]=2&values[]=3
+### 
+POST {{HostAddress}}/api/default/FromBodyModel
+Content-Type: application/json
+
+{
+    "value": "123",
+    "values": ["1","2","3"]
+}
+###
+GET {{HostAddress}}/api/default/Download
