@@ -59,10 +59,10 @@ hostbuilder.ConfigureServices((hostContext, services) =>
     if (!string.IsNullOrEmpty(secret))
     {
         var decryptStrings = hostContext.Configuration.GetSection("DecryptStrings").Get<string[]>();
-        foreach (var decryptString in decryptStrings)
+        foreach (var decryptString in decryptStrings!)
         {
             hostContext.Configuration[decryptString] = SecretUtility.Decrypt(
-                hostContext.Configuration[decryptString], secret);
+                hostContext.Configuration[decryptString]!, secret);
         }
     }
     #region DbContext

@@ -48,12 +48,7 @@ webApplicationBuilder.Host.ConfigureAppConfiguration((hostBuilder, configuration
     }
 });
 
-webApplicationBuilder.Host.ConfigureLogging((hostContext, loggingBuilder) =>
-{
-    loggingBuilder.ClearProviders();
-    loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-    loggingBuilder.UseDefaultSerilog();
-});
+webApplicationBuilder.Logging.ClearProviders().SetMinimumLevel(LogLevel.Trace).UseDefaultSerilog();
 
 // KestrelHttpServer
 //webApplicationBuilder.WebHost.UseKestrel(options =>
@@ -116,10 +111,10 @@ var secret = webApplicationBuilder.Configuration.GetValue<string>("Secret");
 if (!string.IsNullOrEmpty(secret))
 {
     var decryptStrings = webApplicationBuilder.Configuration.GetSection("DecryptStrings").Get<string[]>();
-    foreach (var decryptString in decryptStrings)
+    foreach (var decryptString in decryptStrings!)
     {
         webApplicationBuilder.Configuration[decryptString] = SecretUtility.Decrypt(
-            webApplicationBuilder.Configuration[decryptString], secret);
+            webApplicationBuilder.Configuration[decryptString]!, secret);
     }
 }
 
@@ -227,11 +222,11 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     var jwtOption = webApplicationBuilder.Configuration.GetSection(nameof(JwtOption));
     webApplicationBuilder.Services.Configure<JwtOption>(options =>
     {
-        options.NameClaimType = jwtOption.GetValue<string>(nameof(JwtOption.NameClaimType));
-        options.RoleClaimType = jwtOption.GetValue<string>(nameof(JwtOption.RoleClaimType));
-        options.Issuer = jwtOption.GetValue<string>(nameof(JwtOption.Issuer));
-        options.Subject = jwtOption.GetValue<string>(nameof(JwtOption.Subject));
-        options.Audience = jwtOption.GetValue<string>(nameof(JwtOption.Audience));
+        options.NameClaimType = jwtOption.GetValue<string>(nameof(JwtOption.NameClaimType))!;
+        options.RoleClaimType = jwtOption.GetValue<string>(nameof(JwtOption.RoleClaimType))!;
+        options.Issuer = jwtOption.GetValue<string>(nameof(JwtOption.Issuer))!;
+        options.Subject = jwtOption.GetValue<string>(nameof(JwtOption.Subject))!;
+        options.Audience = jwtOption.GetValue<string>(nameof(JwtOption.Audience))!;
         options.ValidFor = TimeSpan.FromSeconds(jwtOption.GetValue<double>(nameof(JwtOption.ValidFor)));
         options.IdleTime = TimeSpan.FromSeconds(jwtOption.GetValue<double>(nameof(JwtOption.IdleTime)));
         #region String

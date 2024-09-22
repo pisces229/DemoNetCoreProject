@@ -8,6 +8,7 @@ using DemoNetCoreProject.BusinessLayer.Dtos.Default;
 using DemoNetCoreProject.BusinessLayer.ILogics.Default;
 using DemoNetCoreProject.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System.Web;
 
 namespace DemoNetCoreProject.Backend.Controllers
@@ -23,12 +24,17 @@ namespace DemoNetCoreProject.Backend.Controllers
         public DefaultController(ILogger<DefaultController> logger,
             IDefaultLogic logic,
             IMapper mapper,
-            DefaultDataProtector defaultDataProtector)
+            DefaultDataProtector defaultDataProtector,
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
             _logic = logic;
             _mapper = mapper;
             _defaultDataProtector = defaultDataProtector;
+            //serviceProvider.GetService<IDefaultLogic>();
+            //serviceProvider.GetRequiredService<IDefaultLogic>();
+            //serviceProvider.GetKeyedServices<IDefaultLogic>("");
+            //serviceProvider.GetRequiredKeyedService<IDefaultLogic>("");
         }
         [HttpGet]
         public ActionResult Run()

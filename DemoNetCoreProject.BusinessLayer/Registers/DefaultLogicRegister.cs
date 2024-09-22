@@ -10,6 +10,7 @@ namespace DemoNetCoreProject.BusinessLayer.LogicRegisters
         {
             service.AddScoped<IDefaultSqlLogic, DefaultSqlLogic>();
             service.AddScoped<IDefaultLogic, DefaultLogic>();
+            //service.AddKeyedScoped<IDefaultLogic, DefaultLogic>("");
         }
     }
 }
