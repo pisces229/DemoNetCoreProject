@@ -122,6 +122,8 @@ hostbuilder.ConfigureServices((hostContext, services) =>
         configure.AddProfiles(LoadDataLayerRegister.Profiles());
     });
 
+    services.AddSingleton<ChannelRunner>();
+
     switch (CommandLineArguments.PROG_ID)
     {
         case "Default":

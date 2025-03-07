@@ -4,19 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.Batch.Runners
 {
-    internal class DefaultRunner : IRunner
+    internal class DefaultRunner(ILogger<DefaultRunner> _logger,
+        IConfiguration _configuration,
+        IDefaultSqlLogic _defaultLogic) : IRunner
     {
-        private readonly ILogger<DefaultRunner> _logger;
-        private readonly IConfiguration _configuration;
-        private readonly IDefaultSqlLogic _defaultLogic;
-        public DefaultRunner(ILogger<DefaultRunner> logger,
-            IConfiguration configuration,
-            IDefaultSqlLogic defaultLogic)
-        {
-            _logger = logger;
-            _configuration = configuration;
-            _defaultLogic = defaultLogic;
-        }
         public async Task Run()
         {
             try

@@ -50,7 +50,7 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             var result = await defaultFirstLogic.FromForm(new DefaultLogicFromFormInputDto()
             {
                 Value = "1",
-                Values = new string[] { "1", "2" },
+                Values = ["1", "2"],
                 File = new MemoryStream()
             });
             mockDefaultRequestRepository.Verify(s => s.Upload(It.IsAny<DefaultRepositoryUploadInputDto>()), Times.Once);
