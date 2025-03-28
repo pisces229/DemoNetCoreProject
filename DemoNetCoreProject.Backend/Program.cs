@@ -1,4 +1,4 @@
-using DemoNetCoreProject.Backend;
+ï»¿using DemoNetCoreProject.Backend;
 using DemoNetCoreProject.Backend.Filters;
 using DemoNetCoreProject.Backend.Services;
 using DemoNetCoreProject.BusinessLayer;
@@ -72,11 +72,11 @@ webApplicationBuilder.Logging.ClearProviders().SetMinimumLevel(LogLevel.Trace).U
 
 //webApplicationBuilder.Services.AddSingleton(provider => configurationRoot);
 webApplicationBuilder.Services.AddHttpContextAccessor();
-// µù¥U Options Pattern ªA°È¡A±N°t¸m¤º®eµù¥U¨ì®e¾¹¸Ì¡A¨ÓÀò¨ú¹ïÀ³ªºªA°È Provider ¹ï¶H
+// è¨»å†Š Options Pattern æœå‹™ï¼Œå°‡é…ç½®å…§å®¹è¨»å†Šåˆ°å®¹å™¨è£¡ï¼Œä¾†ç²å–å°æ‡‰çš„æœå‹™ Provider å°è±¡
 //webApplicationBuilder.Services.AddOptions();
 webApplicationBuilder.Services.AddCors(options =>
 {
-    // CorsPolicy ¬O¦Û­qªº Policy ¦WºÙ
+    // CorsPolicy æ˜¯è‡ªè¨‚çš„ Policy åç¨±
     options.AddPolicy("CorsPolicy", policy =>
     {
         policy
@@ -251,8 +251,8 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
     })
     .AddJwtBearer(options =>
     {
-        // ·íÅçÃÒ¥¢±Ñ®É¡A¦^À³¼ĞÀY·|¥]§t WWW-Authenticate ¼ĞÀY¡A³o¸Ì·|Åã¥Ü¥¢±Ñªº¸Ô²Ó¿ù»~­ì¦]
-        // ¹w³]­È¬° true¡A¦³®É·|¯S§OÃö³¬
+        // ç•¶é©—è­‰å¤±æ•—æ™‚ï¼Œå›æ‡‰æ¨™é ­æœƒåŒ…å« WWW-Authenticate æ¨™é ­ï¼Œé€™è£¡æœƒé¡¯ç¤ºå¤±æ•—çš„è©³ç´°éŒ¯èª¤åŸå› 
+        // é è¨­å€¼ç‚º trueï¼Œæœ‰æ™‚æœƒç‰¹åˆ¥é—œé–‰
         options.IncludeErrorDetails = true;
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -318,6 +318,9 @@ webApplicationBuilder.Services.AddDbContext<DataProtectionDbContext>(option =>
 //webApplicationBuilder.Services.AddHostedService<DefaultBackgroundService>();
 // Service
 webApplicationBuilder.Services.AddScoped<IUserService, UserBackendService>();
+// webApplicationBuilder.Services.AddKeyedTransient<IService, Service>(Enum);
+// webApplicationBuilder.Services.AddKeyedScoped<IService, Service>(Enum);
+// webApplicationBuilder.Services.AddKeyedSingleton<IService, Service>(Enum);
 LoadBusinessLayerRegister.LoadServices(webApplicationBuilder.Services);
 LoadDataLayerRegister.LoadServices(webApplicationBuilder.Services);
 webApplicationBuilder.Services.AddAutoMapper(configure =>
@@ -448,21 +451,21 @@ app.Lifetime.ApplicationStopped.Register(() =>
 });
 #endregion
 
-#region ¤¤¤¶³nÅé
-//¦WºÙ                                  ´y­z                          API
-//Authentication                        »{ÃÒ¤¤¤¶³nÅé                  app.UseAuthentication()
-//Authorization                         ±ÂÅv¤¤¤¶³nÅé.                 app.UseAuthorization()
-//CORS                                  ¸ó°ì¤¤¤¶³nÅé.                 app.UseCors()
-//Exception Handler                     ¥ş°ì©Ê²§±`³B²z¤¤¤¶³nÅé.       app.UseExceptionHandler()
-//Forwarded Headers                     ¥N²zÀY¸ê°TÂàµo¤¤¤¶³nÅé.       app.UseForwardedHeaders()
-//HTTPS Redirection                     Https­«©w¦V¤¤¤¶³nÅé.          app.UseHttpsRedirection()
-//HTTP Strict Transport Security (HSTS) ¯S®íÅTÀ³ÀYªº¦w¥ş¼W±j¤¤¤¶³nÅé. app.UseHsts()
-//Request Logging                       HTTP½Ğ¨D©MÅTÀ³¤é»x¤¤¤¶³nÅé.   app.UseHttpLogging()
-//Response Caching                      ¿é¥X§Ö¨ú¤¤¤¶³nÅé.             app.UseResponseCaching()
-//Response Compression                  ÅTÀ³À£ÁY¤¤¤¶³nÅé.             app.UseResponseCompression()
-//Session                               Session¤¤¤¶³nÅé               app.UseSession()
-//Static Files                          ÀRºAÀÉ®×¤¤¤¶³nÅé.             app.UseStaticFiles(), app.UseFileServer()
-//WebSockets                            WebSocket¤ä´©¤¤¤¶³nÅé.        app.UseWebSockets()
+#region ä¸­ä»‹è»Ÿé«”
+//åç¨±                                  æè¿°                          API
+//Authentication                        èªè­‰ä¸­ä»‹è»Ÿé«”.                 app.UseAuthentication()
+//Authorization                         æˆæ¬Šä¸­ä»‹è»Ÿé«”.                 app.UseAuthorization()
+//CORS                                  è·¨åŸŸä¸­ä»‹è»Ÿé«”.                 app.UseCors()
+//Exception Handler                     å…¨åŸŸæ€§ç•°å¸¸è™•ç†ä¸­ä»‹è»Ÿé«”.        app.UseExceptionHandler()
+//Forwarded Headers                     ä»£ç†é ­è³‡è¨Šè½‰ç™¼ä¸­ä»‹è»Ÿé«”.        app.UseForwardedHeaders()
+//HTTPS Redirection                     Httpsé‡å®šå‘ä¸­ä»‹è»Ÿé«”.          app.UseHttpsRedirection()
+//HTTP Strict Transport Security (HSTS) ç‰¹æ®ŠéŸ¿æ‡‰é ­çš„å®‰å…¨å¢å¼·ä¸­ä»‹è»Ÿé«”.   app.UseHsts()
+//Request Logging                       HTTPè«‹æ±‚å’ŒéŸ¿æ‡‰æ—¥èªŒä¸­ä»‹è»Ÿé«”.    app.UseHttpLogging()
+//Response Caching                      è¼¸å‡ºå¿«å–ä¸­ä»‹è»Ÿé«”.              app.UseResponseCaching()
+//Response Compression                  éŸ¿æ‡‰å£“ç¸®ä¸­ä»‹è»Ÿé«”.              app.UseResponseCompression()
+//Session                               Sessionä¸­ä»‹è»Ÿé«”.              app.UseSession()
+//Static Files                          éœæ…‹æª”æ¡ˆä¸­ä»‹è»Ÿé«”.              app.UseStaticFiles(), app.UseFileServer()
+//WebSockets                            WebSocketæ”¯æ´ä¸­ä»‹è»Ÿé«”.         app.UseWebSockets()
 #endregion
 
 // Configure the HTTP request pipeline.

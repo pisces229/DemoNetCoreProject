@@ -26,6 +26,8 @@ namespace DemoNetCoreProject.Backend.Controllers
             IMapper mapper,
             DefaultDataProtector defaultDataProtector,
             IServiceProvider serviceProvider)
+        // [FromServices] IService service
+        // [FromKeyedServices(Enum)] IService service
         {
             _logger = logger;
             _logic = logic;
