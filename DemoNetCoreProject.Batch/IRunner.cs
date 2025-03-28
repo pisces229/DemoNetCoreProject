@@ -1,6 +1,6 @@
 ﻿namespace DemoNetCoreProject.Batch
 {
-    internal interface IRunner
+    public interface IRunner
     {
         Task Run();
     }

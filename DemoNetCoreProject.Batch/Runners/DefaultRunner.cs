@@ -1,11 +1,14 @@
 ﻿using DemoNetCoreProject.BusinessLayer.ILogics.Default;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.Batch.Runners
 {
     internal class DefaultRunner(ILogger<DefaultRunner> _logger,
         IConfiguration _configuration,
+        [FromKeyedServices(EnumRunner.First)] IEnumRunner _firstEnumRunner,
+        [FromKeyedServices(EnumRunner.Second)] IEnumRunner _secondEnumRunner,
         IDefaultSqlLogic _defaultLogic) : IRunner
     {
         public async Task Run()
@@ -13,6 +16,10 @@ namespace DemoNetCoreProject.Batch.Runners
             try
             {
                 _logger.LogInformation("DefaultRunner Start");
+
+                await _firstEnumRunner.Run();
+                await _secondEnumRunner.Run();
+
                 // Define the cancellation token.
                 using (var cancellationTokenSource = new CancellationTokenSource())
                 {

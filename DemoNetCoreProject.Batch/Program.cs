@@ -1,4 +1,5 @@
 ﻿using DemoNetCoreProject.Batch;
+using DemoNetCoreProject.Batch.EnumRunners;
 using DemoNetCoreProject.Batch.Runners;
 using DemoNetCoreProject.Batch.Services;
 using DemoNetCoreProject.BusinessLayer;
@@ -130,6 +131,10 @@ hostbuilder.ConfigureServices((hostContext, services) =>
             services.AddScoped<IRunner, DefaultRunner>();
             break;
     }
+
+    services.AddKeyedScoped<IEnumRunner, FirstEnumRunner>(EnumRunner.First);
+    services.AddKeyedScoped<IEnumRunner, SecondEnumRunner>(EnumRunner.Second);
+
 });
 
 var app = hostbuilder.Build();
