@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DemoNetCoreProject.DataLayer.Registers
 {
-    internal class DefaultDbRepositoryRegister
+    public class DefaultDbRepositoryRegister
     {
         public static void Load(IServiceCollection service)
         {

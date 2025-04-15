@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal sealed class DapperService<DB> : IDapperService<DB> where DB : IDbContext
+    public class DapperService<DB> : IDapperService<DB> where DB : IDbContext
     {
         private const string PAGED_SKIP = "__paged_skip";
         private const string PAGED_TAKE = "__paged_take";

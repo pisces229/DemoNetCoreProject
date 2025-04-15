@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
-    internal sealed class DefaultSqlLogic : IDefaultSqlLogic
+    public class DefaultSqlLogic : IDefaultSqlLogic
     {
         private readonly ILogger<DefaultSqlLogic> _logger;
         private readonly IDbManager<DefaultDbContext> _defaultDbManager;

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
-    internal class DbRepository<Database, Entity> : IDbRepository<Database, Entity>
+    public class DbRepository<Database, Entity> : IDbRepository<Database, Entity>
         where Database : DbContext, IDbContext
         where Entity : class
     {

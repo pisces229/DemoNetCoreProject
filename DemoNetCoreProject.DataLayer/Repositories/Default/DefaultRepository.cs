@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
-    internal class DefaultRepository : IDefaultRepository
+    public class DefaultRepository : IDefaultRepository
     {
         private readonly IFileManager _fileManager;
         private readonly IConfiguration _configuration;

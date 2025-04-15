@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Http
 {
-    internal class DefaultHttpRepository : IDefaultHttpRepository
+    public class DefaultHttpRepository : IDefaultHttpRepository
     {
         private readonly ILogger<DefaultHttpRepository> _logger;
         private readonly IHttpClientFactory _httpClientFactory;

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
-    internal class DefaultAddressDbRepository : DbRepository<DefaultDbContext, Address>, IDefaultAddressDbRepository
+    public class DefaultAddressDbRepository : DbRepository<DefaultDbContext, Address>, IDefaultAddressDbRepository
     {
         public DefaultAddressDbRepository(DefaultDbContext context) : base(context)
         {

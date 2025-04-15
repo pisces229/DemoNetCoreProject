@@ -4,7 +4,7 @@ using DemoNetCoreProject.DataLayer.Dtos.Default;
 
 namespace DemoNetCoreProject.BusinessLayer.Profiles
 {
-    internal class DefaultProfile : Profile
+    public class DefaultProfile : Profile
     {
         public DefaultProfile() 
         {

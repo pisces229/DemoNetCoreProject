@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class DatabaseCache : ICache, IDisposable
+    public class DatabaseCache : ICache, IDisposable
     {
         private readonly IDistributedCache _distributedCache;
         public DatabaseCache(IDistributedCache distributedCache)

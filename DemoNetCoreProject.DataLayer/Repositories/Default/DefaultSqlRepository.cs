@@ -13,7 +13,7 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
-    internal class DefaultSqlRepository : IDefaultSqlRepository
+    public class DefaultSqlRepository : IDefaultSqlRepository
     {
         private readonly ILogger<DefaultSqlRepository> _logger;
         private readonly DefaultDbContext _defaultDbContext;

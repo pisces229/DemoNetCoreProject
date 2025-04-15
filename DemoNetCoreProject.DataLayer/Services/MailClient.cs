@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class MailClient : IMailClient, IDisposable
+    public class MailClient : IMailClient, IDisposable
     {
         private readonly SmtpClient _smtpClient;
         public MailClient(IConfiguration configuration)

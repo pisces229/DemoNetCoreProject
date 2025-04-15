@@ -2,7 +2,7 @@
 
 namespace DemoNetCoreProject.DataLayer.Profiles
 {
-    internal class DefaultProfile : Profile
+    public class DefaultProfile : Profile
     {
         public DefaultProfile() 
         {

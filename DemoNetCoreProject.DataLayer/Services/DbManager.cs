@@ -3,7 +3,7 @@ using System.Data;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class DbManager<DbContext> : IDbManager<DbContext> where DbContext : IDbContext
+    public class DbManager<DbContext> : IDbManager<DbContext> where DbContext : IDbContext
     {
         private readonly DbContext _dbContext;
         public DbManager(DbContext dbContext)

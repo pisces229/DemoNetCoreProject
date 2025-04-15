@@ -14,28 +14,15 @@ using System.Security.Claims;
 
 namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
-    internal sealed class DefaultLogic : IDefaultLogic
+    public class DefaultLogic(ILogger<DefaultLogic> _logger,
+        IDefaultRepository _defaultRepository,
+        IMapper _mapper,
+        IOptions<JwtOption> _jwtOptions,
+        IUserService _userService,
+        ICache _cache) : IDefaultLogic
     {
-        private readonly ILogger<DefaultLogic> _logger;
-        private readonly IDefaultRepository _defaultRepository;
-        private readonly IMapper _mapper;
-        private readonly JwtOption _jwtOption;
-        private readonly IUserService _userService;
-        private readonly ICache _cache;
-        public DefaultLogic(ILogger<DefaultLogic> logger,
-            IDefaultRepository defaultRepository,
-            IMapper mapper,
-            IOptions<JwtOption> JwtOptions,
-            IUserService userService,
-            ICache cache)
-        {
-            _logger = logger;
-            _defaultRepository = defaultRepository;
-            _mapper = mapper;
-            _jwtOption = JwtOptions.Value;
-            _userService = userService;
-            _cache = cache;
-        }
+        private readonly JwtOption _jwtOption = _jwtOptions.Value;
+
         public async Task Run()
         {
             await Task.Run(() => _logger.LogInformation("Run"));

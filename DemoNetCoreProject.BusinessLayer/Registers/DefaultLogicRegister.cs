@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DemoNetCoreProject.BusinessLayer.LogicRegisters
 {
-    internal class DefaultLogicRegister
+    public class DefaultLogicRegister
     {
         public static void Load(IServiceCollection service)
         {

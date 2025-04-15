@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Services
 {
-    internal class RedisCache : ICache, IDisposable
+    public class RedisCache : ICache, IDisposable
     {
         protected readonly IDatabase _database;
         private readonly ConnectionMultiplexer _connectionMultiplexer;

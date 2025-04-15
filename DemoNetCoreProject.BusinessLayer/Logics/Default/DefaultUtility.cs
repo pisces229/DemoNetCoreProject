@@ -1,6 +1,6 @@
 ﻿namespace DemoNetCoreProject.BusinessLayer.Logics.Default
 {
-    internal class DefaultUtility
+    public class DefaultUtility
     {
         public static string ReplaceString() => "";
     }
