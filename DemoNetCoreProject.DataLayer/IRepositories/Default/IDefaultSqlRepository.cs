@@ -2,7 +2,6 @@
 {
     public interface IDefaultSqlRepository
     {
-        Task<int?> MaxRow();
         Task RunDapperQuery();
         Task RunDapperExecuteScalar();
         Task RunDapperQueryMultiple();

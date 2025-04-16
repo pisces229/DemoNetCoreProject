@@ -36,22 +36,18 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
         [TestInitialize]
         public void Initialize()
         {
-            // 設置 AutoFixture
             _fixture = new Fixture()
                 .Customize(new CommonCustomization())
                 .Customize(new AutoMoqCustomization());
 
-            // 設置 AutoMapper
             _mapper = new Mapper(new MapperConfiguration(c => c.AddProfile<DefaultProfile>()));
 
-            // 設置 Mocks
             _mockLogger = _fixture.Freeze<Mock<ILogger<DefaultLogic>>>();
             _mockDefaultRepository = _fixture.Freeze<Mock<IDefaultRepository>>();
             _mockOptions = _fixture.Freeze<Mock<IOptions<JwtOption>>>();
             _mockUserService = _fixture.Freeze<Mock<IUserService>>();
             _mockCache = _fixture.Freeze<Mock<ICache>>();
 
-            // 設置 JwtOption
             var secretKey = "CC5B1B93EDA34B788DD2743CA39BAF89";
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             _jwtOption = new JwtOption
@@ -68,7 +64,6 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
             };
             _mockOptions.Setup(x => x.Value).Returns(_jwtOption);
 
-            // 初始化被測試的類別
             _defaultLogic = _fixture.Create<DefaultLogic>();
         }
 

@@ -20,12 +20,6 @@ namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Default
             _logger.LogInformation("Test_DefaultSqlRepository.Initialize");
         }
         [TestMethod]
-        public async Task MaxRow()
-        {
-            var value = await _repository.MaxRow();
-            _logger.LogInformation(value!.ToString());
-        }
-        [TestMethod]
         public async Task RunDapperQuery()
         {
             await _repository.RunDapperQuery();

@@ -5,7 +5,6 @@ using DemoNetCoreProject.DataLayer.IRepositories.Default;
 using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.DataLayer.Utilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Text;
@@ -26,8 +25,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
             _defaultDbContext = defaultDbContext;
             _defaultDapperService = defaultDapperService;
         }
-        public async Task<int?> MaxRow()
-            => await _defaultDbContext.People.Select(s => s.Row).MaxAsync();
+
         public async Task RunDapperQuery()
         {
             await Task.Run(() => _logger.LogInformation("RunDapperQuery"));
