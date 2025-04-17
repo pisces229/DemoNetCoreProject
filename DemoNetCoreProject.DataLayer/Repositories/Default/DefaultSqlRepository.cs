@@ -30,6 +30,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperQuery"));
             var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("param1", "1");
+            dynamicParameters.Add("param2", "2");
             var data = await _defaultDapperService.Query<Person>(
                 "SELECT * FROM [Person]",
                 dynamicParameters);
@@ -39,6 +41,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperExecuteScalar"));
             var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("param1", "1");
+            dynamicParameters.Add("param2", "2");
             var data = await _defaultDapperService.ExecuteScalar<int>(
                 "SELECT [Row] FROM [Person]",
                 dynamicParameters);
@@ -48,6 +52,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperQueryMultiple"));
             var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("param1", "1");
+            dynamicParameters.Add("param2", "2");
             using var gridReader = await _defaultDapperService.QueryMultiple(
                 "SELECT top 1 Row FROM [Person] SELECT top 2 Row FROM [Person]",
                 dynamicParameters);
@@ -60,6 +66,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperExecuteReader"));
             var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("param1", "1");
+            dynamicParameters.Add("param2", "2");
             using var dbDataReader = await _defaultDapperService.ExecuteReader(
                 "SELECT [Row] FROM [Person]",
                 dynamicParameters);
@@ -75,6 +83,8 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             await Task.Run(() => _logger.LogInformation("RunDapperPagedQuery"));
             var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("param1", "1");
+            dynamicParameters.Add("param2", "2");
             var data = await _defaultDapperService.PagedQuery<Person>(
                 "SELECT * FROM [Person]", "[Row]",
                 dynamicParameters,

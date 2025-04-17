@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Data;
+using System.Text;
 
 namespace DemoNetCoreProject.UnitTest.Helper
 {
@@ -15,7 +16,7 @@ namespace DemoNetCoreProject.UnitTest.Helper
                 It.IsAny<EventId>(),
                 It.IsAny<It.IsAnyType>(),
                 It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()))
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!))
                 .Callback(new InvocationAction(invocation =>
                 {
                     var logLevel = (LogLevel)invocation.Arguments[0];
@@ -25,7 +26,7 @@ namespace DemoNetCoreProject.UnitTest.Helper
                     var formatter = invocation.Arguments[4];
 
                     var invokeMethod = formatter.GetType().GetMethod("Invoke");
-                    var message = invokeMethod.Invoke(formatter, new[] { state, exception });
+                    var message = invokeMethod?.Invoke(formatter, [state, exception])?.ToString();
 
                     LoggerFactory.Create(builder =>
                     {
@@ -34,29 +35,38 @@ namespace DemoNetCoreProject.UnitTest.Helper
                             .SetMinimumLevel(LogLevel.Debug);
                     })
                     .CreateLogger("UnitTest")
-                    .Log(logLevel, eventId, state, exception, (s, e) => message.ToString());
+                    .Log(logLevel, eventId, state, exception, (s, e) => message!);
                 }));
             _logger = logger.Object;
         }
         public void DapperGeneralCallback(string sql, DynamicParameters parameters, int? commandTimeout = null, CommandType? commandType = null)
         {
             _logger.LogInformation("SQL: {@sql}", sql);
-            if (parameters != null)
-            {
-                _logger.LogInformation("Parameters: {@parameters}", parameters);
-            }
+            ParserDynamicParameters(parameters);
         }
 
         public void DapperPagedQueryCallback(string sql, string countSql, DynamicParameters parameters, int pageSize, int pageNo, int? commandTimeout = null, CommandType? commandType = null)
         {
             _logger.LogInformation("SQL: {@sql}", sql);
             _logger.LogInformation("Count SQL: {@countSql}", countSql);
-            if (parameters != null)
-            {
-                _logger.LogInformation("Parameters: {@parameters}", parameters);
-            }
+            ParserDynamicParameters(parameters);
             _logger.LogInformation("Page Size: {pageSize}", pageSize);
             _logger.LogInformation("Page No: {pageNo}", pageNo);
         }
+
+        private void ParserDynamicParameters(DynamicParameters parameters)
+        {
+            if (parameters != null)
+            {
+                var sb = new StringBuilder();
+                foreach (var param in parameters.ParameterNames)
+                {
+                    var value = parameters.Get<object>(param);
+                    sb.Append($"[{param}]:[{value}],");
+                }
+                _logger.LogInformation("Parameters: {parameters}", sb.ToString());
+            }
+        }
+
     }
 }

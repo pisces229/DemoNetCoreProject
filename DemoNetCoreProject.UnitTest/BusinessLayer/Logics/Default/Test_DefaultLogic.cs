@@ -23,15 +23,15 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
     [TestClass]
     public class Test_DefaultLogic
     {
-        private IFixture _fixture;
-        private IMapper _mapper;
-        private Mock<ILogger<DefaultLogic>> _mockLogger;
-        private Mock<IDefaultRepository> _mockDefaultRepository;
-        private Mock<IOptions<JwtOption>> _mockOptions;
-        private Mock<IUserService> _mockUserService;
-        private Mock<ICache> _mockCache;
-        private DefaultLogic _defaultLogic;
-        private JwtOption _jwtOption;
+        private IFixture _fixture = null!;
+        private IMapper _mapper = null!;
+        private Mock<ILogger<DefaultLogic>> _mockLogger = null!;
+        private Mock<IDefaultRepository> _mockDefaultRepository = null!;
+        private Mock<IOptions<JwtOption>> _mockOptions = null!;
+        private Mock<IUserService> _mockUserService = null!;
+        private Mock<ICache> _mockCache = null!;
+        private DefaultLogic _defaultLogic = null!;
+        private JwtOption _jwtOption = null!;
 
         [TestInitialize]
         public void Initialize()

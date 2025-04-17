@@ -19,14 +19,14 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
     [TestClass]
     public class Test_DefaultSqlRepository
     {
-        private IFixture _fixture;
-        private Mock<ILogger<DefaultSqlRepository>> _logger;
-        private Mock<IDapperService<DefaultDbContext>> _mockDapperService;
-        private Mock<DefaultDbContext> _mockDbContext;
-        private DefaultSqlRepository _repository;
+        private IFixture _fixture = null!;
+        private Mock<ILogger<DefaultSqlRepository>> _logger = null!;
+        private Mock<IDapperService<DefaultDbContext>> _mockDapperService = null!;
+        private Mock<DefaultDbContext> _mockDbContext = null!;
+        private DefaultSqlRepository _repository = null!;
 
-        private Mock<ILogger<DapperCallbackHelper>> _dapperCallbackHelperLogger;
-        private DapperCallbackHelper _dapperCallbackHelper;
+        private Mock<ILogger<DapperCallbackHelper>> _dapperCallbackHelperLogger = null!;
+        private DapperCallbackHelper _dapperCallbackHelper = null!;
 
         [TestInitialize]
         public void Initialize()
@@ -200,7 +200,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
         {
             // Arrange
             var expectedSql = "SELECT * FROM [Person]";
-            var expectedOrder = "[Row]";
+            var expectedOrder = "[Row]"; 
             var expectedPageSize = 3;  // 固定值，與實際實作相符
             var expectedPageNo = 3;    // 固定值，與實際實作相符
 
@@ -258,6 +258,7 @@ namespace DemoNetCoreProject.UnitTest.Domain.Utilities
                     It.IsAny<DynamicParameters>(),
                     It.IsAny<int?>(),
                     It.IsAny<CommandType>()))
+                .Callback(_dapperCallbackHelper.DapperGeneralCallback)
                 .Returns(Task.CompletedTask);
 
             // Act

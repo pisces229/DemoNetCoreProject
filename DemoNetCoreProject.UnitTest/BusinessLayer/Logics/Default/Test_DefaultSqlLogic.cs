@@ -19,13 +19,13 @@ namespace DemoNetCoreProject.UnitTest.BusinessLayer.Logics.Default
     [TestClass]
     public class Test_DefaultSqlLogic
     {
-        private IFixture _fixture;
-        private IMapper _mapper;
-        private Mock<ILogger<DefaultSqlLogic>> _logger;
-        private Mock<IDbManager<DefaultDbContext>> _mockDefaultDbManager;
-        private Mock<IDefaultPersonDbRepository> _mockDefaultPersonDbRepository;
-        private Mock<IDefaultSqlRepository> _mockDefaultRepository;
-        private DefaultSqlLogic _defaultLogic;
+        private IFixture _fixture = null!;
+        private IMapper _mapper = null!;
+        private Mock<ILogger<DefaultSqlLogic>> _logger = null!;
+        private Mock<IDbManager<DefaultDbContext>> _mockDefaultDbManager = null!;
+        private Mock<IDefaultPersonDbRepository> _mockDefaultPersonDbRepository = null!;
+        private Mock<IDefaultSqlRepository> _mockDefaultRepository = null!;
+        private DefaultSqlLogic _defaultLogic = null!;
 
         [TestInitialize]
         public void Initialize()

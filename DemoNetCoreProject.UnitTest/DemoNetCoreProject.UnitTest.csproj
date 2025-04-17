@@ -28,7 +28,4 @@
     <ProjectReference Include="..\DemoNetCoreProject.Common\DemoNetCoreProject.Common.csproj" />
     <ProjectReference Include="..\DemoNetCoreProject.DataLayer\DemoNetCoreProject.DataLayer.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\Utilities\Test_SecretUtility\" />
-  </ItemGroup>
 </Project>
