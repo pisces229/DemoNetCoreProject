@@ -5,11 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
-    public class DefaultAddressDbRepository : DbRepository<DefaultDbContext, Address>, IDefaultAddressDbRepository
+    public class DefaultAddressDbRepository(DefaultDbContext context) : DbRepository<DefaultDbContext, Address>(context), IDefaultAddressDbRepository
     {
-        public DefaultAddressDbRepository(DefaultDbContext context) : base(context)
-        {
-        }
         public async Task<Address?> GetByText(string text)
             => await DbSet().FirstOrDefaultAsync(x => x.Text == text);
     }

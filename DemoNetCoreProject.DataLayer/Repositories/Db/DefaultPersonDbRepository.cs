@@ -5,11 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
-    public class DefaultPersonDbRepository : DbRepository<DefaultDbContext, Person>, IDefaultPersonDbRepository
+    public class DefaultPersonDbRepository(DefaultDbContext context) : DbRepository<DefaultDbContext, Person>(context), IDefaultPersonDbRepository
     {
-        public DefaultPersonDbRepository(DefaultDbContext context) : base(context)
-        {
-        }
         public async Task<Person?> GetByName(string name)
             => await DbSet().FirstOrDefaultAsync(x => x.Name == name);
     }

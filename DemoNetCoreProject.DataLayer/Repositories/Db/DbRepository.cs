@@ -5,15 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Db
 {
-    public class DbRepository<Database, Entity> : IDbRepository<Database, Entity>
+    public class DbRepository<Database, Entity>(Database context) : IDbRepository<Database, Entity>
         where Database : DbContext, IDbContext
         where Entity : class
     {
-        protected readonly Database _context;
-        public DbRepository(Database context)
-        {
-            _context = context;
-        }
+        protected readonly Database _context = context;
+
         protected DbSet<Entity> DbSet() => _context.Set<Entity>();
         public async Task<Entity?> Find(int row)
             => await DbSet().FindAsync(row);

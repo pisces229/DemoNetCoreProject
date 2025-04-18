@@ -7,20 +7,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
-    public class DefaultRepository : IDefaultRepository
+    public class DefaultRepository(IFileManager _fileManager,
+        IConfiguration _configuration) 
+        : IDefaultRepository
     {
-        private readonly IFileManager _fileManager;
-        private readonly IConfiguration _configuration;
-        public DefaultRepository(IFileManager fileManager,
-            IConfiguration configuration)
-        {
-            _fileManager = fileManager;
-            _configuration = configuration;
-        }
         public async Task<bool> Upload(DefaultRepositoryUploadInputDto model)
         {
             var filepath = _fileManager.CombineFilePath(
-                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp)!,
                 Guid.NewGuid().ToString());
             using (model.File)
             using (var fileStream = File.Create(filepath))
@@ -34,7 +28,7 @@ namespace DemoNetCoreProject.DataLayer.Repositories.Default
         {
             var result = new CommonOutputDto<CommonDownloadOutputDto>();
             var filepath = _fileManager.CombineFilePath(
-                _configuration.GetValue<string>(ConfigurationConstant.PathTemp),
+                _configuration.GetValue<string>(ConfigurationConstant.PathTemp)!,
                 "Ubuntu.pdf");
             if (File.Exists(filepath))
             {

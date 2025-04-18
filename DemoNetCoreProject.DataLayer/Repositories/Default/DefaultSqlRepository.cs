@@ -12,20 +12,10 @@ using System.Text.Json;
 
 namespace DemoNetCoreProject.DataLayer.Repositories.Default
 {
-    public class DefaultSqlRepository : IDefaultSqlRepository
+    public class DefaultSqlRepository(ILogger<DefaultSqlRepository> _logger,
+        IDapperService<DefaultDbContext> _defaultDapperService) 
+        : IDefaultSqlRepository
     {
-        private readonly ILogger<DefaultSqlRepository> _logger;
-        private readonly DefaultDbContext _defaultDbContext;
-        private readonly IDapperService<DefaultDbContext> _defaultDapperService;
-        public DefaultSqlRepository(ILogger<DefaultSqlRepository> logger,
-            DefaultDbContext defaultDbContext,
-            IDapperService<DefaultDbContext> defaultDapperService)
-        {
-            _logger = logger;
-            _defaultDbContext = defaultDbContext;
-            _defaultDapperService = defaultDapperService;
-        }
-
         public async Task RunDapperQuery()
         {
             await Task.Run(() => _logger.LogInformation("RunDapperQuery"));

@@ -6,6 +6,6 @@
         public string Id { get; set; } = null!;
         public string Text { get; set; } = null!;
 
-        public virtual Person IdNavigation { get; set; } = null!;
+        public virtual Person Person { get; set; } = null!;
     }
 }

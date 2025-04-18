@@ -24,7 +24,7 @@ namespace DemoNetCoreProject.DataLayer.Services
 
                 entity.Property(e => e.Text).HasMaxLength(100);
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.Person)
                     .WithMany(p => p.Addresses)
                     .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.Id)
