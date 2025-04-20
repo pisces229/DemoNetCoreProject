@@ -7,14 +7,14 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Db
 {
     [TestClass]
-    public class Test_DefaultPersonDbRepository : Test_Initialize
+    public class DefaultPersonDbRepositoryTests : InitializeTest
     {
-        private readonly ILogger<Test_DefaultPersonDbRepository> _logger;
+        private readonly ILogger<DefaultPersonDbRepositoryTests> _logger;
         private readonly IDefaultPersonDbRepository _repository;
         private readonly DefaultDbContext _dbContext;
-        public Test_DefaultPersonDbRepository() : base()
+        public DefaultPersonDbRepositoryTests() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<Test_DefaultPersonDbRepository>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<DefaultPersonDbRepositoryTests>>();
             _repository = _serviceProvider.GetRequiredService<IDefaultPersonDbRepository>();
             _dbContext = _serviceProvider.GetRequiredService<DefaultDbContext>();
         }

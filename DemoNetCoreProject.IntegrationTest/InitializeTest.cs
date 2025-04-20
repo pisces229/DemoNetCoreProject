@@ -10,10 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DemoNetCoreProject.IntegrationTest
 {
-    public class Test_Initialize
+    public class InitializeTest
     {
         protected readonly ServiceProvider _serviceProvider;
-        public Test_Initialize()
+        public InitializeTest()
         {
             var services = new ServiceCollection();
             var configuration = new ConfigurationBuilder()
@@ -82,7 +82,7 @@ namespace DemoNetCoreProject.IntegrationTest
             }
             #endregion
 
-            services.AddScoped<IUserService, TestUserService>();
+            services.AddScoped<IUserService, UserServiceTest>();
             LoadBusinessLayerRegister.LoadServices(services);
             LoadDataLayerRegister.LoadServices(services);
             services.AddAutoMapper(configure =>

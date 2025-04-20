@@ -40,31 +40,6 @@ public class DbContextRepositoryTests
     }
 
     [TestMethod]
-    public async Task GetPerson_ShouldReturnPersonWithName()
-    {
-        // Arrange
-        var testData = new List<Person>
-        {
-            _fixture.Build<Person>().With(p => p.Name, "Name1").Create(),
-            _fixture.Build<Person>().With(p => p.Name, "Name1").Create(),
-            _fixture.Build<Person>().With(p => p.Name, "Name2").Create()
-        };
-
-        var mockDbSet = testData.AsQueryable().BuildMockDbSet();
-        _mockDbContext.Setup(x => x.People).Returns(mockDbSet.Object);
-
-        // Act
-        var result1 = await _repository.GetPerson("Name1");
-        var result2 = await _repository.GetPerson("Name2");
-
-        // Assert
-        Assert.AreEqual(2, result1.Count);
-        Assert.AreEqual(1, result2.Count);
-        Assert.IsTrue(result1.All(p => p.Name == "Name1"));
-        Assert.IsTrue(result2.All(p => p.Name == "Name2"));
-    }
-
-    [TestMethod]
     public async Task GetPerson_ShouldReturnListOfPerson()
     {
         // Arrange
@@ -157,4 +132,75 @@ public class DbContextRepositoryTests
             Assert.IsNotNull(address.Person);
         }
     }
+
+    [TestMethod]
+    public async Task GetPerson_ShouldReturnPersonWithName()
+    {
+        // Arrange
+        var testData = new List<Person>
+        {
+            _fixture.Build<Person>()
+                .With(p => p.Name, "Name1")
+                .Create(),
+            _fixture.Build<Person>()
+                .With(p => p.Name, "Name1")
+                .Create(),
+            _fixture.Build<Person>()
+                .With(p => p.Name, "Name2")
+                .Create()
+        };
+
+        var mockDbSet = testData.AsQueryable().BuildMockDbSet();
+        _mockDbContext.Setup(x => x.People).Returns(mockDbSet.Object);
+
+        // Act
+        var result1 = await _repository.GetPerson("Name1");
+        var result2 = await _repository.GetPerson("Name2");
+
+        // Assert
+        Assert.AreEqual(2, result1.Count);
+        Assert.AreEqual(1, result2.Count);
+        Assert.IsTrue(result1.All(p => p.Name == "Name1"));
+        Assert.IsTrue(result2.All(p => p.Name == "Name2"));
+    }
+
+    [TestMethod]
+    public async Task GetPerson_ShouldReturnAddressWithValue()
+    {
+        // Arrange
+        var testData = new List<Address>
+        {
+            _fixture.Build<Address>()
+                .With(p => p.Text, "Text1")
+                .With(p => p.Person, _fixture.Build<Person>()
+                    .With(p => p.Name, "Name1")
+                    .Create())
+                .Create(),
+            _fixture.Build<Address>()
+                .With(p => p.Text, "Text1")
+                .With(p => p.Person, _fixture.Build<Person>()
+                    .With(p => p.Name, "Name2")
+                    .Create())
+                .Create(),
+            _fixture.Build<Address>()
+                .With(p => p.Text, "Text2")
+                .With(p => p.Person, _fixture.Build<Person>()
+                    .With(p => p.Name, "Name1")
+                    .Create())
+                .Create(),
+        };
+
+        var mockDbSet = testData.AsQueryable().BuildMockDbSet();
+        _mockDbContext.Setup(x => x.Addresses).Returns(mockDbSet.Object);
+
+        // Act
+        var result1 = await _repository.GetAddress("Text1", "Name1");
+        var result2 = await _repository.GetAddress("Text2", "Name2");
+
+        // Assert
+        Assert.AreEqual(1, result1.Count);
+        Assert.AreEqual(0, result2.Count);
+        Assert.IsTrue(result1.All(p => p.Text == "Text1" && p.Person.Name == "Name1"));
+    }
+
 } 

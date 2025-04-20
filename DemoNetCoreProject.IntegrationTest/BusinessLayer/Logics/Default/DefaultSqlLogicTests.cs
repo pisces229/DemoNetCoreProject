@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.BusinessLayer.Logics.Default
 {
     [TestClass]
-    public class Test_DefaultSqlLogic : Test_Initialize
+    public class DefaultSqlLogicTests : InitializeTest
     {
-        private readonly ILogger<Test_DefaultSqlLogic> _logger;
+        private readonly ILogger<DefaultSqlLogicTests> _logger;
         private readonly IDefaultSqlLogic _logic;
-        public Test_DefaultSqlLogic() : base()
+        public DefaultSqlLogicTests() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<Test_DefaultSqlLogic>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<DefaultSqlLogicTests>>();
             _logic = _serviceProvider.GetRequiredService<IDefaultSqlLogic>();
         }
         [TestInitialize]

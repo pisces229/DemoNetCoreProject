@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.DataLayer.Repositories.Default
 {
     [TestClass]
-    public class Test_DefaultSqlRepository : Test_Initialize
+    public class DefaultSqlRepositoryTests : InitializeTest
     {
-        private readonly ILogger<Test_DefaultSqlRepository> _logger;
+        private readonly ILogger<DefaultSqlRepositoryTests> _logger;
         private readonly IDefaultSqlRepository _repository;
-        public Test_DefaultSqlRepository() : base()
+        public DefaultSqlRepositoryTests() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<Test_DefaultSqlRepository>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<DefaultSqlRepositoryTests>>();
             _repository = _serviceProvider.GetRequiredService<IDefaultSqlRepository>();
         }
         [TestInitialize]

@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 namespace DemoNetCoreProject.IntegrationTest.Domain.Services
 {
     [TestClass]
-    public class Test_Cache : Test_Initialize
+    public class CacheTests : InitializeTest
     {
-        private readonly ILogger<Test_Cache> _logger;
+        private readonly ILogger<CacheTests> _logger;
         private readonly ICache _cache;
-        public Test_Cache() : base()
+        public CacheTests() : base()
         {
-            _logger = _serviceProvider.GetRequiredService<ILogger<Test_Cache>>();
+            _logger = _serviceProvider.GetRequiredService<ILogger<CacheTests>>();
             _cache = _serviceProvider.GetRequiredService<ICache>();
         }
         [TestInitialize]

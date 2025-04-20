@@ -9,7 +9,7 @@ using System.Text;
 namespace DemoNetCoreProject.IntegrationTest.Backend.Controllers
 {
     [TestClass]
-    public class Test_DefaultController : Test_Backend_Initialize
+    public class DefaultControllerTests : BackendInitializeTest
     {
         private const string BASE_URL = "/api/default/";
         [TestMethod]
