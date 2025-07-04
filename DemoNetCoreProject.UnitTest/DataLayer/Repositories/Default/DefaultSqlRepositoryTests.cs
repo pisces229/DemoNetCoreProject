@@ -7,8 +7,10 @@ using DemoNetCoreProject.DataLayer.IServices;
 using DemoNetCoreProject.DataLayer.Repositories.Default;
 using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.UnitTest.Helper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Data.Common;
 
@@ -32,6 +34,10 @@ public class DefaultSqlRepositoryTests
         _fixture = new Fixture()
             .Customize(new CommonCustomization())
             .Customize(new AutoMoqCustomization());
+
+        //_fixture.Customize<EntityType>(composer => composer
+        //    .With(x => x.Property, value)
+        //    .Without(x => x.CalculatedProperty));
 
         _logger = new Mock<ILogger<DefaultSqlRepository>>();
 

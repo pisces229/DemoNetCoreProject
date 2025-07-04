@@ -5,6 +5,8 @@ using DemoNetCoreProject.DataLayer.Repositories.Default;
 using DemoNetCoreProject.DataLayer.Services;
 using DemoNetCoreProject.UnitTest.Helper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using MockQueryable.Moq;
 using Moq;
 
@@ -33,6 +35,12 @@ public class DbContextRepositoryTests
 
         //_mockDbSetAddress = new Mock<DbSet<Address>>();
         //_mockDbContext.Setup(x => x.Addresses).Returns(_mockDbSetAddress.Object);
+
+        // IDbContextTransaction
+        //var mockTransaction = new Mock<IDbContextTransaction>();
+        //var mockDatabase = new Mock<DatabaseFacade>(_mockDbContext.Object);
+        //mockDatabase.Setup(d => d.BeginTransactionAsync(It.IsAny<CancellationToken>()))
+        //    .ReturnsAsync(mockTransaction.Object);
 
         _fixture.Register(() => _mockDbContext.Object);
 
@@ -69,6 +77,7 @@ public class DbContextRepositoryTests
                 .With(p => p.Text, "Name")
                 .CreateMany(2)
                 .ToList())
+            .Without(p => p.Birthday)
             .CreateMany(3)
             .ToList();
         var mockDbSet = expectedPeople.AsQueryable().BuildMockDbSet();
